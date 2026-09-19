@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Souskay — Maquette home (référence Lovable)</title>
+<title>Souskay — Maquette home</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800;125,900&family=Libertinus+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="icon" href="picto.svg">
+<link rel="icon" href="picto-souskay-noir.svg">
 <style>
 :root{
   --night:#0E0B0A; --night-2:#171210; --night-3:#221A17; --cream:#F3EBDD; --muted:#A89C8C;
@@ -184,10 +184,10 @@ body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:100
 .fam .vis{background:radial-gradient(circle at 50% 40%,#0F2A21,var(--night) 70%);min-height:440px;position:relative;display:grid;place-items:center;overflow:hidden}
 .stamp{width:250px;height:250px;position:relative;animation:wob 6s ease-in-out infinite}
 @keyframes wob{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(6deg) translateY(-12px)}}
-.stamp svg{position:absolute;inset:0;animation:spin 22s linear infinite}
+.stamp>svg{position:absolute;inset:0;animation:spin 22s linear infinite}
 .stamp .core{position:absolute;inset:52px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#2A2320,var(--night) 70%);
   display:grid;place-items:center;color:var(--cream);box-shadow:0 30px 80px rgba(17,201,140,.25),0 0 0 1px rgba(17,201,140,.35),inset 0 6px 14px rgba(255,255,255,.08)}
-.stamp .core svg,.stamp .core img{width:55%;height:auto;animation:erupt 3s ease-in-out infinite}
+.stamp .core svg,.stamp .core img{position:static;width:55%;height:auto;animation:erupt 3s ease-in-out infinite}
 @keyframes erupt{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
 .stamp .core b{font-family:var(--serif);font-style:italic;font-weight:400;font-size:30px;line-height:.9;display:block}
 .stamp .core small{font-size:9px;letter-spacing:.25em}
@@ -342,6 +342,32 @@ body.lock{overflow:hidden}
 .slist li:nth-child(even) .nm{color:var(--mint)}
 @media(min-width:800px){.slist li:hover .nm{font-style:normal;color:transparent;-webkit-text-stroke:2px var(--mint)}}
 @media(max-width:600px){.slist .tg{display:none}.slist .th{width:46px;height:52px}.slist a{padding:18px 2px}}
+
+/* agenda */
+.agenda{display:grid;grid-auto-flow:column;grid-auto-columns:min(80vw,340px);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 var(--pad) 10px;margin:0 calc(var(--pad)*-1);scrollbar-width:none}
+.agenda::-webkit-scrollbar{display:none}
+@media(min-width:900px){.agenda{grid-auto-flow:row;grid-template-columns:repeat(3,1fr);grid-auto-columns:auto;overflow:visible;margin:0;padding:0}}
+.ev{scroll-snap-align:start;background:var(--night-2);border:1px solid var(--night-3);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;transition:transform .4s var(--ease),border-color .4s}
+.ev:hover{transform:translateY(-6px);border-color:var(--mint)}
+.ev.hidden{display:none}
+.ev .pic{position:relative;aspect-ratio:4/3;overflow:hidden}
+.ev .pic img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+.ev:hover .pic img{transform:scale(1.06)}
+.ev .pic::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(14,11,10,.7),transparent 60%)}
+.ev .pic .sticker{position:absolute;top:14px;left:14px;z-index:1;font-size:11px}
+.ev .pic .city{position:absolute;right:14px;bottom:12px;z-index:1;font-size:11px;letter-spacing:.2em;text-transform:uppercase}
+.ev .b{padding:18px 18px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.ev h3{font:900 clamp(22px,2.4vw,30px)/.95 var(--wide);font-stretch:125%;text-transform:uppercase;letter-spacing:-.03em}
+.ev .when{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--gold-2)}
+.ev p{font-size:13px;color:var(--muted)}
+.ev .cta{margin-top:12px;display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border-radius:14px;text-decoration:none;font-weight:600;font-size:14px;background:var(--mint);color:var(--night)}
+.ev .cta.ghost{background:none;border:1.5px solid rgba(243,235,221,.25);color:var(--cream)}
+.perks{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:26px}
+.perks li{font-size:13px;color:#4A4038;border-top:3px solid var(--hibiscus);padding-top:9px}
+.perks li b{display:block;color:var(--night);font-size:14px;margin-bottom:2px}
+.twenty{font:900 clamp(120px,30vw,360px)/.8 var(--wide);font-stretch:125%;letter-spacing:-.06em;color:transparent;-webkit-text-stroke:2px var(--mint);margin:-10px 0 10px}
+.twenty span{font-family:var(--serif);font-style:italic;font-weight:400;-webkit-text-stroke:0;color:var(--cream);font-size:.22em;letter-spacing:0;margin-left:.2em}
+
 /* nav arrows for swipe rails */
 .arrows{display:flex;gap:8px;align-items:center}
 .arrows button{width:44px;height:44px;border-radius:50%;border:1.5px solid currentColor;background:none;color:inherit;cursor:pointer;font-size:18px;transition:background .3s,color .3s}
@@ -351,7 +377,7 @@ body.lock{overflow:hidden}
 .railfoot{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:12px}
 .dots{display:flex;gap:6px}.dots i{width:22px;height:3px;border-radius:3px;background:currentColor;opacity:.25;transition:opacity .3s,width .3s}.dots i.on{opacity:1;width:40px}
 .hint{font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
-@media(min-width:900px){.hint{display:none}}
+@media(min-width:900px){.hint{display:none}#agFoot{display:none}}
 .buyhint{font-size:11px;color:var(--muted);text-align:center;margin-top:-8px}
 
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01s!important}.reveal{opacity:1;transform:none}}
@@ -368,49 +394,47 @@ body.lock{overflow:hidden}
   <div class="slide"><img src="hero3.jpg" alt=""></div>
   <div class="slide"><img src="show.jpg" alt=""></div>
   <div class="wrap hero-meta">
-    <span class="eyebrow">Paris ↔ Martinique · depuis 2021</span>
+    <span class="eyebrow">Paris ↔ Martinique · depuis 2006</span>
     <button class="sound" aria-label="Activer le son"><span class="bars"><i></i><i></i><i></i></span>Son</button>
   </div>
 </header>
 
-<!-- 2. PROCHAIN RENDEZ-VOUS -->
+<!-- 2. PROCHAINES DATES -->
 <section class="next wrap" id="dates">
-  <div class="head reveal"><h2>Prochain rendez-vous</h2><a href="#">Toutes les dates <b>→</b></a></div>
-  <div class="toggle reveal" id="tog"><span class="pill"></span><button class="on" data-c="paris">Paris</button><button data-c="mq">Martinique</button></div>
-  <article class="evt reveal" id="evt">
-    <div class="poster"><img id="evImg" src="hero2.jpg" alt=""><a class="sticker st-a" href="#">Billets !!!</a><span class="sticker cream st-b">Dress code : chic</span>
-      <div class="ptitle"><span class="eyebrow" id="evSerie" style="color:var(--gold-2)">Ouverture de saison</span><span class="serif" id="evTitle">L'<em>Intégration</em></span></div>
-    </div>
-    <div class="body">
-      <div class="count" id="cd"><div><b id="cdD">00</b><span>jours</span></div><div><b id="cdH">00</b><span>heures</span></div><div><b id="cdM">00</b><span>min</span></div><div><b id="cdS">00</b><span>sec</span></div></div>
-      <ul class="facts" id="evFacts">
-        <li><i>◷</i>Vendredi 9 octobre 2026 · 23h30 → 5h30</li>
-        <li><i>⌖</i>Paris · lieu dévoilé aux Intégré·e·s</li>
-        <li><i>✦</i>Show surprise non annoncé</li>
-      </ul>
-      <div class="lineup"><span class="star">Artiste invité · bientôt</span><span>Dav</span><span>Whyne</span><span>Amigo</span><span>Ddream</span><span>Fitch</span></div>
-      <div><div class="stock-l"><span>Objectif 1 500 présents</span><span id="stockTxt">Palier 2 en cours</span></div><div class="stock"><i id="stockBar"></i></div></div>
-      <a class="buy" href="#">Billets <small>Shotgun · Bizouk →</small></a>
-      <p class="buyhint">Paiement sécurisé chez notre billetterie partenaire</p>
-    </div>
-  </article>
+  <div class="head reveal"><h2>Prochaines dates</h2><a href="#">Tout l'agenda <b>→</b></a></div>
+  <div class="toggle reveal" id="tog"><span class="pill"></span><button class="on" data-c="all">Tout</button><button data-c="paris">Paris</button><button data-c="mq">Martinique</button></div>
+  <div class="agenda reveal" id="agenda">
+    <article class="ev" data-c="paris"><div class="pic"><img src="hero2.jpg" alt=""><span class="sticker">Ouverture de saison</span><span class="city">Paris</span></div>
+      <div class="b"><h3>L'Intégration</h3><span class="when">Vendredi 9 octobre</span><p>La rentrée de la famille Souskay.</p><a class="cta" href="#">Billets <span>→</span></a></div></article>
+    <article class="ev" data-c="mq"><div class="pic"><img src="djs.jpg" alt=""><span class="sticker cream">Cocktails & DJ</span><span class="city">Martinique</span></div>
+      <div class="b"><h3>Keloké</h3><span class="when">Saison 2 · bientôt</span><p>Les jeudis au BABA, cocktails et DJs résidents.</p><a class="cta ghost" href="#">Me prévenir <span>→</span></a></div></article>
+    <article class="ev" data-c="paris"><div class="pic"><img src="gold.jpg" alt=""><span class="sticker">Dress code : or</span><span class="city">Paris</span></div>
+      <div class="b"><h3>La Pièce d'Or</h3><span class="when">Date à venir</span><p>La soirée de fin d'année.</p><a class="cta ghost" href="#">Me prévenir <span>→</span></a></div></article>
+    <article class="ev" data-c="mq"><div class="pic"><img src="plage.jpg" alt=""><span class="sticker cream">Pieds dans le sable</span><span class="city">Martinique</span></div>
+      <div class="b"><h3>La Plage</h3><span class="when">Saison 3 · été 2027</span><p>Le day-party face à la mer.</p><a class="cta ghost" href="#">Me prévenir <span>→</span></a></div></article>
+    <article class="ev" data-c="paris"><div class="pic"><img src="girls.jpg" alt=""><span class="sticker">Dress code exigé</span><span class="city">Paris</span></div>
+      <div class="b"><h3>Sex Appeal</h3><span class="when">Date à venir</span><p>Deux salles, deux ambiances.</p><a class="cta ghost" href="#">Me prévenir <span>→</span></a></div></article>
+    <article class="ev" data-c="paris"><div class="pic"><img src="sing.jpg" alt=""><span class="sticker cream">Le show</span><span class="city">Paris</span></div>
+      <div class="b"><h3>Souskay de Star</h3><span class="when">Date à venir</span><p>La soirée où la salle devient la scène.</p><a class="cta ghost" href="#">Me prévenir <span>→</span></a></div></article>
+  </div>
+  <div class="railfoot" id="agFoot"><div class="dots" id="agDots"></div><span class="hint">Glisse →</span><div class="arrows"><button id="prevAg" aria-label="Précédent"><span>←</span></button><button id="nextAg" aria-label="Suivant"><span>→</span></button></div></div>
 </section>
 
 <!-- TICKET RAIN (LittleBig) -->
 <div class="tix" id="tix" onclick="document.getElementById('dates').scrollIntoView({behavior:'smooth'})">
   <div class="zig"></div>
-  <div class="ticket" data-x="4" data-y="120" data-r="-18" data-v="1.2"><svg viewBox="0 0 250 110"><path d="M12 0h226a12 12 0 0 0 12 12v30a13 13 0 0 0 0 26v30a12 12 0 0 0-12 12H12A12 12 0 0 0 0 98V68a13 13 0 0 0 0-26V12A12 12 0 0 0 12 0z" fill="#F3EBDD"/><line x1="190" y1="10" x2="190" y2="100" stroke="#0E0B0A" stroke-width="2" stroke-dasharray="4 5"/><text x="20" y="52" font-family="Libertinus Serif,Georgia,serif" font-style="italic" font-size="34" fill="#0E0B0A">Ticket</text><text x="21" y="80" font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2" fill="#0E0B0A">SOUSKAY · ADMIT ONE</text><text x="220" y="55" font-family="Archivo" font-weight="900" font-size="10" letter-spacing="2" fill="#0E0B0A" transform="rotate(90 220 55)" text-anchor="middle">09.10.26</text></svg></div>
-  <div class="ticket" data-x="30" data-y="60" data-r="12" data-v="-.8"><svg viewBox="0 0 250 110"><path d="M12 0h226a12 12 0 0 0 12 12v30a13 13 0 0 0 0 26v30a12 12 0 0 0-12 12H12A12 12 0 0 0 0 98V68a13 13 0 0 0 0-26V12A12 12 0 0 0 12 0z" fill="#0E0B0A"/><line x1="190" y1="10" x2="190" y2="100" stroke="#11C98C" stroke-width="2" stroke-dasharray="4 5"/><text x="20" y="52" font-family="Libertinus Serif,Georgia,serif" font-style="italic" font-size="34" fill="#11C98C">Intégré·e</text><text x="21" y="80" font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2" fill="#11C98C">SOUSKAY · ADMIT ONE</text><text x="220" y="55" font-family="Archivo" font-weight="900" font-size="10" letter-spacing="2" fill="#11C98C" transform="rotate(90 220 55)" text-anchor="middle">09.10.26</text></svg></div>
-  <div class="ticket" data-x="56" data-y="140" data-r="-8" data-v="1"><svg viewBox="0 0 250 110"><path d="M12 0h226a12 12 0 0 0 12 12v30a13 13 0 0 0 0 26v30a12 12 0 0 0-12 12H12A12 12 0 0 0 0 98V68a13 13 0 0 0 0-26V12A12 12 0 0 0 12 0z" fill="#F3EBDD"/><line x1="190" y1="10" x2="190" y2="100" stroke="#0B6B4B" stroke-width="2" stroke-dasharray="4 5"/><text x="20" y="52" font-family="Libertinus Serif,Georgia,serif" font-style="italic" font-size="34" fill="#0B6B4B">Famille</text><text x="21" y="80" font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2" fill="#0B6B4B">SOUSKAY · ADMIT ONE</text><text x="220" y="55" font-family="Archivo" font-weight="900" font-size="10" letter-spacing="2" fill="#0B6B4B" transform="rotate(90 220 55)" text-anchor="middle">09.10.26</text></svg></div>
-  <div class="ticket" data-x="78" data-y="70" data-r="20" data-v="-1.3"><svg viewBox="0 0 250 110"><path d="M12 0h226a12 12 0 0 0 12 12v30a13 13 0 0 0 0 26v30a12 12 0 0 0-12 12H12A12 12 0 0 0 0 98V68a13 13 0 0 0 0-26V12A12 12 0 0 0 12 0z" fill="#0E0B0A"/><line x1="190" y1="10" x2="190" y2="100" stroke="#F3EBDD" stroke-width="2" stroke-dasharray="4 5"/><text x="20" y="52" font-family="Libertinus Serif,Georgia,serif" font-style="italic" font-size="34" fill="#F3EBDD">Ticket</text><text x="21" y="80" font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2" fill="#F3EBDD">SOUSKAY · ADMIT ONE</text><text x="220" y="55" font-family="Archivo" font-weight="900" font-size="10" letter-spacing="2" fill="#F3EBDD" transform="rotate(90 220 55)" text-anchor="middle">09.10.26</text></svg></div>
+  <div class="ticket" data-x="4" data-y="120" data-r="-18" data-v="1.2"><svg viewBox="0 0 250 110"><path d="M12 0h226a12 12 0 0 0 12 12v30a13 13 0 0 0 0 26v30a12 12 0 0 0-12 12H12A12 12 0 0 0 0 98V68a13 13 0 0 0 0-26V12A12 12 0 0 0 12 0z" fill="#F3EBDD"/><line x1="190" y1="10" x2="190" y2="100" stroke="#0E0B0A" stroke-width="2" stroke-dasharray="4 5"/><text x="20" y="52" font-family="Libertinus Serif,Georgia,serif" font-style="italic" font-size="28" fill="#0E0B0A">Keloké</text><text x="21" y="80" font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2" fill="#0E0B0A">SOUSKAY · ADMIT ONE</text><text x="220" y="55" font-family="Archivo" font-weight="900" font-size="10" letter-spacing="2" fill="#0E0B0A" transform="rotate(90 220 55)" text-anchor="middle">SOUSKAY</text></svg></div>
+  <div class="ticket" data-x="30" data-y="60" data-r="12" data-v="-.8"><svg viewBox="0 0 250 110"><path d="M12 0h226a12 12 0 0 0 12 12v30a13 13 0 0 0 0 26v30a12 12 0 0 0-12 12H12A12 12 0 0 0 0 98V68a13 13 0 0 0 0-26V12A12 12 0 0 0 12 0z" fill="#0E0B0A"/><line x1="190" y1="10" x2="190" y2="100" stroke="#11C98C" stroke-width="2" stroke-dasharray="4 5"/><text x="20" y="52" font-family="Libertinus Serif,Georgia,serif" font-style="italic" font-size="28" fill="#11C98C">Sex Appeal</text><text x="21" y="80" font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2" fill="#11C98C">SOUSKAY · ADMIT ONE</text><text x="220" y="55" font-family="Archivo" font-weight="900" font-size="10" letter-spacing="2" fill="#11C98C" transform="rotate(90 220 55)" text-anchor="middle">SOUSKAY</text></svg></div>
+  <div class="ticket" data-x="56" data-y="140" data-r="-8" data-v="1"><svg viewBox="0 0 250 110"><path d="M12 0h226a12 12 0 0 0 12 12v30a13 13 0 0 0 0 26v30a12 12 0 0 0-12 12H12A12 12 0 0 0 0 98V68a13 13 0 0 0 0-26V12A12 12 0 0 0 12 0z" fill="#F3EBDD"/><line x1="190" y1="10" x2="190" y2="100" stroke="#0B6B4B" stroke-width="2" stroke-dasharray="4 5"/><text x="20" y="52" font-family="Libertinus Serif,Georgia,serif" font-style="italic" font-size="28" fill="#0B6B4B">La Plage</text><text x="21" y="80" font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2" fill="#0B6B4B">SOUSKAY · ADMIT ONE</text><text x="220" y="55" font-family="Archivo" font-weight="900" font-size="10" letter-spacing="2" fill="#0B6B4B" transform="rotate(90 220 55)" text-anchor="middle">SOUSKAY</text></svg></div>
+  <div class="ticket" data-x="78" data-y="70" data-r="20" data-v="-1.3"><svg viewBox="0 0 250 110"><path d="M12 0h226a12 12 0 0 0 12 12v30a13 13 0 0 0 0 26v30a12 12 0 0 0-12 12H12A12 12 0 0 0 0 98V68a13 13 0 0 0 0-26V12A12 12 0 0 0 12 0z" fill="#0E0B0A"/><line x1="190" y1="10" x2="190" y2="100" stroke="#F3EBDD" stroke-width="2" stroke-dasharray="4 5"/><text x="20" y="52" font-family="Libertinus Serif,Georgia,serif" font-style="italic" font-size="28" fill="#F3EBDD">Pièce d'Or</text><text x="21" y="80" font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2" fill="#F3EBDD">SOUSKAY · ADMIT ONE</text><text x="220" y="55" font-family="Archivo" font-weight="900" font-size="10" letter-spacing="2" fill="#F3EBDD" transform="rotate(90 220 55)" text-anchor="middle">SOUSKAY</text></svg></div>
   <div class="claim">Tickets !!! →</div>
 </div>
 
 <!-- 3. SLOGAN -->
-<section class="slogan" id="slogan" aria-label="Chaque soirée est une intégration">
+<section class="slogan" id="slogan" aria-label="20 ans de nuits, Paris Martinique">
   <div class="stick">
-    <div class="line" data-s="-1">chaque soirée est une <em>intégration</em> · chaque soirée est une <em>intégration</em> ·</div>
-    <div class="line" data-s="1">ici tu arrives invité, tu repars <em>famille</em> · ici tu arrives invité, tu repars <em>famille</em> ·</div>
+    <div class="line" data-s="-1">20 ans de <em>nuits</em> · 20 ans de <em>nuits</em> · 20 ans de <em>nuits</em> ·</div>
+    <div class="line" data-s="1">Paris ↔ <em>Martinique</em> · Paris ↔ <em>Martinique</em> · Paris ↔ <em>Martinique</em> ·</div>
     <div class="line" data-s="-1">chic · créole · hip-hop · <em>souskay</em> · chic · créole · hip-hop · <em>souskay</em> ·</div>
     <div class="badge">
       <svg viewBox="0 0 170 170"><defs><path id="c" d="M85,85 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0"/></defs>
@@ -423,7 +447,7 @@ body.lock{overflow:hidden}
 <!-- 4. MANIFESTE -->
 <section class="manifesto wrap">
   <span class="eyebrow">Le manifeste</span>
-  <div class="mani-wrap"><p id="mani" style="margin-top:22px">Souskay, c'est une famille antillaise qui s'habille pour sortir. On ne vend pas une soirée : on t'accueille, on t'intègre, et la prochaine fois c'est toi qui accueilles.</p>
+  <div class="mani-wrap"><p id="mani" style="margin-top:22px">Depuis 20 ans, Souskay fait vivre la nuit antillaise entre Paris et la Martinique. Un collectif, des séries de soirées qui ont chacune leur caractère, et une famille qui s'habille pour sortir.</p>
   <div class="shards reveal"><div class="s1 shard"><img src="girls.jpg" alt=""></div><div class="s2 shard"><img src="crowd.jpg" alt=""></div><span class="sticker">Chic · créole · hip-hop</span></div></div>
   <div class="sig reveal"><i></i><span class="eyebrow">Chic · créole · hip-hop</span></div>
 </section>
@@ -445,19 +469,20 @@ body.lock{overflow:hidden}
   </div>
 </section>
 
-<!-- 6. LA NUIT SOUSKAY (RITUELS) -->
-<section class="rit jag" id="rituels">
-  <div class="vstrip"><div>LA NUIT SOUSKAY · 23H30 → 5H15 · LA NUIT SOUSKAY · 23H30 → 5H15 · LA NUIT SOUSKAY · 23H30 → 5H15 · LA NUIT SOUSKAY · 23H30 → 5H15 ·</div></div>
+<!-- 6. 20 ANS D'HISTOIRE -->
+<section class="rit jag" id="histoire">
+  <div class="vstrip"><div>20 ANS DE NUITS · PARIS ↔ MARTINIQUE · 20 ANS DE NUITS · PARIS ↔ MARTINIQUE · 20 ANS DE NUITS · PARIS ↔ MARTINIQUE ·</div></div>
   <div class="wrap">
-    <div class="head reveal"><h2>La nuit Souskay</h2><a href="#">Tous les rituels <b>→</b></a></div>
-    <p class="intro reveal">Une trame fixe, reprise à chaque soirée. Tu sais comment ça commence. Jamais comment ça finit.</p>
+    <div class="twenty reveal">20<span>ans de nuits</span></div>
+    <div class="head reveal"><h2>L'histoire</h2><a href="#">Toute l'histoire <b>→</b></a></div>
+    <p class="intro reveal">Des premières soirées aux séries d'aujourd'hui : un collectif qui n'a jamais arrêté de faire danser Paris et la Martinique.</p>
     <div class="tl" id="tl">
-      <div class="rt"><span class="n">01</span><span class="h">23h30</span><h3>L'Accueil</h3><p>Tampon d'arrivée et sucre à coco. Les Hôtes prennent en charge les solos et les nouveaux.</p></div>
-      <div class="rt"><span class="n">02</span><span class="h">1h</span><h3>Le Passage</h3><p>Les nouveaux rejoignent la piste : dix minutes d'initiation kompa et zouk.</p></div>
-      <div class="rt hl"><span class="n">03</span><span class="h">2h</span><h3>L'Appel des arrivants</h3><p>« Bienvenue à… » Les prénoms à l'écran, puis la photo de salle.</p></div>
-      <div class="rt"><span class="n">04</span><span class="h">3h</span><h3>Le Show</h3><p>Jamais annoncé. Toujours là.</p></div>
-      <div class="rt"><span class="n">05</span><span class="h">5h</span><h3>Le Grand Chanté</h3><p>Lumières allumées, les classiques chantés par toute la salle.</p></div>
-      <div class="rt"><span class="n">06</span><span class="h">5h15</span><h3>La Prochaine Étape</h3><p>La date suivante, un QR code et 24 h de prévente réservées à la salle.</p></div>
+      <div class="rt"><span class="n">01</span><span class="h">2006</span><h3>Les débuts</h3><p>Les premières soirées Souskay. La nuit antillaise, en mieux habillée.</p></div>
+      <div class="rt"><span class="n">02</span><span class="h">2023</span><h3>Sex Appeal</h3><p>Deux salles, deux ambiances, et un dress code qui ne pardonne pas.</p></div>
+      <div class="rt"><span class="n">03</span><span class="h">2025</span><h3>Totem · Carnaval · La Plage</h3><p>Le carnaval, puis les premiers pieds dans le sable.</p></div>
+      <div class="rt"><span class="n">04</span><span class="h">2025-26</span><h3>La saison des séries</h3><p>L'Intégration, La Pièce d'Or, Souskay de Star, Ava.tar.</p></div>
+      <div class="rt"><span class="n">05</span><span class="h">2026</span><h3>Keloké · La Villa</h3><p>Les jeudis Keloké au BABA, La Villa, Osmose, Baya, Obsession.</p></div>
+      <div class="rt hl"><span class="n">06</span><span class="h">2026-27</span><h3>La suite</h3><p>20 ans, et la saison ne fait que commencer.</p></div>
     </div>
     <div class="railfoot" style="color:var(--cream)"><div class="dots" id="tlDots"></div><span class="hint">Glisse →</span><div class="arrows"><button id="prevTl" aria-label="Précédent"><span>←</span></button><button id="nextTl" aria-label="Suivant"><span>→</span></button></div></div>
   </div>
@@ -465,13 +490,16 @@ body.lock{overflow:hidden}
 
 <!-- 7. SERIES -->
 <section class="series wrap" id="series">
-  <div class="head reveal"><h2>Les séries</h2><span class="sticker cream" style="transform:rotate(4deg)">5 séries</span></div>
+  <div class="head reveal"><h2>Les séries</h2><span class="sticker cream" style="transform:rotate(4deg)">+10 séries</span></div>
   <ul class="slist">
-    <li><a href="#"><span class="th"><img src="hero2.jpg" alt=""></span><span class="nm">L'Intégration</span><span class="tg">L'ouverture de saison · Paris</span></a></li>
-    <li><a href="#"><span class="th"><img src="djs.jpg" alt=""></span><span class="nm">Keloké</span><span class="tg">Cocktails & DJ · Le BABA, Martinique</span></a></li>
+    <li><a href="#"><span class="th"><img src="djs.jpg" alt=""></span><span class="nm">Keloké</span><span class="tg">Cocktails & DJ · Martinique</span></a></li>
     <li><a href="#"><span class="th"><img src="plage.jpg" alt=""></span><span class="nm">La Plage</span><span class="tg">Pieds dans le sable · été</span></a></li>
     <li><a href="#"><span class="th"><img src="girls.jpg" alt=""></span><span class="nm">Sex Appeal</span><span class="tg">Dress code exigé · Paris</span></a></li>
-    <li><a href="#"><span class="th"><img src="gold.jpg" alt=""></span><span class="nm">La Pièce d'Or</span><span class="tg">Paris · décembre</span></a></li>
+    <li><a href="#"><span class="th"><img src="gold.jpg" alt=""></span><span class="nm">La Pièce d'Or</span><span class="tg">Fin d'année · Paris</span></a></li>
+    <li><a href="#"><span class="th"><img src="sing.jpg" alt=""></span><span class="nm">Souskay de Star</span><span class="tg">Le show · Paris</span></a></li>
+    <li><a href="#"><span class="th"><img src="avatar.jpg" alt=""></span><span class="nm">Ava.tar</span><span class="tg">Paris</span></a></li>
+    <li><a href="#"><span class="th"><img src="hero2.jpg" alt=""></span><span class="nm">L'Intégration</span><span class="tg">La rentrée · Paris</span></a></li>
+    <li><a href="#"><span class="th"><img src="friends.jpg" alt=""></span><span class="nm">La Villa</span><span class="tg">Martinique</span></a></li>
   </ul>
 </section>
 
@@ -479,11 +507,11 @@ body.lock{overflow:hidden}
 <section class="stats wrap">
   <div class="head reveal"><h2>Souskay en chiffres</h2></div>
   <div class="bento">
-    <div class="st reveal"><b data-n="2">0</b><span>Îles & capitales · Paris, Martinique</span><div class="mini"><img src="plage.jpg" alt=""></div></div>
-    <div class="st dark reveal"><b data-n="1500">0</b><span>Présents attendus le 09.10</span></div>
-    <div class="st reveal"><b data-n="2950" data-p="+">0</b><span>Photos de vous</span><div class="mini"><img src="friends.jpg" alt=""></div></div>
+    <div class="st dark reveal"><b data-n="20">0</b><span>Ans de soirées</span></div>
+    <div class="st reveal"><b data-n="2">0</b><span>Territoires · Paris & Martinique</span><div class="mini"><img src="plage.jpg" alt=""></div></div>
+    <div class="st reveal"><b data-n="10" data-p="+">0</b><span>Séries de soirées</span><div class="mini"><img src="girls.jpg" alt=""></div></div>
     <div class="st gold reveal wide"><b data-n="5">0</b><span>DJs résidents</span><div class="djs"><i>Dav</i><i>Whyne</i><i>Amigo</i><i>Ddream</i><i>Fitch</i></div></div>
-    <div class="st reveal"><b data-n="8">0</b><span>Épisodes Keloké cette saison</span><div class="mini"><img src="djs.jpg" alt=""></div></div>
+    <div class="st reveal"><b data-n="29">0</b><span>Albums photo en ligne</span><div class="mini"><img src="friends.jpg" alt=""></div></div>
     <div class="st reveal"><b>∞</b><span>Une seule famille</span><div class="mini"><img src="crowd.jpg" alt=""></div></div>
   </div>
 </section>
@@ -493,28 +521,28 @@ body.lock{overflow:hidden}
   <div class="vis">
     <div class="stamp">
       <svg viewBox="0 0 250 250"><defs><path id="c2" d="M125,125 m-105,0 a105,105 0 1,1 210,0 a105,105 0 1,1 -210,0"/></defs>
-        <text font-family="Space Grotesk" font-size="14" letter-spacing="6.4" fill="#11C98C"><textPath href="#c2">NOUVEAU · INTÉGRÉ · ANCIEN · HÔTE · NOUVEAU · INTÉGRÉ · ANCIEN · HÔTE ·</textPath></text></svg>
+        <text font-family="Space Grotesk" font-size="13" letter-spacing="4.2" fill="#11C98C"><textPath href="#c2" textLength="655" lengthAdjust="spacing">PARIS · MARTINIQUE · DEPUIS 2006 · PARIS · MARTINIQUE · DEPUIS 2006 ·</textPath></text></svg>
       <div class="core"><img src="picto-souskay-creme.svg" alt=""></div>
     </div>
-    <span class="cap">Le tampon d'arrivée</span>
+    <span class="cap">La famille Souskay</span>
   </div>
   <div class="form">
     <h2>Rejoins la <em>famille</em></h2>
-    <p class="lead">Préventes 24 h avant tout le monde, le lieu dévoilé en premier, et ton prénom à l'écran le soir de ta première fois.</p>
-    <div class="steps">
-      <div class="on"><b>Nouveau·elle</b>1re soirée</div>
-      <div class="on"><b>Intégré·e</b>Prévente 24 h</div>
-      <div><b>Ancien·ne</b>3 soirées</div>
-      <div><b>Hôte·sse</b>5 soirées</div>
-    </div>
+    <p class="lead">Toutes les soirées Souskay, à Paris comme en Martinique, avant tout le monde.</p>
+    <ul class="perks">
+      <li><b>Les dates en premier</b>Chaque annonce avant les réseaux</li>
+      <li><b>Les préventes</b>Au meilleur prix, réservées à la famille</li>
+      <li><b>Les lieux dévoilés</b>Avant tout le monde</li>
+      <li><b>Tes photos</b>Après chaque soirée</li>
+    </ul>
     <form id="joinF">
       <div class="two"><div class="field"><input id="fn" placeholder=" " required><label for="fn">Prénom</label></div><div class="field"><input id="ci" placeholder=" "><label for="ci">Ville</label></div></div>
       <div class="field"><input id="em" type="email" placeholder=" " required><label for="em">E-mail</label></div>
       <div class="field"><input id="ph" type="tel" placeholder=" "><label for="ph">Téléphone (WhatsApp)</label></div>
       <label class="chk"><input type="checkbox" required> J'accepte la politique de confidentialité et de recevoir les annonces Souskay.</label>
-      <button class="send" type="submit">Je m'intègre <span>→</span></button>
+      <button class="send" type="submit">Rejoindre la famille <span>→</span></button>
     </form>
-    <div class="ok" id="ok">Bienvenue <span id="okN"></span>, tu es <em>Intégré·e</em>.</div>
+    <div class="ok" id="ok">Bienvenue dans la <em>famille</em>, <span id="okN"></span>.</div>
   </div>
 </section>
 
@@ -522,7 +550,7 @@ body.lock{overflow:hidden}
 <footer class="jag">
   <div class="bg"><img src="hero3.jpg" alt=""></div>
   <div class="inner wrap"><div class="fpicto"><img src="picto-souskay-creme.svg" alt=""></div>
-    <div class="fl"><a href="#">Dates</a><a href="#">Rituels</a><a href="#">Souvenirs</a><a href="#">Contact</a><a href="#">La Famille</a><a href="#">Deviens Hôte·sse</a></div>
+    <div class="fl"><a href="#">Dates</a><a href="#">L'histoire</a><a href="#">Séries</a><a href="#">Contact</a><a href="#">Souvenirs</a><a href="#">Partenariats</a></div>
     <div class="fsoc"><a href="#">INSTAGRAM</a><a href="#">TIKTOK</a><a href="#">SPOTIFY</a><a href="#">YOUTUBE</a><a href="mailto:contact@souskay.fr">CONTACT@SOUSKAY.FR</a></div>
     <form class="nl" onsubmit="event.preventDefault();this.querySelector('button').textContent='Merci ✓'"><input type="email" placeholder="Ton e-mail pour la prochaine date" required><button>OK →</button></form>
   </div>
@@ -535,10 +563,10 @@ body.lock{overflow:hidden}
   <div class="ghost"><img src="picto-souskay-mono-noir.svg" alt=""></div>
   <ul>
     <li><a href="#dates"><small>01</small><em>Dates</em><span class="tag">09.10</span></a></li>
-    <li><a href="#souvenirs"><small>02</small><em>Souvenirs</em></a></li>
-    <li><a href="#famille"><small>03</small><em>La Famille</em></a></li>
-    <li><a href="#rituels"><small>04</small><em>Rituels</em></a></li>
-    <li><a href="#famille"><small>05</small><em>Deviens Hôte·sse</em></a></li>
+    <li><a href="#series"><small>02</small><em>Séries</em></a></li>
+    <li><a href="#souvenirs"><small>03</small><em>Souvenirs</em></a></li>
+    <li><a href="#histoire"><small>04</small><em>L'histoire</em></a></li>
+    <li><a href="#famille"><small>05</small><em>La Famille</em></a></li>
   </ul>
   <div class="socials"><a href="#">INSTAGRAM</a><a href="#">TIKTOK</a><a href="#">SPOTIFY</a><a href="#">YOUTUBE</a></div>
 </nav>
@@ -547,7 +575,7 @@ body.lock{overflow:hidden}
 <div class="dock" id="dock">
   <button class="primary" id="primary" onclick="location.hash='dates'">
     <span class="dot"></span>
-    <span class="lbl"><span class="main">Dates</span><span class="alt">Billets · J-<b id="j">20</b></span></span>
+    <span class="lbl"><span class="main">Dates</span><span class="alt">Prochaine date · 09.10</span></span>
   </button>
   <label class="search"><input id="q" placeholder="Une soirée, une ville, un DJ…"></label>
   <button class="ibtn" id="sbtn" aria-label="Rechercher"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6"/><path d="M12.5 12.5l4 4"/></svg></button>
@@ -556,32 +584,21 @@ body.lock{overflow:hidden}
 
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const IMG={hero2:"hero2.jpg",djs:"djs.jpg"};
 /* hero slideshow */
 let si=0;const slides=$$('.hero .slide');setInterval(()=>{slides[si].classList.remove('on');si=(si+1)%slides.length;slides[si].classList.add('on')},6000);
-/* countdown */
-const target=new Date('2026-10-09T23:30:00+02:00');
-const pad=n=>String(n).padStart(2,'0');
-function tick(){let t=Math.max(0,target-new Date());const d=Math.floor(t/864e5),h=Math.floor(t/36e5)%24,m=Math.floor(t/6e4)%60,s=Math.floor(t/1e3)%60;
-  $('#cdD').textContent=pad(d);$('#cdH').textContent=pad(h);$('#cdM').textContent=pad(m);$('#cdS').textContent=pad(s);$('#j').textContent=d}
-tick();setInterval(tick,1000);
-/* Paris / Martinique toggle */
-const EV={paris:{img:IMG.hero2,serie:'Ouverture de saison',title:"L'<em>Intégration</em>",facts:['Vendredi 9 octobre 2026 · 23h30 → 5h30','Paris · lieu dévoilé aux Intégré·e·s','Show surprise non annoncé'],stock:62,st:'Palier 2 en cours'},
-          mq:{img:IMG.djs,serie:'Cocktails & DJ',title:"<em>Keloké</em>",facts:['Saison 2 · dates bientôt','Le BABA · Martinique','Cocktails, DJ, et la famille au complet'],stock:0,st:'Inscris-toi pour être prévenu·e'}};
+/* agenda filter */
 function setPill(b){const p=$('#tog .pill');p.style.left=b.offsetLeft+'px';p.style.width=b.offsetWidth+'px'}
-$$('#tog button').forEach(b=>b.onclick=()=>{$$('#tog button').forEach(x=>x.classList.toggle('on',x===b));setPill(b);const e=EV[b.dataset.c];
-  $('#evImg').src=e.img;$('#evSerie').textContent=e.serie;$('#evTitle').innerHTML=e.title;$('#evFacts').innerHTML=e.facts.map((f,i)=>`<li><i>${['◷','⌖','✦'][i]}</i>${f}</li>`).join('');
-  $('#stockBar').style.width=e.stock+'%';$('#stockTxt').textContent=e.st;$('#cd').style.display=b.dataset.c==='paris'?'grid':'none'});
+$$('#tog button').forEach(b=>b.onclick=()=>{$$('#tog button').forEach(x=>x.classList.toggle('on',x===b));setPill(b);
+  $$('#agenda .ev').forEach(ev=>ev.classList.toggle('hidden',b.dataset.c!=='all'&&ev.dataset.c!==b.dataset.c));$('#agenda').scrollLeft=0;agRail.refresh()});
 addEventListener('load',()=>setPill($('#tog .on')));setTimeout(()=>setPill($('#tog .on')),300);
 /* reveal + counters */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');
-  if(e.target.id==='evt')$('#stockBar').style.width=EV.paris.stock+'%';
   const b=e.target.querySelector('b[data-n]');if(b&&!b.done){b.done=1;const n=+b.dataset.n,p=b.dataset.p||'',t0=performance.now();
     const f=t=>{const k=Math.min(1,(t-t0)/1400),v=Math.round(n*(1-Math.pow(1-k,3)));b.textContent=p+v.toLocaleString('fr-FR');if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)}
   io.unobserve(e.target)}),{threshold:.18});
 $$('.reveal').forEach(el=>io.observe(el));
 /* manifesto word-by-word */
-const mani=$('#mani');const gold=['famille','accueille,','intègre,','toi'];
+const mani=$('#mani');const gold=['20','antillaise','caractère,','famille'];
 mani.innerHTML=mani.textContent.split(' ').map(w=>`<span class="w${gold.includes(w)?' gold':''}">${w}</span>`).join(' ');
 const words=$$('#mani .w');
 /* rail next */
@@ -598,17 +615,18 @@ function lbScroll(){const vh=innerHeight;
 }
 addEventListener('scroll',lbScroll,{passive:true});lbScroll();
 /* rails: arrows + dots */
-function rail(el,prev,next,dots){const items=[...el.children];dots.innerHTML=items.map(()=>'<i></i>').join('');
+function rail(el,prev,next,dots){let items;const build=()=>{items=[...el.children].filter(c=>!c.classList.contains('hidden'));dots.innerHTML=items.map(()=>'<i></i>').join('')};build();
   const step=()=>items[0].offsetWidth+14;
   const upd=()=>{const i=Math.round(el.scrollLeft/step());[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===Math.min(i,items.length-1)))};
   prev.onclick=()=>el.scrollBy({left:-step(),behavior:'smooth'});
   next.onclick=()=>el.scrollBy({left:(el.scrollLeft+el.clientWidth>=el.scrollWidth-5)?-el.scrollWidth:step(),behavior:'smooth'});
-  el.addEventListener('scroll',upd,{passive:true});upd()}
+  el.addEventListener('scroll',upd,{passive:true});upd();return{refresh(){build();upd()}}}
 rail($('#rail'),$('#prevSv'),$('#nextSv'),$('#svDots'));
 rail($('#tl'),$('#prevTl'),$('#nextTl'),$('#tlDots'));
+const agRail=rail($('#agenda'),$('#prevAg'),$('#nextAg'),$('#agDots'));
 
 /* join form */
-$('#joinF').onsubmit=e=>{e.preventDefault();$('#okN').textContent=$('#fn').value;e.target.style.display='none';$('#ok').style.display='block';$$('.steps div')[1].classList.add('on')};
+$('#joinF').onsubmit=e=>{e.preventDefault();$('#okN').textContent=$('#fn').value;e.target.style.display='none';$('#ok').style.display='block'};
 /* dock / menu / search */
 const dock=$('#dock'),menu=$('#menu'),mbtn=$('#mbtn');
 function toggleMenu(on){menu.classList.toggle('on',on);mbtn.classList.toggle('open',on);document.body.classList.toggle('lock',on);menu.setAttribute('aria-hidden',!on);dock.classList.remove('searching','hide')}
