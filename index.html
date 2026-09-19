@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Souskay — Maquette home (référence Lovable)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800;125,900&family=Libertinus+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="picto.svg">
+<style>
+:root{
+  --night:#0E0B0A; --night-2:#171210; --night-3:#221A17; --cream:#F3EBDD; --muted:#A89C8C;
+  --mint:#11C98C; --gold:#11C98C; --gold-2:#5FE3B5; --hibiscus:#0B6B4B; --leaf:#0B6B4B;
+  --serif:'Libertinus Serif',Georgia,serif; --sans:'Space Grotesk',system-ui,sans-serif;
+  --ease:cubic-bezier(.7,0,.2,1); --pad:20px; --wide:'Archivo','Arial Black',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+html,body{background:var(--night);color:var(--cream);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+body::after{content:"";position:fixed;inset:-50%;pointer-events:none;z-index:100;opacity:.06;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1s steps(4) infinite}
+@keyframes grain{0%{transform:translate(0,0)}25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}}
+.wrap{max-width:1180px;margin:0 auto;padding:0 var(--pad)}
+.eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
+.serif{font-family:var(--serif);font-weight:400}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+
+/* ========== LOGO ========== */
+.logo{position:absolute;top:max(28px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);z-index:40;width:min(46vw,210px);color:var(--cream);filter:drop-shadow(0 2px 14px rgba(0,0,0,.5))}
+.logo svg,.logo img{width:100%;height:auto;display:block}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+
+/* ========== HERO ========== */
+.hero{height:100svh;min-height:560px;position:relative;overflow:hidden;background:#000}
+.hero .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.6s ease}
+.hero .slide.on{opacity:1}
+.hero .slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.15);filter:saturate(1.1) contrast(1.05)}
+.hero .slide.on img{animation:kb 7s linear forwards}
+@keyframes kb{from{transform:scale(1.15) translate(0,0)}to{transform:scale(1.02) translate(-1.5%,1%)}}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,11,10,.45) 0%,transparent 25%,transparent 55%,var(--night) 100%)}
+.hero-meta{position:absolute;left:0;right:0;bottom:110px;z-index:2;display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.hero-meta .eyebrow{color:var(--cream);opacity:.85}
+.sound{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;background:rgba(243,235,221,.1);backdrop-filter:blur(8px);
+  border:1px solid rgba(243,235,221,.15);border-radius:99px;padding:8px 14px;cursor:pointer;color:var(--cream)}
+.bars{display:flex;gap:2px;align-items:flex-end;height:12px}.bars i{width:2px;background:var(--gold);animation:eq 1s ease-in-out infinite}
+.bars i:nth-child(2){animation-delay:-.3s}.bars i:nth-child(3){animation-delay:-.6s}
+@keyframes eq{0%,100%{height:3px}50%{height:12px}}
+
+/* ========== NEXT DATE ========== */
+.next{padding-top:70px;padding-bottom:90px}
+.head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 16px;margin-bottom:26px}
+.head h2{white-space:nowrap}
+.head h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,6vw,64px);line-height:1}
+.head a{text-decoration:none;font-size:15px;white-space:nowrap}
+.head a b,.arrow{color:var(--gold);display:inline-block;transition:transform .3s}
+.head a:hover b{transform:translateX(5px)}
+.toggle{display:inline-flex;background:var(--night-3);border-radius:99px;padding:4px;margin-bottom:22px;position:relative}
+.toggle button{position:relative;z-index:1;border:0;background:none;color:var(--muted);font:500 13px var(--sans);padding:9px 18px;border-radius:99px;cursor:pointer;transition:color .3s}
+.toggle button.on{color:var(--night)}
+.toggle .pill{position:absolute;top:4px;bottom:4px;left:4px;border-radius:99px;background:var(--cream);transition:all .5s var(--ease)}
+.evt{display:grid;grid-template-columns:1fr;gap:0;background:var(--night-2);border:1px solid var(--night-3);border-radius:26px;overflow:hidden;max-width:980px}
+@media(min-width:800px){.evt{grid-template-columns:1.1fr 1fr}}
+.evt .poster{position:relative;aspect-ratio:4/5;overflow:hidden}
+@media(min-width:800px){.evt .poster{aspect-ratio:auto;min-height:480px}}
+.evt .poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.evt:hover .poster img{transform:scale(1.05)}
+.evt .poster::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(14,11,10,.85),transparent 55%)}
+.evt .ptitle{position:absolute;left:22px;right:22px;bottom:20px;z-index:1}
+.evt .ptitle .serif{font-size:clamp(46px,9vw,84px);line-height:.9;display:block}
+.evt .ptitle .serif em{color:var(--gold-2)}
+.evt .body{padding:26px 24px 24px;display:flex;flex-direction:column;gap:18px}
+.count{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.count div{background:var(--night-3);border-radius:14px;padding:12px 6px;text-align:center}
+.count b{display:block;font-family:var(--serif);font-size:34px;font-weight:400;line-height:1}
+.count span{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+.facts{list-style:none;display:grid;gap:10px;font-size:14px;color:#D9CFC0}
+.facts li{display:flex;gap:10px;align-items:center}.facts li i{font-style:normal;width:22px;text-align:center;color:var(--gold)}
+.lineup{display:flex;flex-wrap:wrap;gap:6px}
+.lineup span{font-size:12px;border:1px solid #3A2E28;border-radius:99px;padding:6px 11px}
+.lineup span.star{border-color:var(--gold);color:var(--gold-2)}
+.buy{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-radius:16px;background:linear-gradient(135deg,var(--gold),var(--gold-2));
+  color:var(--night);font-weight:600;text-decoration:none;margin-top:auto;transition:transform .2s}
+.buy:hover{transform:translateY(-2px)}
+.buy small{font-weight:500;opacity:.7}
+.stock{height:6px;background:var(--night-3);border-radius:99px;overflow:hidden}
+.stock i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--hibiscus),var(--gold));border-radius:99px;transition:width 1.6s var(--ease)}
+.stock-l{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:6px}
+
+/* ========== SLOGAN ========== */
+.slogan{position:relative;height:170vh}
+.slogan .stick{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:1vh}
+.slogan .line{white-space:nowrap;font-family:var(--serif);font-size:19vw;line-height:.92;color:var(--night-3);will-change:transform}
+.slogan .line em{color:var(--cream)}
+.slogan .line:nth-child(2){font-style:italic}
+.badge{position:absolute;top:50%;left:50%;width:170px;height:170px;margin:-85px 0 0 -85px;z-index:2;animation:spin 16s linear infinite}
+.badge-core{position:absolute;inset:40px;border-radius:50%;background:var(--night);color:var(--cream);display:grid;place-items:center;
+  box-shadow:0 0 0 1px rgba(17,201,140,.5),0 20px 60px rgba(17,201,140,.35);animation:spin 16s linear infinite reverse}
+.badge-core svg,.badge-core img{width:52%;height:auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ========== MANIFESTO ========== */
+.manifesto{padding-top:60px;padding-bottom:130px}
+.manifesto p{font-family:var(--serif);font-size:clamp(34px,6.4vw,78px);line-height:1.05;max-width:1050px}
+.manifesto p .w{color:#6A5F58;transition:color .5s}
+.manifesto p .w.lit{color:var(--cream)}
+.manifesto p .w.gold.lit{color:var(--gold-2);font-style:italic}
+.manifesto .sig{margin-top:30px;display:flex;gap:14px;align-items:center}
+.manifesto .sig i{height:1px;width:60px;background:var(--gold)}
+
+/* ========== SOUVENIRS ========== */
+.souv{background:var(--gold);color:var(--night);padding:70px 0 70px;position:relative;margin-top:60px}
+.souv .head h2{color:var(--night)}
+.souv .head a b{color:var(--night)}
+.video{position:relative;border-radius:22px;overflow:hidden;aspect-ratio:16/9;margin-bottom:60px;cursor:pointer;background:#000}
+.video img{width:100%;height:100%;object-fit:cover;opacity:.75;transition:transform 1.2s var(--ease),opacity .6s}
+.video:hover img{transform:scale(1.04);opacity:.9}
+.play{position:absolute;top:50%;left:50%;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;background:var(--cream);display:grid;place-items:center;
+  box-shadow:0 0 0 0 rgba(243,235,221,.5);animation:ring 2.2s infinite}
+@keyframes ring{70%{box-shadow:0 0 0 22px rgba(243,235,221,0)}100%{box-shadow:0 0 0 0 rgba(243,235,221,0)}}
+.video .cap{position:absolute;left:20px;bottom:16px;color:var(--cream);font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+.rail{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 var(--pad) 10px;margin:0 calc(var(--pad)*-1);scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.sv{flex:0 0 min(78vw,360px);scroll-snap-align:start;text-decoration:none;color:var(--night)}
+.sv .ph{aspect-ratio:4/5;border-radius:18px;overflow:hidden;position:relative}
+.sv .ph img{width:100%;height:100%;object-fit:cover;transition:transform 1s var(--ease)}
+.sv:hover .ph img{transform:scale(1.06)}
+.sv .ph span{position:absolute;top:12px;left:12px;background:rgba(14,11,10,.75);backdrop-filter:blur(6px);color:var(--cream);font-size:11px;letter-spacing:.14em;padding:6px 10px;border-radius:99px}
+.sv h3{font-family:var(--serif);font-weight:400;font-size:28px;margin-top:12px;line-height:1}
+.sv p{font-size:13px;opacity:.7;margin-top:4px}
+.railnav{display:flex;justify-content:flex-end;margin-top:22px}
+.railnav button{border:0;background:none;font:500 15px var(--sans);color:var(--night);cursor:pointer;display:flex;gap:8px;align-items:center}
+.railnav button b{color:var(--night);transition:transform .3s}.railnav button:hover b{transform:translateX(5px)}
+
+/* ========== RITUELS ========== */
+.rit{background:var(--night);padding:90px 0 90px;position:relative;margin-top:40px}
+.rit .intro{max-width:560px;color:#D9CFC0;font-size:16px;line-height:1.55;margin:-6px 0 34px}
+.tl{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 var(--pad) 12px;margin:0 calc(var(--pad)*-1);scrollbar-width:none;position:relative}
+.tl::-webkit-scrollbar{display:none}
+.rt{flex:0 0 min(72vw,300px);scroll-snap-align:start;background:var(--night-2);border:1px solid var(--night-3);border-radius:22px;padding:22px;position:relative;overflow:hidden;
+  transition:transform .4s var(--ease),border-color .4s}
+.rt:hover{transform:translateY(-6px);border-color:var(--gold)}
+.rt .h{font-family:var(--serif);font-size:54px;line-height:1;color:var(--gold-2)}
+.rt h3{font-weight:600;font-size:18px;margin:34px 0 8px}
+.rt p{font-size:14px;color:var(--muted);line-height:1.5}
+.rt .n{position:absolute;top:18px;right:20px;font-size:11px;color:var(--muted);letter-spacing:.15em}
+.rt.hl{background:var(--hibiscus);border-color:var(--hibiscus)}.rt.hl .h{color:var(--cream)}.rt.hl p{color:rgba(243,235,221,.8)}
+
+/* ========== SERIES ========== */
+.series{padding-top:40px;padding-bottom:100px}
+.slist{list-style:none;border-top:1px solid var(--night-3)}
+.slist li{border-bottom:1px solid var(--night-3);position:relative}
+.slist a{display:flex;align-items:center;gap:16px;padding:22px 4px;text-decoration:none;position:relative;z-index:1}
+.slist .nm{font-family:var(--serif);font-size:clamp(40px,8vw,92px);line-height:.95;transition:transform .5s var(--ease),color .4s}
+.slist .tg{margin-left:auto;text-align:right;font-size:13px;color:var(--muted);max-width:40%}
+.slist .th{width:64px;height:72px;overflow:hidden;flex:none;clip-path:polygon(50% 0,62% 6%,72% 2%,100% 100%,0 100%,38% 5%)}
+.slist .th img{width:100%;height:100%;object-fit:cover}
+@media(min-width:800px){.slist .th{position:absolute;right:30%;top:50%;width:240px;height:300px;transform:translateY(-50%) rotate(-4deg) scale(.6);opacity:0;pointer-events:none;transition:all .6s var(--ease);z-index:2;border-radius:0}
+  .slist li:hover .th{opacity:1;transform:translateY(-50%) rotate(3deg) scale(1)}
+  .slist li:hover .nm{transform:translateX(18px);color:var(--gold-2);font-style:italic}}
+
+/* ========== CHIFFRES ========== */
+.stats{padding-bottom:110px}
+.bento{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:900px){.bento{grid-template-columns:repeat(3,1fr)}}
+.st{background:var(--cream);color:var(--night);border-radius:22px;padding:22px;min-height:170px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.st b{font-family:var(--serif);font-weight:400;font-size:clamp(46px,8vw,76px);line-height:.9}
+.st span{font-size:13px;color:#6B5E52}
+.st .mini{position:absolute;top:16px;right:16px;width:46px;height:46px;border-radius:12px;overflow:hidden}
+.st .mini img{width:100%;height:100%;object-fit:cover}
+.st.dark{background:var(--hibiscus);color:var(--cream)}.st.dark span{color:rgba(243,235,221,.75)}
+.st.gold{background:var(--gold)}
+.st.wide{grid-column:span 2}
+@media(min-width:900px){.st.wide{grid-column:span 1}}
+.djs{display:flex;flex-wrap:wrap;gap:6px}.djs i{font-style:normal;font-size:12px;border:1px solid rgba(14,11,10,.25);border-radius:99px;padding:4px 10px}
+
+/* ========== FAMILLE ========== */
+.fam{background:var(--cream);color:var(--night);border-radius:34px;margin:0 10px;overflow:hidden;display:grid;grid-template-columns:1fr}
+@media(min-width:900px){.fam{grid-template-columns:1fr 1fr}}
+.fam .vis{background:radial-gradient(circle at 50% 40%,#0F2A21,var(--night) 70%);min-height:440px;position:relative;display:grid;place-items:center;overflow:hidden}
+.stamp{width:250px;height:250px;position:relative;animation:wob 6s ease-in-out infinite}
+@keyframes wob{0%,100%{transform:rotate(-8deg) translateY(0)}50%{transform:rotate(6deg) translateY(-12px)}}
+.stamp svg{position:absolute;inset:0;animation:spin 22s linear infinite}
+.stamp .core{position:absolute;inset:52px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#2A2320,var(--night) 70%);
+  display:grid;place-items:center;color:var(--cream);box-shadow:0 30px 80px rgba(17,201,140,.25),0 0 0 1px rgba(17,201,140,.35),inset 0 6px 14px rgba(255,255,255,.08)}
+.stamp .core svg,.stamp .core img{width:55%;height:auto;animation:erupt 3s ease-in-out infinite}
+@keyframes erupt{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.stamp .core b{font-family:var(--serif);font-style:italic;font-weight:400;font-size:30px;line-height:.9;display:block}
+.stamp .core small{font-size:9px;letter-spacing:.25em}
+.fam .vis .cap{position:absolute;bottom:22px;left:0;right:0;text-align:center;color:var(--muted);font-size:12px;letter-spacing:.2em;text-transform:uppercase}
+.fam .form{padding:40px 28px 36px}
+.fam h2{font-family:var(--serif);font-weight:400;font-size:clamp(38px,5vw,58px);line-height:1}
+.fam h2 em{color:var(--hibiscus);font-style:italic}
+.fam .lead{font-size:14px;color:#6B5E52;margin:10px 0 24px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:28px}
+.steps div{border-top:3px solid #D8CCB9;padding-top:10px;font-size:12px;color:#6B5E52;transition:border-color .4s}
+.steps div b{display:block;color:var(--night);font-size:13px;margin-bottom:3px}
+.steps div.on{border-color:var(--hibiscus)}
+form{display:grid;gap:4px}
+.field{position:relative}
+.field input{width:100%;border:0;border-bottom:1px solid #CFC2AE;background:none;padding:20px 0 8px;font:500 16px var(--sans);color:var(--night);outline:0;transition:border-color .3s}
+.field label{position:absolute;left:0;top:19px;font-size:15px;color:#8C7F70;pointer-events:none;transition:all .3s var(--ease)}
+.field input:focus,.field input:not(:placeholder-shown){border-color:var(--night)}
+.field input:focus+label,.field input:not(:placeholder-shown)+label{top:2px;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.chk{display:flex;gap:10px;font-size:12px;color:#6B5E52;margin:18px 0 20px;align-items:flex-start}
+.chk input{accent-color:var(--hibiscus);margin-top:2px}
+.send{border:0;border-radius:16px;padding:17px;background:var(--night);color:var(--cream);font:600 15px var(--sans);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .3s}
+.send:hover{background:var(--hibiscus)}
+.ok{display:none;font-family:var(--serif);font-size:30px;padding:20px 0}
+.ok em{color:var(--hibiscus)}
+
+/* ========== FOOTER ========== */
+footer{margin-top:110px;position:relative;background:#000}
+footer .bg{overflow:hidden}
+footer .bg{position:absolute;inset:0}
+footer .bg img{width:100%;height:100%;object-fit:cover;opacity:.35;filter:blur(2px) saturate(1.2)}
+footer .inner{position:relative;padding-top:70px}
+.fl{display:grid;grid-template-columns:1fr 1fr;gap:10px 30px;max-width:520px}
+.fl a{text-decoration:none;font-size:16px;opacity:.9;transition:color .3s}.fl a:hover{color:var(--gold-2)}
+.fsoc{display:flex;flex-wrap:wrap;gap:18px;margin-top:34px;font-size:12px;letter-spacing:.2em}
+.fsoc a{text-decoration:none}
+.nl{margin-top:34px;display:flex;max-width:420px;border-bottom:1px solid rgba(243,235,221,.35)}
+.nl input{flex:1;background:none;border:0;outline:0;color:var(--cream);font:500 15px var(--sans);padding:12px 0}
+.nl input::placeholder{color:rgba(243,235,221,.6)}
+.nl button{background:none;border:0;color:var(--gold-2);font:600 14px var(--sans);cursor:pointer}
+.giant{margin-top:70px;margin-bottom:34px;color:var(--cream)}
+.giant svg,.giant img{width:100%;height:auto;display:block}
+.fpicto{position:absolute;right:var(--pad);top:60px;width:84px;color:var(--cream);display:none}
+@media(min-width:800px){.fpicto{display:block}}
+.legal{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-size:11px;letter-spacing:.12em;color:rgba(243,235,221,.6);padding-top:18px;padding-bottom:120px;border-top:1px solid rgba(243,235,221,.12)}
+.legal a{text-decoration:none}
+
+/* ========== DOCK + MENU (identique proto) ========== */
+.dock{position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:50;
+  width:min(calc(100% - 20px),460px);display:flex;gap:6px;padding:6px;border-radius:22px;
+  background:rgba(20,15,13,.62);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);
+  border:1px solid rgba(243,235,221,.09);box-shadow:0 10px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06);transition:transform .6s var(--ease)}
+.dock.hide{transform:translate(-50%,140%)}
+.primary{flex:1;position:relative;overflow:hidden;border:0;border-radius:16px;height:52px;cursor:pointer;min-width:0;
+  background:linear-gradient(135deg,var(--gold),var(--gold-2));color:var(--night);font:600 15px var(--sans);
+  display:flex;align-items:center;justify-content:center;gap:10px;transition:flex .6s var(--ease),opacity .3s,transform .2s}
+.primary:active{transform:scale(.97)}
+.primary::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.55) 50%,transparent 70%);transform:translateX(-120%);animation:shine 4.5s ease-in-out infinite}
+@keyframes shine{0%,70%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+.primary .dot{width:7px;height:7px;border-radius:50%;background:var(--night);animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(14,11,10,.5)}70%{box-shadow:0 0 0 9px rgba(14,11,10,0)}100%{box-shadow:0 0 0 0 rgba(14,11,10,0)}}
+.primary .lbl{position:relative;display:grid}
+.primary .lbl span{grid-area:1/1;transition:transform .5s var(--ease),opacity .4s;white-space:nowrap}
+.primary .lbl .alt{transform:translateY(120%);opacity:0}
+.dock.ctx .lbl .main{transform:translateY(-120%);opacity:0}.dock.ctx .lbl .alt{transform:none;opacity:1}
+.ibtn{width:52px;height:52px;flex:none;border:0;border-radius:16px;background:rgba(243,235,221,.07);color:var(--cream);cursor:pointer;display:grid;place-items:center;transition:background .3s,transform .2s}
+.ibtn:hover{background:rgba(243,235,221,.14)}.ibtn:active{transform:scale(.94)}
+.search{flex:0;width:0;opacity:0;overflow:hidden;display:flex;align-items:center;border-radius:16px;background:rgba(243,235,221,.07);transition:flex .6s var(--ease),opacity .3s}
+.search input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--cream);font:500 15px var(--sans);padding:0 8px 0 16px}
+.search input::placeholder{color:var(--muted)}
+.dock.searching .search{flex:1;opacity:1}.dock.searching .primary{flex:0;padding:0;opacity:0}
+.grid{position:relative;width:18px;height:18px}
+.grid i{position:absolute;width:7px;height:7px;background:currentColor;border-radius:2px;transition:all .5s var(--ease)}
+.grid i:nth-child(1){top:0;left:0}.grid i:nth-child(2){top:0;right:0}.grid i:nth-child(3){bottom:0;left:0}.grid i:nth-child(4){bottom:0;right:0}
+.open .grid i{width:20px;height:2px;top:8px;left:-1px;right:auto;bottom:auto}
+.open .grid i:nth-child(1),.open .grid i:nth-child(4){transform:rotate(45deg)}
+.open .grid i:nth-child(2),.open .grid i:nth-child(3){transform:rotate(-45deg)}
+.menu{position:fixed;inset:0;z-index:45;background:var(--mint);color:var(--night);clip-path:circle(0% at calc(50% + 200px) calc(100% - 45px));
+  transition:clip-path .8s var(--ease);display:flex;flex-direction:column;justify-content:center;padding:90px 24px 120px;overflow:hidden}
+@media(max-width:480px){.menu{clip-path:circle(0% at calc(100% - 44px) calc(100% - 45px))}}
+.menu.on{clip-path:circle(150% at calc(100% - 44px) calc(100% - 45px))}
+.menu .ghost{position:absolute;right:-12vmin;bottom:-10vmin;width:70vmin;opacity:.12;pointer-events:none}.menu .ghost img{width:100%}
+.menu ul{list-style:none;max-width:900px;margin:0 auto;width:100%}
+.menu li{overflow:hidden;border-bottom:1px solid rgba(14,11,10,.18)}
+.menu ul a{display:flex;align-items:baseline;gap:14px;padding:10px 0;text-decoration:none;font-family:var(--serif);font-size:clamp(40px,10vw,96px);line-height:1;transform:translateY(110%);transition:transform .7s var(--ease)}
+.menu.on ul a{transform:none}
+.menu ul li:nth-child(2) a{transition-delay:.06s}.menu ul li:nth-child(3) a{transition-delay:.12s}.menu ul li:nth-child(4) a{transition-delay:.18s}.menu ul li:nth-child(5) a{transition-delay:.24s}
+.menu ul a small{font-family:var(--sans);font-size:12px;opacity:.6;min-width:22px}
+.menu ul a em{transition:padding .4s var(--ease)}
+.menu ul a:hover em{font-style:italic;padding-left:14px}
+.menu ul a .tag{margin-left:auto;font:500 11px var(--sans);letter-spacing:.15em;background:var(--night);color:var(--mint);padding:5px 9px;border-radius:99px;align-self:center}
+.menu .socials{display:flex;gap:18px;justify-content:center;margin-top:34px;font-size:12px;letter-spacing:.18em;opacity:0;transition:opacity .5s .35s}
+.menu.on .socials{opacity:.85}.menu .socials a{text-decoration:none}
+body.lock{overflow:hidden}
+
+/* ====== LITTLEBIG-INSPIRED ELEMENTS ====== */
+/* 1. jagged volcanic edges */
+.jag{position:relative}
+.jag::before{content:"";position:absolute;left:0;right:0;top:-56px;height:58px;background:inherit;pointer-events:none;
+  clip-path:polygon(0 100%,0 62%,5% 78%,9% 30%,14% 70%,19% 48%,24% 88%,31% 8%,37% 66%,43% 38%,49% 82%,55% 22%,61% 72%,67% 44%,72% 90%,78% 14%,84% 64%,89% 36%,94% 80%,100% 40%,100% 100%)}
+/* 2. stickers */
+.sticker{display:inline-flex;align-items:center;gap:8px;font:900 13px/1 var(--wide);font-stretch:125%;text-transform:uppercase;letter-spacing:-.01em;
+  padding:10px 14px;background:var(--mint);color:var(--night);transform:rotate(-6deg);box-shadow:4px 4px 0 rgba(0,0,0,.35);text-decoration:none;
+  transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.sticker:hover{transform:rotate(3deg) scale(1.08)}
+.sticker.cream{background:var(--cream)}.sticker.dark{background:var(--night);color:var(--mint)}
+.sticker svg{width:18px;height:18px}
+.evt .poster .sticker{position:absolute;z-index:2}
+.st-a{top:18px;right:14px}.st-b{top:70px;right:40px;transform:rotate(5deg)!important;font-size:11px}
+/* 3. stacked repeated words */
+.stackw{font:900 clamp(28px,7.4vw,98px)/.84 var(--wide);font-stretch:125%;text-transform:uppercase;letter-spacing:-.03em;margin:0 0 30px;overflow:hidden}
+.stackw span{display:block;white-space:nowrap;transform:translateX(var(--x,0));transition:transform .1s linear}
+.stackw span:nth-child(odd){color:var(--night)}.stackw span:nth-child(even){color:transparent;-webkit-text-stroke:2px var(--night)}
+/* 4. ticket rain band */
+.tix{position:relative;height:380px;background:var(--mint);margin-top:40px;overflow:hidden}
+.tix .zig{position:absolute;inset:0;background:var(--night);clip-path:polygon(0 0,100% 0,100% 30%,92% 44%,86% 22%,79% 52%,71% 30%,63% 58%,55% 26%,47% 50%,39% 20%,31% 54%,24% 34%,16% 60%,9% 28%,0 46%)}
+.ticket{position:absolute;width:clamp(140px,22vw,250px);aspect-ratio:250/110;height:auto;cursor:pointer;will-change:transform;filter:drop-shadow(6px 8px 0 rgba(0,0,0,.25));transition:filter .3s}
+.ticket:hover{filter:drop-shadow(10px 14px 0 rgba(0,0,0,.3))}
+.ticket svg{width:100%;height:100%}
+.tix .claim{position:absolute;left:0;right:0;bottom:26px;text-align:center;font:900 clamp(22px,4vw,40px)/1 var(--wide);font-stretch:125%;text-transform:uppercase;color:var(--night);letter-spacing:-.02em}
+/* 5. rotating WATCH badge */
+.play{animation:none;background:none;box-shadow:none;width:120px;height:120px;margin:-60px 0 0 -60px}
+.play .ring{position:absolute;inset:0;animation:spin 10s linear infinite}
+.play .core{position:absolute;inset:26px;border-radius:50%;background:var(--mint);display:grid;place-items:center;transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+.video:hover .play .core{transform:scale(1.12)}
+/* 6. polaroids */
+.sv .ph{background:var(--cream);padding:10px 10px 0;border-radius:4px;aspect-ratio:auto;box-shadow:0 14px 30px rgba(0,0,0,.25);transform:rotate(var(--r,-2deg));transition:transform .5s cubic-bezier(.3,1.6,.5,1)}
+.sv:hover .ph{transform:rotate(0) translateY(-6px)}
+.sv .ph img{aspect-ratio:4/5;border-radius:2px}
+.sv .ph .capt{display:block;font-family:var(--serif);font-style:italic;font-size:20px;color:var(--night);padding:10px 4px 12px;position:static;background:none;backdrop-filter:none;letter-spacing:0}
+.sv .ph .tape{position:absolute;top:-12px;left:50%;width:90px;height:26px;margin-left:-45px;background:rgba(243,235,221,.55);transform:rotate(-4deg);backdrop-filter:blur(2px);border:1px solid rgba(255,255,255,.4);padding:0;border-radius:0}
+.sv .ph>span:not(.capt):not(.tape){top:22px;left:22px}
+.sv .ph{overflow:visible}.sv:hover .ph img{transform:none}
+/* 7. shard photos */
+.shard{clip-path:polygon(50% 0,62% 6%,72% 2%,100% 100%,0 100%,38% 5%)}
+.mani-wrap{display:grid;grid-template-columns:1fr;gap:30px;align-items:center}
+@media(min-width:900px){.mani-wrap{grid-template-columns:1.5fr 1fr}}
+.shards{position:relative;height:420px}
+.shards .s1,.shards .s2{position:absolute;overflow:hidden}
+.shards img{width:100%;height:100%;object-fit:cover}
+.shards .s1{width:78%;height:92%;left:0;bottom:0}
+.shards .s2{width:52%;height:60%;right:0;bottom:0;border-top:0}
+.shards .s2::after{content:"";position:absolute;inset:0;background:var(--mint);mix-blend-mode:multiply;opacity:.55}
+.shards .sticker{position:absolute;left:18%;top:46%;z-index:2}
+/* 8. vertical marquee strip */
+.vstrip{display:none}
+@media(min-width:900px){.rit{padding-left:60px}.vstrip{display:block;position:absolute;left:0;top:0;bottom:0;width:48px;background:var(--mint);overflow:hidden;border-radius:34px 0 0 0}
+ .vstrip div{writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;font:900 18px/48px var(--wide);font-stretch:125%;color:var(--night);animation:vmar 22s linear infinite}}
+@keyframes vmar{from{translate:0 0}to{translate:0 -50%}}
+/* 9. huge series list */
+.slist .nm{font:900 clamp(22px,6.2vw,112px)/.92 var(--wide);min-width:0;font-stretch:125%;text-transform:uppercase;letter-spacing:-.035em}
+.slist li:nth-child(even) .nm{color:var(--mint)}
+@media(min-width:800px){.slist li:hover .nm{font-style:normal;color:transparent;-webkit-text-stroke:2px var(--mint)}}
+@media(max-width:600px){.slist .tg{display:none}.slist .th{width:46px;height:52px}.slist a{padding:18px 2px}}
+/* nav arrows for swipe rails */
+.arrows{display:flex;gap:8px;align-items:center}
+.arrows button{width:44px;height:44px;border-radius:50%;border:1.5px solid currentColor;background:none;color:inherit;cursor:pointer;font-size:18px;transition:background .3s,color .3s}
+.arrows button:hover{background:currentColor}
+.arrows button:hover span{color:var(--mint)}
+.souv .arrows button:hover span{color:var(--mint)}.rit .arrows button:hover span{color:var(--night)}
+.railfoot{display:flex;justify-content:space-between;align-items:center;margin-top:22px;gap:12px}
+.dots{display:flex;gap:6px}.dots i{width:22px;height:3px;border-radius:3px;background:currentColor;opacity:.25;transition:opacity .3s,width .3s}.dots i.on{opacity:1;width:40px}
+.hint{font-size:12px;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
+@media(min-width:900px){.hint{display:none}}
+.buyhint{font-size:11px;color:var(--muted);text-align:center;margin-top:-8px}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01s!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<a class="logo" href="#" aria-label="Souskay"><img src="logo-souskay-creme.svg" alt="Souskay"></a>
+
+<!-- 1. HERO (aftermovie : ici diaporama de vraies photos Souskay en attendant la vidéo) -->
+<header class="hero" id="top">
+  <div class="slide on"><img src="hero1.jpg" alt=""></div>
+  <div class="slide"><img src="hero2.jpg" alt=""></div>
+  <div class="slide"><img src="hero3.jpg" alt=""></div>
+  <div class="slide"><img src="show.jpg" alt=""></div>
+  <div class="wrap hero-meta">
+    <span class="eyebrow">Paris ↔ Martinique · depuis 2021</span>
+    <button class="sound" aria-label="Activer le son"><span class="bars"><i></i><i></i><i></i></span>Son</button>
+  </div>
+</header>
+
+<!-- 2. PROCHAIN RENDEZ-VOUS -->
+<section class="next wrap" id="dates">
+  <div class="head reveal"><h2>Prochain rendez-vous</h2><a href="#">Toutes les dates <b>→</b></a></div>
+  <div class="toggle reveal" id="tog"><span class="pill"></span><button class="on" data-c="paris">Paris</button><button data-c="mq">Martinique</button></div>
+  <article class="evt reveal" id="evt">
+    <div class="poster"><img id="evImg" src="hero2.jpg" alt=""><a class="sticker st-a" href="#">Billets !!!</a><span class="sticker cream st-b">Dress code : chic</span>
+      <div class="ptitle"><span class="eyebrow" id="evSerie" style="color:var(--gold-2)">Ouverture de saison</span><span class="serif" id="evTitle">L'<em>Intégration</em></span></div>
+    </div>
+    <div class="body">
+      <div class="count" id="cd"><div><b id="cdD">00</b><span>jours</span></div><div><b id="cdH">00</b><span>heures</span></div><div><b id="cdM">00</b><span>min</span></div><div><b id="cdS">00</b><span>sec</span></div></div>
+      <ul class="facts" id="evFacts">
+        <li><i>◷</i>Vendredi 9 octobre 2026 · 23h30 → 5h30</li>
+        <li><i>⌖</i>Paris · lieu dévoilé aux Intégré·e·s</li>
+        <li><i>✦</i>Show surprise non annoncé</li>
+      </ul>
+      <div class="lineup"><span class="star">Artiste invité · bientôt</span><span>Dav</span><span>Whyne</span><span>Amigo</span><span>Ddream</span><span>Fitch</span></div>
+      <div><div class="stock-l"><span>Objectif 1 500 présents</span><span id="stockTxt">Palier 2 en cours</span></div><div class="stock"><i id="stockBar"></i></div></div>
+      <a class="buy" href="#">Billets <small>Shotgun · Bizouk →</small></a>
+      <p class="buyhint">Paiement sécurisé chez notre billetterie partenaire</p>
+    </div>
+  </article>
+</section>
+
+<!-- TICKET RAIN (LittleBig) -->
+<div class="tix" id="tix" onclick="document.getElementById('dates').scrollIntoView({behavior:'smooth'})">
+  <div class="zig"></div>
+  <div class="ticket" data-x="4" data-y="120" data-r="-18" data-v="1.2"><svg viewBox="0 0 250 110"><path d="M12 0h226a12 12 0 0 0 12 12v30a13 13 0 0 0 0 26v30a12 12 0 0 0-12 12H12A12 12 0 0 0 0 98V68a13 13 0 0 0 0-26V12A12 12 0 0 0 12 0z" fill="#F3EBDD"/><line x1="190" y1="10" x2="190" y2="100" stroke="#0E0B0A" stroke-width="2" stroke-dasharray="4 5"/><text x="20" y="52" font-family="Libertinus Serif,Georgia,serif" font-style="italic" font-size="34" fill="#0E0B0A">Ticket</text><text x="21" y="80" font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2" fill="#0E0B0A">SOUSKAY · ADMIT ONE</text><text x="220" y="55" font-family="Archivo" font-weight="900" font-size="10" letter-spacing="2" fill="#0E0B0A" transform="rotate(90 220 55)" text-anchor="middle">09.10.26</text></svg></div>
+  <div class="ticket" data-x="30" data-y="60" data-r="12" data-v="-.8"><svg viewBox="0 0 250 110"><path d="M12 0h226a12 12 0 0 0 12 12v30a13 13 0 0 0 0 26v30a12 12 0 0 0-12 12H12A12 12 0 0 0 0 98V68a13 13 0 0 0 0-26V12A12 12 0 0 0 12 0z" fill="#0E0B0A"/><line x1="190" y1="10" x2="190" y2="100" stroke="#11C98C" stroke-width="2" stroke-dasharray="4 5"/><text x="20" y="52" font-family="Libertinus Serif,Georgia,serif" font-style="italic" font-size="34" fill="#11C98C">Intégré·e</text><text x="21" y="80" font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2" fill="#11C98C">SOUSKAY · ADMIT ONE</text><text x="220" y="55" font-family="Archivo" font-weight="900" font-size="10" letter-spacing="2" fill="#11C98C" transform="rotate(90 220 55)" text-anchor="middle">09.10.26</text></svg></div>
+  <div class="ticket" data-x="56" data-y="140" data-r="-8" data-v="1"><svg viewBox="0 0 250 110"><path d="M12 0h226a12 12 0 0 0 12 12v30a13 13 0 0 0 0 26v30a12 12 0 0 0-12 12H12A12 12 0 0 0 0 98V68a13 13 0 0 0 0-26V12A12 12 0 0 0 12 0z" fill="#F3EBDD"/><line x1="190" y1="10" x2="190" y2="100" stroke="#0B6B4B" stroke-width="2" stroke-dasharray="4 5"/><text x="20" y="52" font-family="Libertinus Serif,Georgia,serif" font-style="italic" font-size="34" fill="#0B6B4B">Famille</text><text x="21" y="80" font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2" fill="#0B6B4B">SOUSKAY · ADMIT ONE</text><text x="220" y="55" font-family="Archivo" font-weight="900" font-size="10" letter-spacing="2" fill="#0B6B4B" transform="rotate(90 220 55)" text-anchor="middle">09.10.26</text></svg></div>
+  <div class="ticket" data-x="78" data-y="70" data-r="20" data-v="-1.3"><svg viewBox="0 0 250 110"><path d="M12 0h226a12 12 0 0 0 12 12v30a13 13 0 0 0 0 26v30a12 12 0 0 0-12 12H12A12 12 0 0 0 0 98V68a13 13 0 0 0 0-26V12A12 12 0 0 0 12 0z" fill="#0E0B0A"/><line x1="190" y1="10" x2="190" y2="100" stroke="#F3EBDD" stroke-width="2" stroke-dasharray="4 5"/><text x="20" y="52" font-family="Libertinus Serif,Georgia,serif" font-style="italic" font-size="34" fill="#F3EBDD">Ticket</text><text x="21" y="80" font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2" fill="#F3EBDD">SOUSKAY · ADMIT ONE</text><text x="220" y="55" font-family="Archivo" font-weight="900" font-size="10" letter-spacing="2" fill="#F3EBDD" transform="rotate(90 220 55)" text-anchor="middle">09.10.26</text></svg></div>
+  <div class="claim">Tickets !!! →</div>
+</div>
+
+<!-- 3. SLOGAN -->
+<section class="slogan" id="slogan" aria-label="Chaque soirée est une intégration">
+  <div class="stick">
+    <div class="line" data-s="-1">chaque soirée est une <em>intégration</em> · chaque soirée est une <em>intégration</em> ·</div>
+    <div class="line" data-s="1">ici tu arrives invité, tu repars <em>famille</em> · ici tu arrives invité, tu repars <em>famille</em> ·</div>
+    <div class="line" data-s="-1">chic · créole · hip-hop · <em>souskay</em> · chic · créole · hip-hop · <em>souskay</em> ·</div>
+    <div class="badge">
+      <svg viewBox="0 0 170 170"><defs><path id="c" d="M85,85 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0"/></defs>
+        <text font-family="Space Grotesk" font-size="11.5" letter-spacing="4.2" fill="#F3EBDD"><textPath href="#c">PARIS · MARTINIQUE · PARIS · MARTINIQUE ·</textPath></text></svg>
+      <div class="badge-core"><img src="picto-souskay-creme.svg" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<!-- 4. MANIFESTE -->
+<section class="manifesto wrap">
+  <span class="eyebrow">Le manifeste</span>
+  <div class="mani-wrap"><p id="mani" style="margin-top:22px">Souskay, c'est une famille antillaise qui s'habille pour sortir. On ne vend pas une soirée : on t'accueille, on t'intègre, et la prochaine fois c'est toi qui accueilles.</p>
+  <div class="shards reveal"><div class="s1 shard"><img src="girls.jpg" alt=""></div><div class="s2 shard"><img src="crowd.jpg" alt=""></div><span class="sticker">Chic · créole · hip-hop</span></div></div>
+  <div class="sig reveal"><i></i><span class="eyebrow">Chic · créole · hip-hop</span></div>
+</section>
+
+<!-- 5. SOUVENIRS -->
+<section class="souv jag" id="souvenirs">
+  <div class="wrap">
+    <div class="stackw" id="stackw" aria-label="Retrouve-toi"><span data-d="1">!Retrouve-toi!</span><span data-d="-1">!Retrouve-toi!</span><span data-d="1">!Retrouve-toi!</span><span data-d="-1">!Retrouve-toi!</span></div>
+    <div class="head reveal"><h2 style="white-space:normal">Soirée après soirée.</h2><a href="#">Tous les souvenirs <b>→</b></a></div>
+    <div class="video reveal"><img src="show.jpg" alt=""><div class="play"><svg class="ring" viewBox="0 0 120 120"><defs><path id="c3" d="M60,60 m-48,0 a48,48 0 1,1 96,0 a48,48 0 1,1 -96,0"/></defs><text font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2.6" fill="#F3EBDD"><textPath href="#c3">VOIR L'AFTERMOVIE · VOIR L'AFTERMOVIE ·</textPath></text></svg><div class="core"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#0E0B0A"/></svg></div></div><span class="cap">Aftermovie · Saison 2025-26</span><a class="sticker dark" href="#" style="position:absolute;right:16px;top:16px">Playlist Spotify <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></a></div>
+    <div class="rail" id="rail">
+      <a class="sv" href="#"><div class="ph" style="--r:-3deg"><span class="tape"></span><img src="mic.jpg" alt=""><span>KELOKÉ · EP08</span><span class="capt">The Last</span></div><h3>The Last</h3><p>Martinique · sept. 2026 · 49 photos</p></a>
+      <a class="sv" href="#"><div class="ph" style="--r:2deg"><span class="tape"></span><img src="plage.jpg" alt=""><span>LA PLAGE · S02</span><span class="capt">La Plage E03</span></div><h3>Épisode 03</h3><p>Martinique · sept. 2026</p></a>
+      <a class="sv" href="#"><div class="ph" style="--r:-1.5deg"><span class="tape"></span><img src="avatar.jpg" alt=""><span>AVA.TAR</span><span class="capt">Ava.tar</span></div><h3>Ava.tar</h3><p>Paris · fév. 2026</p></a>
+      <a class="sv" href="#"><div class="ph" style="--r:3deg"><span class="tape"></span><img src="sing.jpg" alt=""><span>SOUSKAY DE STAR</span><span class="capt">Souskay de Star</span></div><h3>Souskay de Star 25</h3><p>Paris · jan. 2026</p></a>
+      <a class="sv" href="#"><div class="ph" style="--r:-2.5deg"><span class="tape"></span><img src="hug.jpg" alt=""><span>KELOKÉ · EP06</span><span class="capt">Keloké Ep06</span></div><h3>Épisode 06</h3><p>Martinique · août 2026</p></a>
+    </div>
+    <div class="railfoot"><div class="dots" id="svDots"></div><span class="hint">Glisse →</span><div class="arrows"><button id="prevSv" aria-label="Précédent"><span>←</span></button><button id="nextSv" aria-label="Suivant"><span>→</span></button></div></div>
+  </div>
+</section>
+
+<!-- 6. LA NUIT SOUSKAY (RITUELS) -->
+<section class="rit jag" id="rituels">
+  <div class="vstrip"><div>LA NUIT SOUSKAY · 23H30 → 5H15 · LA NUIT SOUSKAY · 23H30 → 5H15 · LA NUIT SOUSKAY · 23H30 → 5H15 · LA NUIT SOUSKAY · 23H30 → 5H15 ·</div></div>
+  <div class="wrap">
+    <div class="head reveal"><h2>La nuit Souskay</h2><a href="#">Tous les rituels <b>→</b></a></div>
+    <p class="intro reveal">Une trame fixe, reprise à chaque soirée. Tu sais comment ça commence. Jamais comment ça finit.</p>
+    <div class="tl" id="tl">
+      <div class="rt"><span class="n">01</span><span class="h">23h30</span><h3>L'Accueil</h3><p>Tampon d'arrivée et sucre à coco. Les Hôtes prennent en charge les solos et les nouveaux.</p></div>
+      <div class="rt"><span class="n">02</span><span class="h">1h</span><h3>Le Passage</h3><p>Les nouveaux rejoignent la piste : dix minutes d'initiation kompa et zouk.</p></div>
+      <div class="rt hl"><span class="n">03</span><span class="h">2h</span><h3>L'Appel des arrivants</h3><p>« Bienvenue à… » Les prénoms à l'écran, puis la photo de salle.</p></div>
+      <div class="rt"><span class="n">04</span><span class="h">3h</span><h3>Le Show</h3><p>Jamais annoncé. Toujours là.</p></div>
+      <div class="rt"><span class="n">05</span><span class="h">5h</span><h3>Le Grand Chanté</h3><p>Lumières allumées, les classiques chantés par toute la salle.</p></div>
+      <div class="rt"><span class="n">06</span><span class="h">5h15</span><h3>La Prochaine Étape</h3><p>La date suivante, un QR code et 24 h de prévente réservées à la salle.</p></div>
+    </div>
+    <div class="railfoot" style="color:var(--cream)"><div class="dots" id="tlDots"></div><span class="hint">Glisse →</span><div class="arrows"><button id="prevTl" aria-label="Précédent"><span>←</span></button><button id="nextTl" aria-label="Suivant"><span>→</span></button></div></div>
+  </div>
+</section>
+
+<!-- 7. SERIES -->
+<section class="series wrap" id="series">
+  <div class="head reveal"><h2>Les séries</h2><span class="sticker cream" style="transform:rotate(4deg)">5 séries</span></div>
+  <ul class="slist">
+    <li><a href="#"><span class="th"><img src="hero2.jpg" alt=""></span><span class="nm">L'Intégration</span><span class="tg">L'ouverture de saison · Paris</span></a></li>
+    <li><a href="#"><span class="th"><img src="djs.jpg" alt=""></span><span class="nm">Keloké</span><span class="tg">Cocktails & DJ · Le BABA, Martinique</span></a></li>
+    <li><a href="#"><span class="th"><img src="plage.jpg" alt=""></span><span class="nm">La Plage</span><span class="tg">Pieds dans le sable · été</span></a></li>
+    <li><a href="#"><span class="th"><img src="girls.jpg" alt=""></span><span class="nm">Sex Appeal</span><span class="tg">Dress code exigé · Paris</span></a></li>
+    <li><a href="#"><span class="th"><img src="gold.jpg" alt=""></span><span class="nm">La Pièce d'Or</span><span class="tg">Paris · décembre</span></a></li>
+  </ul>
+</section>
+
+<!-- 8. CHIFFRES -->
+<section class="stats wrap">
+  <div class="head reveal"><h2>Souskay en chiffres</h2></div>
+  <div class="bento">
+    <div class="st reveal"><b data-n="2">0</b><span>Îles & capitales · Paris, Martinique</span><div class="mini"><img src="plage.jpg" alt=""></div></div>
+    <div class="st dark reveal"><b data-n="1500">0</b><span>Présents attendus le 09.10</span></div>
+    <div class="st reveal"><b data-n="2950" data-p="+">0</b><span>Photos de vous</span><div class="mini"><img src="friends.jpg" alt=""></div></div>
+    <div class="st gold reveal wide"><b data-n="5">0</b><span>DJs résidents</span><div class="djs"><i>Dav</i><i>Whyne</i><i>Amigo</i><i>Ddream</i><i>Fitch</i></div></div>
+    <div class="st reveal"><b data-n="8">0</b><span>Épisodes Keloké cette saison</span><div class="mini"><img src="djs.jpg" alt=""></div></div>
+    <div class="st reveal"><b>∞</b><span>Une seule famille</span><div class="mini"><img src="crowd.jpg" alt=""></div></div>
+  </div>
+</section>
+
+<!-- 9. LA FAMILLE -->
+<section class="fam reveal" id="famille">
+  <div class="vis">
+    <div class="stamp">
+      <svg viewBox="0 0 250 250"><defs><path id="c2" d="M125,125 m-105,0 a105,105 0 1,1 210,0 a105,105 0 1,1 -210,0"/></defs>
+        <text font-family="Space Grotesk" font-size="14" letter-spacing="6.4" fill="#11C98C"><textPath href="#c2">NOUVEAU · INTÉGRÉ · ANCIEN · HÔTE · NOUVEAU · INTÉGRÉ · ANCIEN · HÔTE ·</textPath></text></svg>
+      <div class="core"><img src="picto-souskay-creme.svg" alt=""></div>
+    </div>
+    <span class="cap">Le tampon d'arrivée</span>
+  </div>
+  <div class="form">
+    <h2>Rejoins la <em>famille</em></h2>
+    <p class="lead">Préventes 24 h avant tout le monde, le lieu dévoilé en premier, et ton prénom à l'écran le soir de ta première fois.</p>
+    <div class="steps">
+      <div class="on"><b>Nouveau·elle</b>1re soirée</div>
+      <div class="on"><b>Intégré·e</b>Prévente 24 h</div>
+      <div><b>Ancien·ne</b>3 soirées</div>
+      <div><b>Hôte·sse</b>5 soirées</div>
+    </div>
+    <form id="joinF">
+      <div class="two"><div class="field"><input id="fn" placeholder=" " required><label for="fn">Prénom</label></div><div class="field"><input id="ci" placeholder=" "><label for="ci">Ville</label></div></div>
+      <div class="field"><input id="em" type="email" placeholder=" " required><label for="em">E-mail</label></div>
+      <div class="field"><input id="ph" type="tel" placeholder=" "><label for="ph">Téléphone (WhatsApp)</label></div>
+      <label class="chk"><input type="checkbox" required> J'accepte la politique de confidentialité et de recevoir les annonces Souskay.</label>
+      <button class="send" type="submit">Je m'intègre <span>→</span></button>
+    </form>
+    <div class="ok" id="ok">Bienvenue <span id="okN"></span>, tu es <em>Intégré·e</em>.</div>
+  </div>
+</section>
+
+<!-- 10. FOOTER -->
+<footer class="jag">
+  <div class="bg"><img src="hero3.jpg" alt=""></div>
+  <div class="inner wrap"><div class="fpicto"><img src="picto-souskay-creme.svg" alt=""></div>
+    <div class="fl"><a href="#">Dates</a><a href="#">Rituels</a><a href="#">Souvenirs</a><a href="#">Contact</a><a href="#">La Famille</a><a href="#">Deviens Hôte·sse</a></div>
+    <div class="fsoc"><a href="#">INSTAGRAM</a><a href="#">TIKTOK</a><a href="#">SPOTIFY</a><a href="#">YOUTUBE</a><a href="mailto:contact@souskay.fr">CONTACT@SOUSKAY.FR</a></div>
+    <form class="nl" onsubmit="event.preventDefault();this.querySelector('button').textContent='Merci ✓'"><input type="email" placeholder="Ton e-mail pour la prochaine date" required><button>OK →</button></form>
+  </div>
+  <div class="giant wrap" id="giant"><img src="logo-souskay-creme.svg" alt="Souskay"></div>
+  <div class="wrap legal"><span>© SOUSKAY 2026 · ASSOCIATION</span><a href="#">MENTIONS LÉGALES</a><a href="#">COOKIES</a><a href="#">CONFIDENTIALITÉ</a></div>
+</footer>
+
+<!-- MENU -->
+<nav class="menu" id="menu" aria-hidden="true">
+  <div class="ghost"><img src="picto-souskay-mono-noir.svg" alt=""></div>
+  <ul>
+    <li><a href="#dates"><small>01</small><em>Dates</em><span class="tag">09.10</span></a></li>
+    <li><a href="#souvenirs"><small>02</small><em>Souvenirs</em></a></li>
+    <li><a href="#famille"><small>03</small><em>La Famille</em></a></li>
+    <li><a href="#rituels"><small>04</small><em>Rituels</em></a></li>
+    <li><a href="#famille"><small>05</small><em>Deviens Hôte·sse</em></a></li>
+  </ul>
+  <div class="socials"><a href="#">INSTAGRAM</a><a href="#">TIKTOK</a><a href="#">SPOTIFY</a><a href="#">YOUTUBE</a></div>
+</nav>
+
+<!-- DOCK -->
+<div class="dock" id="dock">
+  <button class="primary" id="primary" onclick="location.hash='dates'">
+    <span class="dot"></span>
+    <span class="lbl"><span class="main">Dates</span><span class="alt">Billets · J-<b id="j">20</b></span></span>
+  </button>
+  <label class="search"><input id="q" placeholder="Une soirée, une ville, un DJ…"></label>
+  <button class="ibtn" id="sbtn" aria-label="Rechercher"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6"/><path d="M12.5 12.5l4 4"/></svg></button>
+  <button class="ibtn" id="mbtn" aria-label="Menu"><span class="grid"><i></i><i></i><i></i><i></i></span></button>
+</div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const IMG={hero2:"hero2.jpg",djs:"djs.jpg"};
+/* hero slideshow */
+let si=0;const slides=$$('.hero .slide');setInterval(()=>{slides[si].classList.remove('on');si=(si+1)%slides.length;slides[si].classList.add('on')},6000);
+/* countdown */
+const target=new Date('2026-10-09T23:30:00+02:00');
+const pad=n=>String(n).padStart(2,'0');
+function tick(){let t=Math.max(0,target-new Date());const d=Math.floor(t/864e5),h=Math.floor(t/36e5)%24,m=Math.floor(t/6e4)%60,s=Math.floor(t/1e3)%60;
+  $('#cdD').textContent=pad(d);$('#cdH').textContent=pad(h);$('#cdM').textContent=pad(m);$('#cdS').textContent=pad(s);$('#j').textContent=d}
+tick();setInterval(tick,1000);
+/* Paris / Martinique toggle */
+const EV={paris:{img:IMG.hero2,serie:'Ouverture de saison',title:"L'<em>Intégration</em>",facts:['Vendredi 9 octobre 2026 · 23h30 → 5h30','Paris · lieu dévoilé aux Intégré·e·s','Show surprise non annoncé'],stock:62,st:'Palier 2 en cours'},
+          mq:{img:IMG.djs,serie:'Cocktails & DJ',title:"<em>Keloké</em>",facts:['Saison 2 · dates bientôt','Le BABA · Martinique','Cocktails, DJ, et la famille au complet'],stock:0,st:'Inscris-toi pour être prévenu·e'}};
+function setPill(b){const p=$('#tog .pill');p.style.left=b.offsetLeft+'px';p.style.width=b.offsetWidth+'px'}
+$$('#tog button').forEach(b=>b.onclick=()=>{$$('#tog button').forEach(x=>x.classList.toggle('on',x===b));setPill(b);const e=EV[b.dataset.c];
+  $('#evImg').src=e.img;$('#evSerie').textContent=e.serie;$('#evTitle').innerHTML=e.title;$('#evFacts').innerHTML=e.facts.map((f,i)=>`<li><i>${['◷','⌖','✦'][i]}</i>${f}</li>`).join('');
+  $('#stockBar').style.width=e.stock+'%';$('#stockTxt').textContent=e.st;$('#cd').style.display=b.dataset.c==='paris'?'grid':'none'});
+addEventListener('load',()=>setPill($('#tog .on')));setTimeout(()=>setPill($('#tog .on')),300);
+/* reveal + counters */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');
+  if(e.target.id==='evt')$('#stockBar').style.width=EV.paris.stock+'%';
+  const b=e.target.querySelector('b[data-n]');if(b&&!b.done){b.done=1;const n=+b.dataset.n,p=b.dataset.p||'',t0=performance.now();
+    const f=t=>{const k=Math.min(1,(t-t0)/1400),v=Math.round(n*(1-Math.pow(1-k,3)));b.textContent=p+v.toLocaleString('fr-FR');if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)}
+  io.unobserve(e.target)}),{threshold:.18});
+$$('.reveal').forEach(el=>io.observe(el));
+/* manifesto word-by-word */
+const mani=$('#mani');const gold=['famille','accueille,','intègre,','toi'];
+mani.innerHTML=mani.textContent.split(' ').map(w=>`<span class="w${gold.includes(w)?' gold':''}">${w}</span>`).join(' ');
+const words=$$('#mani .w');
+/* rail next */
+
+
+/* LittleBig bits */
+const stack=$$('#stackw span'),tix=$('#tix'),tks=$$('.ticket');
+tks.forEach(t=>{t.style.left=t.dataset.x+'%';t.style.top=t.dataset.y+'px'});
+function lbScroll(){const vh=innerHeight;
+  const sr=$('#stackw').getBoundingClientRect(),sp=(vh-sr.top)/(vh+sr.height);
+  stack.forEach(s=>s.style.setProperty('--x',(s.dataset.d*(sp*12-6))+'%'));
+  const tr=tix.getBoundingClientRect(),tp=(vh-tr.top)/(vh+tr.height);
+  tks.forEach(t=>t.style.transform=`translateY(${(tp-.5)*t.dataset.v*-160}px) rotate(${+t.dataset.r+(tp-.5)*t.dataset.v*30}deg)`);
+}
+addEventListener('scroll',lbScroll,{passive:true});lbScroll();
+/* rails: arrows + dots */
+function rail(el,prev,next,dots){const items=[...el.children];dots.innerHTML=items.map(()=>'<i></i>').join('');
+  const step=()=>items[0].offsetWidth+14;
+  const upd=()=>{const i=Math.round(el.scrollLeft/step());[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===Math.min(i,items.length-1)))};
+  prev.onclick=()=>el.scrollBy({left:-step(),behavior:'smooth'});
+  next.onclick=()=>el.scrollBy({left:(el.scrollLeft+el.clientWidth>=el.scrollWidth-5)?-el.scrollWidth:step(),behavior:'smooth'});
+  el.addEventListener('scroll',upd,{passive:true});upd()}
+rail($('#rail'),$('#prevSv'),$('#nextSv'),$('#svDots'));
+rail($('#tl'),$('#prevTl'),$('#nextTl'),$('#tlDots'));
+
+/* join form */
+$('#joinF').onsubmit=e=>{e.preventDefault();$('#okN').textContent=$('#fn').value;e.target.style.display='none';$('#ok').style.display='block';$$('.steps div')[1].classList.add('on')};
+/* dock / menu / search */
+const dock=$('#dock'),menu=$('#menu'),mbtn=$('#mbtn');
+function toggleMenu(on){menu.classList.toggle('on',on);mbtn.classList.toggle('open',on);document.body.classList.toggle('lock',on);menu.setAttribute('aria-hidden',!on);dock.classList.remove('searching','hide')}
+mbtn.onclick=()=>toggleMenu(!menu.classList.contains('on'));
+$$('.menu ul a').forEach(a=>a.onclick=()=>toggleMenu(false));
+$('#sbtn').onclick=()=>{const s=dock.classList.toggle('searching');if(s)setTimeout(()=>$('#q').focus(),300)};
+$('#q').addEventListener('keydown',e=>{if(e.key==='Escape'){dock.classList.remove('searching');e.target.blur()}});
+/* scroll engine */
+let last=0;const slo=$('#slogan'),lines=$$('.slogan .line'),giant=$('#giant');
+function onScroll(){const y=scrollY,vh=innerHeight;
+  dock.classList.toggle('ctx',y>vh*.7);
+  if(!menu.classList.contains('on')&&!dock.classList.contains('searching')){if(y>last+6&&y>vh)dock.classList.add('hide');if(y<last-4)dock.classList.remove('hide')}
+  last=y;
+  const r=slo.getBoundingClientRect(),p=Math.min(1,Math.max(0,-r.top/(r.height-vh)));
+  lines.forEach(l=>l.style.transform=`translateX(${(l.dataset.s>0?-60:0)+l.dataset.s*p*60}%)`);
+  const mr=mani.getBoundingClientRect(),mp=Math.min(1,Math.max(0,(vh*.85-mr.top)/(mr.height+vh*.25)));
+  words.forEach((w,i)=>w.classList.toggle('lit',i<mp*words.length*1.05));
+  
+}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+</script>
+</body>
+</html>
