@@ -174,8 +174,8 @@ tbody tr:hover{background:var(--s2);cursor:pointer}
   <button class="nav on" data-v="dash"><span class="ic">◧</span>Tableau de bord</button>
   <div class="grp">Contenu</div>
   <button class="nav" data-v="home"><span class="ic">⌂</span>Page d'accueil</button>
-  <button class="nav" data-v="events"><span class="ic">◷</span>Dates<span class="ct">6</span></button>
-  <button class="nav" data-v="series"><span class="ic">✦</span>Séries<span class="ct">8</span></button>
+  <button class="nav" data-v="events"><span class="ic">◷</span>Dates<span class="ct">7</span></button>
+  <button class="nav" data-v="series"><span class="ic">✦</span>Séries<span class="ct">6</span></button>
   <button class="nav" data-v="photos"><span class="ic">▣</span>Souvenirs<span class="ct">29</span></button>
   <div class="grp">Audience</div>
   <button class="nav" data-v="forms"><span class="ic">✉</span>Formulaires<span class="ct">12</span></button>
@@ -209,7 +209,7 @@ tbody tr:hover{background:var(--s2);cursor:pointer}
     <div class="card pad">
       <h2>À faire</h2>
       <div class="timeline">
-        <div><b>La Pièce d'Or n'a pas de date</b><small>Affichée « Date à venir » sur le site · <a style="color:var(--mint)" data-go="events">Compléter →</a></small></div>
+        <div><b>Osmose n'a pas de date</b><small>Affichée « Date à venir » sur le site · <a style="color:var(--mint)" data-go="events">Compléter →</a></small></div>
         <div><b>Album « Keloké Ep08 » en brouillon</b><small>49 photos importées, pas encore publié · <a style="color:var(--mint)" data-go="photos">Publier →</a></small></div>
         <div><b>2 inscriptions non transmises au CRM</b><small>Email invalide ou doublon ambigu · <a style="color:var(--mint)" data-go="forms">Voir →</a></small></div>
         <div><b>Aftermovie manquant</b><small>L'ouverture tourne sur le diaporama photo · <a style="color:var(--mint)" data-go="home">Ajouter une vidéo →</a></small></div>
@@ -236,7 +236,7 @@ tbody tr:hover{background:var(--s2);cursor:pointer}
           <div class="blk auto"><div class="h"><span class="grip">⋮⋮</span><span class="num">02</span><span class="t">Prochaines dates</span><span class="sw on"></span></div>
             <div class="b"><div class="f"><label>Titre</label><input value="Prochaines dates"></div><div class="f"><label>Nombre de dates affichées</label><select><option>6</option><option>3</option><option>9</option></select><span class="hint">Les dates viennent de l'onglet Dates (statut « Annoncée » ou « En vente »).</span></div></div></div>
           <div class="blk"><div class="h"><span class="grip">⋮⋮</span><span class="num">03</span><span class="t">Bande « Tickets »</span><span class="sw on"></span></div>
-            <div class="b"><div class="f"><label>Texte</label><input value="Tickets !!! →"></div><div class="f"><label>Noms sur les 4 tickets</label><input value="Keloké, Sex Appeal, La Plage, Pièce d'Or"></div></div></div>
+            <div class="b"><div class="f"><label>Texte</label><input value="Tickets !!! →"></div><div class="f"><label>Noms sur les 4 tickets</label><input value="Keloké, Sex Appeal, La Plage, Osmose"></div></div></div>
           <div class="blk open"><div class="h"><span class="grip">⋮⋮</span><span class="num">04</span><span class="t">Slogan géant</span><span class="tag warn">modifié</span><span class="sw on"></span></div>
             <div class="b"><div class="f"><label>Ligne 1</label><input value="20 ans de nuits"></div><div class="f"><label>Ligne 2</label><input value="Paris ↔ Martinique"></div><div class="f"><label>Ligne 3</label><input value="chic · créole · hip-hop · souskay"></div><div class="f"><label>Texte du badge qui tourne</label><input value="PARIS · MARTINIQUE"></div></div></div>
           <div class="blk"><div class="h"><span class="grip">⋮⋮</span><span class="num">05</span><span class="t">Manifeste</span><span class="tag warn">modifié</span><span class="sw on"></span></div>
@@ -266,12 +266,13 @@ Tes photos</textarea></div><span class="hint">Les réponses arrivent dans Formul
   <div style="padding:26px 28px">
     <div class="toolbar"><div class="search">⌕ <input placeholder="Chercher une date, une série, un lieu…"></div><button class="chip on">À venir</button><button class="chip">Passées</button><button class="chip">Paris</button><button class="chip">Martinique</button></div>
     <div class="card"><table><thead><tr><th></th><th>Soirée</th><th>Série</th><th>Date</th><th>Ville</th><th>Sur le site</th><th>Billetterie</th><th>CRM</th></tr></thead><tbody>
-      <tr data-open="evd"><td><img class="thumb" src="hero2.jpg"></td><td class="name">L'Intégration 2026</td><td>L'Intégration</td><td>Ven. 09.10.2026 · 23h30</td><td>Paris</td><td><span class="tag ok"><i class="dot"></i>En vente</span></td><td>Shotgun · Bizouk</td><td><span class="tag ok">Lié · 1 012 billets</span></td></tr>
-      <tr data-open="evd"><td><img class="thumb" src="djs.jpg"></td><td class="name">Keloké · Saison 2</td><td>Keloké</td><td class="muted">Bientôt</td><td>Martinique</td><td><span class="tag"><i class="dot"></i>Annoncée</span></td><td class="muted">—</td><td><span class="tag">Lié</span></td></tr>
-      <tr data-open="evd"><td><img class="thumb" src="gold.jpg"></td><td class="name">La Pièce d'Or</td><td>La Pièce d'Or</td><td class="muted">Date à venir</td><td>Paris</td><td><span class="tag"><i class="dot"></i>Annoncée</span></td><td class="muted">—</td><td><span class="tag">Lié</span></td></tr>
-      <tr data-open="evd"><td><img class="thumb" src="plage.jpg"></td><td class="name">La Plage · Saison 3</td><td>La Plage</td><td>Été 2027</td><td>Martinique</td><td><span class="tag"><i class="dot"></i>Annoncée</span></td><td class="muted">—</td><td><span class="tag">Lié</span></td></tr>
+      <tr data-open="evd"><td><img class="thumb" src="hero2.jpg"></td><td class="name">L'Intégration 2026</td><td class="muted">Hors série</td><td>Ven. 09.10.2026 · 23h30</td><td>Paris</td><td><span class="tag ok"><i class="dot"></i>En vente</span></td><td>Shotgun · Bizouk</td><td><span class="tag ok">Lié · 1 012 billets</span></td></tr>
+      <tr data-open="evd"><td><img class="thumb" src="mic.jpg"></td><td class="name">Keloké · Saison 2</td><td>Keloké</td><td class="muted">Bientôt</td><td>Martinique</td><td><span class="tag"><i class="dot"></i>Annoncée</span></td><td class="muted">—</td><td><span class="tag">Lié</span></td></tr>
       <tr data-open="evd"><td><img class="thumb" src="girls.jpg"></td><td class="name">Sex Appeal</td><td>Sex Appeal</td><td class="muted">Date à venir</td><td>Paris</td><td><span class="tag"><i class="dot"></i>Annoncée</span></td><td class="muted">—</td><td><span class="tag">Lié</span></td></tr>
-      <tr data-open="evd"><td><img class="thumb" src="sing.jpg"></td><td class="name">Souskay de Star</td><td>Souskay de Star</td><td class="muted">Date à venir</td><td>Paris</td><td><span class="tag draft"><i class="dot"></i>Brouillon</span></td><td class="muted">—</td><td><span class="tag">Lié</span></td></tr>
+      <tr data-open="evd"><td><img class="thumb" src="plage.jpg"></td><td class="name">La Plage · Saison 3</td><td>La Plage</td><td>Été 2027</td><td>Martinique</td><td><span class="tag"><i class="dot"></i>Annoncée</span></td><td class="muted">—</td><td><span class="tag">Lié</span></td></tr>
+      <tr data-open="evd"><td><img class="thumb" src="friends.jpg"></td><td class="name">La Piscine</td><td>La Piscine</td><td class="muted">Date à venir</td><td>Martinique</td><td><span class="tag"><i class="dot"></i>Annoncée</span></td><td class="muted">—</td><td><span class="tag">Lié</span></td></tr>
+      <tr data-open="evd"><td><img class="thumb" src="djs.jpg"></td><td class="name">Osmose</td><td>Osmose</td><td class="muted">Date à venir</td><td>Paris</td><td><span class="tag"><i class="dot"></i>Annoncée</span></td><td class="muted">—</td><td><span class="tag">Lié</span></td></tr>
+      <tr data-open="evd"><td><img class="thumb" src="sing.jpg"></td><td class="name">La Star</td><td>La Star</td><td class="muted">Date à venir</td><td>Paris</td><td><span class="tag draft"><i class="dot"></i>Brouillon</span></td><td class="muted">—</td><td><span class="tag">Lié</span></td></tr>
     </tbody></table></div>
     <div class="legend"><span><b style="color:var(--cream)">Brouillon</b> : invisible</span><span><b style="color:var(--cream)">Annoncée</b> : visible, bouton « Me prévenir »</span><span><b style="color:var(--cream)">En vente</b> : bouton « Billets »</span><span><b style="color:var(--cream)">Complet</b> : badge Complet</span><span><b style="color:var(--cream)">Passée</b> : bascule dans Souvenirs</span></div>
   </div>
@@ -281,16 +282,14 @@ Tes photos</textarea></div><span class="hint">Les réponses arrivent dans Formul
 <section class="view" id="v-series">
   <div class="top"><div><h1>Séries</h1><div class="sub">Les formats de soirée. Chaque date appartient à une série.</div></div><div class="sp"></div><button class="btn pri">+ Nouvelle série</button></div>
   <div style="padding:26px 28px" class="grid g3">
-    <div class="card pad row"><img class="thumb" src="djs.jpg"><div style="flex:1"><div class="name">Keloké</div><div class="muted">Cocktails & DJ · Martinique</div></div><span class="tag">8 éditions</span></div>
+    <div class="card pad row"><img class="thumb" src="mic.jpg"><div style="flex:1"><div class="name">Keloké</div><div class="muted">Cocktails & DJ · Martinique</div></div><span class="tag">8 éditions</span></div>
+    <div class="card pad row"><img class="thumb" src="sing.jpg"><div style="flex:1"><div class="name">La Star</div><div class="muted">Le show</div></div><span class="tag">2 éditions</span></div>
     <div class="card pad row"><img class="thumb" src="plage.jpg"><div style="flex:1"><div class="name">La Plage</div><div class="muted">Pieds dans le sable · été</div></div><span class="tag">5 éditions</span></div>
+    <div class="card pad row"><img class="thumb" src="friends.jpg"><div style="flex:1"><div class="name">La Piscine</div><div class="muted">Au bord de l'eau</div></div><span class="tag">—</span></div>
     <div class="card pad row"><img class="thumb" src="girls.jpg"><div style="flex:1"><div class="name">Sex Appeal</div><div class="muted">Dress code exigé · Paris</div></div><span class="tag">4 éditions</span></div>
-    <div class="card pad row"><img class="thumb" src="gold.jpg"><div style="flex:1"><div class="name">La Pièce d'Or</div><div class="muted">Fin d'année · Paris</div></div><span class="tag">2 éditions</span></div>
-    <div class="card pad row"><img class="thumb" src="sing.jpg"><div style="flex:1"><div class="name">Souskay de Star</div><div class="muted">Le show · Paris</div></div><span class="tag">2 éditions</span></div>
-    <div class="card pad row"><img class="thumb" src="avatar.jpg"><div style="flex:1"><div class="name">Ava.tar</div><div class="muted">Paris</div></div><span class="tag">1 édition</span></div>
-    <div class="card pad row"><img class="thumb" src="hero2.jpg"><div style="flex:1"><div class="name">L'Intégration</div><div class="muted">La rentrée · Paris</div></div><span class="tag">2 éditions</span></div>
-    <div class="card pad row"><img class="thumb" src="friends.jpg"><div style="flex:1"><div class="name">La Villa</div><div class="muted">Martinique</div></div><span class="tag">1 édition</span></div>
+    <div class="card pad row"><img class="thumb" src="djs.jpg"><div style="flex:1"><div class="name">Osmose</div><div class="muted">Les ambiances se mélangent</div></div><span class="tag">1 édition</span></div>
   </div>
-  <div style="padding:0 28px"><div class="card pad" style="max-width:640px"><h2>Modifier une série</h2><div class="two"><div class="f"><label>Nom</label><input value="Keloké"></div><div class="f"><label>Accroche (sous le nom)</label><input value="Cocktails & DJ · Martinique"></div></div><div class="f"><label>Description (page série)</label><textarea>Les jeudis au BABA : cocktails, DJ sets et toute la famille.</textarea></div><div class="two"><div class="f"><label>Visuel</label><div class="drop img"><img src="djs.jpg"><span class="btn sm">Changer</span></div></div><div class="f"><label>Couleur de la série</label><input value="#11C98C"><span class="hint">Retinte la page de la série.</span></div></div></div></div>
+  <div style="padding:0 28px"><div class="card pad" style="max-width:640px"><h2>Modifier une série</h2><div class="two"><div class="f"><label>Nom</label><input value="Keloké"></div><div class="f"><label>Accroche (sous le nom)</label><input value="Cocktails & DJ · Martinique"></div></div><div class="f"><label>Description (page série)</label><textarea>Les jeudis au BABA : cocktails, DJ sets et toute la famille.</textarea></div><div class="two"><div class="f"><label>Visuel</label><div class="drop img"><img src="mic.jpg"><span class="btn sm">Changer</span></div></div><div class="f"><label>Couleur de la série</label><input value="#11C98C"><span class="hint">Retinte la page de la série.</span></div></div></div></div>
 </section>
 
 <!-- ================= SOUVENIRS ================= -->
@@ -369,7 +368,7 @@ Tes photos</textarea></div><span class="hint">Les réponses arrivent dans Formul
   <div class="top"><div><h1>Réglages</h1><div class="sub">Identité du site, réseaux, SEO, connexion CRM.</div></div><div class="sp"></div><button class="btn pri">Enregistrer</button></div>
   <div style="padding:26px 28px" class="grid g2">
     <div class="card pad"><h2>Réseaux & contact</h2><div class="f"><label>Instagram</label><input value="https://instagram.com/souskay"></div><div class="f"><label>TikTok</label><input value="https://tiktok.com/@souskay"></div><div class="f"><label>Spotify</label><input placeholder="Lien playlist"></div><div class="f"><label>YouTube</label><input placeholder="Lien chaîne"></div><div class="f"><label>Email de contact</label><input value="contact@souskay.fr"></div></div>
-    <div class="card pad"><h2>Référencement</h2><div class="f"><label>Titre du site</label><input value="Souskay · Soirées antillaises Paris & Martinique depuis 2006"></div><div class="f"><label>Description</label><textarea>Collectif événementiel : Keloké, La Plage, Sex Appeal, La Pièce d'Or…</textarea></div><div class="f"><label>Image de partage (WhatsApp, Instagram)</label><div class="drop img"><img src="hero1.jpg"><span class="btn sm">Changer</span></div></div></div>
+    <div class="card pad"><h2>Référencement</h2><div class="f"><label>Titre du site</label><input value="Souskay · Soirées antillaises Paris & Martinique depuis 2006"></div><div class="f"><label>Description</label><textarea>Collectif événementiel : Keloké, La Star, La Plage, La Piscine, Sex Appeal, Osmose</textarea></div><div class="f"><label>Image de partage (WhatsApp, Instagram)</label><div class="drop img"><img src="hero1.jpg"><span class="btn sm">Changer</span></div></div></div>
     <div class="card pad"><h2>Connexion CRM</h2><div class="row" style="margin-bottom:10px"><span class="tag ok"><i class="dot"></i>Connecté</span><span class="muted">Même base Supabase que le CRM Souskay</span></div><dl class="kv"><dt>Soirées</dt><dd>table partagée <code>events</code></dd><dt>Inscriptions</dt><dd>fonction <code>site_capture()</code></dd><dt>Équipe</dt><dd>comptes <code>app_users</code> du CRM</dd><dt>Dernier envoi</dt><dd>il y a 4 min · 0 erreur</dd></dl></div>
     <div class="card pad"><h2>Équipe</h2><div class="muted" style="margin-bottom:10px">Mêmes comptes que le CRM. Rôle owner ou staff = peut publier.</div><div class="row" style="justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)"><span>Ludovic</span><span class="tag ok">owner</span></div><div class="row" style="justify-content:space-between;padding:8px 0"><span>Équipe com</span><span class="tag">staff</span></div></div>
   </div>
@@ -384,7 +383,7 @@ Tes photos</textarea></div><span class="hint">Les réponses arrivent dans Formul
     <div class="grid" style="grid-template-columns:1fr 220px;gap:18px;align-items:start">
       <div>
         <div class="sec-t">Infos</div>
-        <div class="two"><div class="f"><label>Nom</label><input value="L'Intégration 2026"></div><div class="f"><label>Série</label><select><option>L'Intégration</option><option>Keloké</option><option>La Plage</option></select></div></div>
+        <div class="two"><div class="f"><label>Nom</label><input value="L'Intégration 2026"></div><div class="f"><label>Série</label><select><option>— Aucune série —</option><option>Keloké</option><option>La Star</option><option>La Plage</option><option>La Piscine</option><option>Sex Appeal</option><option>Osmose</option></select></div></div>
         <div class="two"><div class="f"><label>Date et heure</label><input value="09/10/2026 · 23:30"></div><div class="f"><label>Fin</label><input value="10/10/2026 · 05:30"></div></div>
         <div class="row" style="margin:-4px 0 14px"><span class="sw"></span><span class="muted">Date pas encore fixée → afficher</span><input style="background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px 10px;color:var(--cream);font:inherit" value="Date à venir"></div>
         <div class="sec-t">Lieu</div>
