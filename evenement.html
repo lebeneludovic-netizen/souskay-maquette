@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Souskay — Maquette home</title>
+<title>Souskay — L'Intégration 2026 (page date)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800;125,900&family=Libertinus+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="picto-souskay-noir.svg">
@@ -381,171 +381,126 @@ body.lock{overflow:hidden}
 .buyhint{font-size:11px;color:var(--muted);text-align:center;margin-top:-8px}
 
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01s!important}.reveal{opacity:1;transform:none}}
+
+.evh{position:relative;min-height:88svh;display:flex;align-items:flex-end;overflow:hidden}
+.evh>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.05)}
+.evh::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,11,10,.55) 0%,rgba(14,11,10,.1) 35%,var(--night) 96%)}
+.evh .in{position:relative;z-index:2;padding-bottom:40px;width:100%}
+.back{position:absolute;top:max(26px,env(safe-area-inset-top));left:var(--pad);z-index:41;display:flex;align-items:center;gap:8px;font-size:13px;text-decoration:none;background:rgba(14,11,10,.5);backdrop-filter:blur(8px);border:1px solid rgba(243,235,221,.15);padding:8px 14px;border-radius:99px}
+.evh h1{font:900 clamp(32px,6.8vw,110px)/.88 var(--wide);font-stretch:125%;text-transform:uppercase;letter-spacing:-.04em;margin:14px 0 10px}
+.back{}@media(max-width:700px){.back{top:78px}}
+.evh .when{font:italic clamp(24px,3.4vw,40px)/1.1 var(--serif);color:var(--gold-2)}
+.evh .meta{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:12px;letter-spacing:.2em;text-transform:uppercase;opacity:.85}
+.evbody{display:grid;grid-template-columns:1fr;gap:30px;padding-top:30px;padding-bottom:40px}
+@media(min-width:960px){.evbody{grid-template-columns:1fr 380px;align-items:start}}
+.buybox{background:var(--night-2);border:1px solid var(--night-3);border-radius:24px;padding:20px;position:sticky;top:24px}
+.buybox h3{font:400 28px/1 var(--serif);margin-bottom:6px}
+.buybox p{font-size:13px;color:var(--muted);margin-bottom:16px}
+.tiers{display:grid;gap:8px;margin-bottom:14px}
+.tier{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border:1px solid var(--night-3);border-radius:14px;font-size:14px}
+.tier.out{opacity:.45;text-decoration:line-through}
+.tier b{font-family:var(--serif);font-size:22px;font-weight:400}
+.tier .tag2{font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:var(--mint);color:var(--night);padding:3px 7px;border-radius:99px;margin-left:8px}
+.infos{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:34px}
+@media(min-width:700px){.infos{grid-template-columns:repeat(3,1fr)}}
+.info{background:var(--night-2);border:1px solid var(--night-3);border-radius:18px;padding:16px}
+.info small{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.info b{font-weight:500;font-size:16px}
+.desc p{font:400 clamp(22px,2.6vw,30px)/1.3 var(--serif);max-width:720px;margin-bottom:18px}
+.desc p.small{font:14px/1.6 var(--sans);color:#D9CFC0}
+.map{margin:34px 0;border-radius:22px;overflow:hidden;border:1px solid var(--night-3);height:240px;position:relative;background:
+ repeating-linear-gradient(0deg,transparent 0 38px,rgba(243,235,221,.05) 38px 39px),repeating-linear-gradient(90deg,transparent 0 38px,rgba(243,235,221,.05) 38px 39px),#15110F;display:grid;place-items:center;text-align:center}
+.map .pin{width:60px;margin:0 auto 10px}
+.map small{color:var(--muted);font-size:13px}
+.blockt{display:flex;justify-content:space-between;align-items:baseline;margin:50px 0 20px}
+.blockt h2{font:400 clamp(30px,4.5vw,52px)/1 var(--serif)}
+.blockt a{font-size:14px;text-decoration:none}.blockt a b{color:var(--mint)}
+.ed{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:800px){.ed{grid-template-columns:repeat(4,1fr)}}
+.ed a{text-decoration:none}
+.ed .p{background:var(--cream);padding:8px 8px 0;border-radius:4px;transform:rotate(var(--r));transition:transform .4s cubic-bezier(.3,1.6,.5,1);box-shadow:0 10px 24px rgba(0,0,0,.35)}
+.ed a:hover .p{transform:rotate(0) translateY(-5px)}
+.ed .p img{aspect-ratio:4/5;object-fit:cover;width:100%}
+.ed .p span{display:block;font:italic 17px var(--serif);color:var(--night);padding:8px 2px 10px}
+.variant{margin-top:40px;border:1.5px dashed rgba(17,201,140,.4);border-radius:22px;padding:20px}
+.variant .lbl{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mint);margin-bottom:10px}
+.notify{display:flex;gap:8px;flex-wrap:wrap}
+.notify input{flex:1;min-width:180px;background:var(--night);border:1px solid var(--night-3);border-radius:12px;padding:13px 14px;color:var(--cream);font:inherit;outline:0}
+.notify button{border:0;border-radius:12px;padding:13px 18px;background:var(--mint);color:var(--night);font:600 14px var(--sans);cursor:pointer}
+.others{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:800px){.others{grid-template-columns:repeat(3,1fr)}}
+.oc{display:flex;gap:12px;align-items:center;background:var(--night-2);border:1px solid var(--night-3);border-radius:18px;padding:10px;text-decoration:none;transition:border-color .3s}
+.oc:hover{border-color:var(--mint)}
+.oc img{width:74px;height:74px;border-radius:12px;object-fit:cover}
+.oc b{font:900 16px/1 var(--wide);font-stretch:125%;text-transform:uppercase;display:block;margin-bottom:4px}
+.oc span{font:italic 16px var(--serif);color:var(--gold-2)}
 </style>
 </head>
 <body>
-
 <a class="logo" href="#" aria-label="Souskay"><img src="logo-souskay-creme.svg" alt="Souskay"></a>
 
-<!-- 1. HERO (aftermovie : ici diaporama de vraies photos Souskay en attendant la vidéo) -->
-<header class="hero" id="top">
-  <div class="slide on"><img src="hero1.jpg" alt=""></div>
-  <div class="slide"><img src="hero2.jpg" alt=""></div>
-  <div class="slide"><img src="hero3.jpg" alt=""></div>
-  <div class="slide"><img src="show.jpg" alt=""></div>
-  <div class="wrap hero-meta">
-    <span class="eyebrow">Paris ↔ Martinique · depuis 2006</span>
-    <button class="sound" aria-label="Activer le son"><span class="bars"><i></i><i></i><i></i></span>Son</button>
+<a class="back" href="index.html#dates">← Toutes les dates</a>
+<header class="evh">
+  <img src="hero2.jpg" alt="">
+  <div class="in wrap">
+    <span class="sticker">Ouverture de saison</span>
+    <h1>L'Intégration</h1>
+    <div class="when">Vendredi 9 octobre 2026</div>
+    <div class="meta"><span>Paris</span><span>23h30 → 5h30</span><span>Série · L'Intégration</span></div>
   </div>
 </header>
-
-<!-- 2. PROCHAINES DATES -->
-<section class="next wrap" id="dates">
-  <div class="head reveal"><h2>Prochaines dates</h2><a href="#">Tout l'agenda <b>→</b></a></div>
-  <div class="toggle reveal" id="tog"><span class="pill"></span><button class="on" data-c="all">Tout</button><button data-c="paris">Paris</button><button data-c="mq">Martinique</button></div>
-  <div class="agenda reveal" id="agenda">
-    <article class="ev" data-c="paris"><div class="pic"><img src="hero2.jpg" alt=""><span class="sticker">Ouverture de saison</span><span class="city">Paris</span></div>
-      <div class="b"><h3>L'Intégration</h3><span class="when">Vendredi 9 octobre</span><p>La rentrée de la famille Souskay.</p><a class="cta" href="evenement.html">Billets <span>→</span></a></div></article>
-    <article class="ev" data-c="mq"><div class="pic"><img src="djs.jpg" alt=""><span class="sticker cream">Cocktails & DJ</span><span class="city">Martinique</span></div>
-      <div class="b"><h3>Keloké</h3><span class="when">Saison 2 · bientôt</span><p>Les jeudis au BABA, cocktails et DJ sets.</p><a class="cta ghost" href="#">Me prévenir <span>→</span></a></div></article>
-    <article class="ev" data-c="paris"><div class="pic"><img src="gold.jpg" alt=""><span class="sticker">Dress code : or</span><span class="city">Paris</span></div>
-      <div class="b"><h3>La Pièce d'Or</h3><span class="when">Date à venir</span><p>La soirée de fin d'année.</p><a class="cta ghost" href="#">Me prévenir <span>→</span></a></div></article>
-    <article class="ev" data-c="mq"><div class="pic"><img src="plage.jpg" alt=""><span class="sticker cream">Pieds dans le sable</span><span class="city">Martinique</span></div>
-      <div class="b"><h3>La Plage</h3><span class="when">Saison 3 · été 2027</span><p>Le day-party face à la mer.</p><a class="cta ghost" href="#">Me prévenir <span>→</span></a></div></article>
-    <article class="ev" data-c="paris"><div class="pic"><img src="girls.jpg" alt=""><span class="sticker">Dress code exigé</span><span class="city">Paris</span></div>
-      <div class="b"><h3>Sex Appeal</h3><span class="when">Date à venir</span><p>Deux salles, deux ambiances.</p><a class="cta ghost" href="#">Me prévenir <span>→</span></a></div></article>
-    <article class="ev" data-c="paris"><div class="pic"><img src="sing.jpg" alt=""><span class="sticker cream">Le show</span><span class="city">Paris</span></div>
-      <div class="b"><h3>Souskay de Star</h3><span class="when">Date à venir</span><p>La soirée où la salle devient la scène.</p><a class="cta ghost" href="#">Me prévenir <span>→</span></a></div></article>
-  </div>
-  <div class="railfoot" id="agFoot"><div class="dots" id="agDots"></div><span class="hint">Glisse →</span><div class="arrows"><button id="prevAg" aria-label="Précédent"><span>←</span></button><button id="nextAg" aria-label="Suivant"><span>→</span></button></div></div>
-</section>
-
-<!-- TICKET RAIN (LittleBig) -->
-<div class="tix" id="tix" onclick="document.getElementById('dates').scrollIntoView({behavior:'smooth'})">
-  <div class="zig"></div>
-  <div class="ticket" data-x="4" data-y="120" data-r="-18" data-v="1.2"><svg viewBox="0 0 250 110"><path d="M12 0h226a12 12 0 0 0 12 12v30a13 13 0 0 0 0 26v30a12 12 0 0 0-12 12H12A12 12 0 0 0 0 98V68a13 13 0 0 0 0-26V12A12 12 0 0 0 12 0z" fill="#F3EBDD"/><line x1="190" y1="10" x2="190" y2="100" stroke="#0E0B0A" stroke-width="2" stroke-dasharray="4 5"/><text x="20" y="52" font-family="Libertinus Serif,Georgia,serif" font-style="italic" font-size="28" fill="#0E0B0A">Keloké</text><text x="21" y="80" font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2" fill="#0E0B0A">SOUSKAY · ADMIT ONE</text><text x="220" y="55" font-family="Archivo" font-weight="900" font-size="10" letter-spacing="2" fill="#0E0B0A" transform="rotate(90 220 55)" text-anchor="middle">SOUSKAY</text></svg></div>
-  <div class="ticket" data-x="30" data-y="60" data-r="12" data-v="-.8"><svg viewBox="0 0 250 110"><path d="M12 0h226a12 12 0 0 0 12 12v30a13 13 0 0 0 0 26v30a12 12 0 0 0-12 12H12A12 12 0 0 0 0 98V68a13 13 0 0 0 0-26V12A12 12 0 0 0 12 0z" fill="#0E0B0A"/><line x1="190" y1="10" x2="190" y2="100" stroke="#11C98C" stroke-width="2" stroke-dasharray="4 5"/><text x="20" y="52" font-family="Libertinus Serif,Georgia,serif" font-style="italic" font-size="28" fill="#11C98C">Sex Appeal</text><text x="21" y="80" font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2" fill="#11C98C">SOUSKAY · ADMIT ONE</text><text x="220" y="55" font-family="Archivo" font-weight="900" font-size="10" letter-spacing="2" fill="#11C98C" transform="rotate(90 220 55)" text-anchor="middle">SOUSKAY</text></svg></div>
-  <div class="ticket" data-x="56" data-y="140" data-r="-8" data-v="1"><svg viewBox="0 0 250 110"><path d="M12 0h226a12 12 0 0 0 12 12v30a13 13 0 0 0 0 26v30a12 12 0 0 0-12 12H12A12 12 0 0 0 0 98V68a13 13 0 0 0 0-26V12A12 12 0 0 0 12 0z" fill="#F3EBDD"/><line x1="190" y1="10" x2="190" y2="100" stroke="#0B6B4B" stroke-width="2" stroke-dasharray="4 5"/><text x="20" y="52" font-family="Libertinus Serif,Georgia,serif" font-style="italic" font-size="28" fill="#0B6B4B">La Plage</text><text x="21" y="80" font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2" fill="#0B6B4B">SOUSKAY · ADMIT ONE</text><text x="220" y="55" font-family="Archivo" font-weight="900" font-size="10" letter-spacing="2" fill="#0B6B4B" transform="rotate(90 220 55)" text-anchor="middle">SOUSKAY</text></svg></div>
-  <div class="ticket" data-x="78" data-y="70" data-r="20" data-v="-1.3"><svg viewBox="0 0 250 110"><path d="M12 0h226a12 12 0 0 0 12 12v30a13 13 0 0 0 0 26v30a12 12 0 0 0-12 12H12A12 12 0 0 0 0 98V68a13 13 0 0 0 0-26V12A12 12 0 0 0 12 0z" fill="#0E0B0A"/><line x1="190" y1="10" x2="190" y2="100" stroke="#F3EBDD" stroke-width="2" stroke-dasharray="4 5"/><text x="20" y="52" font-family="Libertinus Serif,Georgia,serif" font-style="italic" font-size="28" fill="#F3EBDD">Pièce d'Or</text><text x="21" y="80" font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2" fill="#F3EBDD">SOUSKAY · ADMIT ONE</text><text x="220" y="55" font-family="Archivo" font-weight="900" font-size="10" letter-spacing="2" fill="#F3EBDD" transform="rotate(90 220 55)" text-anchor="middle">SOUSKAY</text></svg></div>
-  <div class="claim">Tickets !!! →</div>
-</div>
-
-<!-- 3. SLOGAN -->
-<section class="slogan" id="slogan" aria-label="20 ans de nuits, Paris Martinique">
-  <div class="stick">
-    <div class="line" data-s="-1">20 ans de <em>nuits</em> · 20 ans de <em>nuits</em> · 20 ans de <em>nuits</em> ·</div>
-    <div class="line" data-s="1">Paris ↔ <em>Martinique</em> · Paris ↔ <em>Martinique</em> · Paris ↔ <em>Martinique</em> ·</div>
-    <div class="line" data-s="-1">chic · créole · hip-hop · <em>souskay</em> · chic · créole · hip-hop · <em>souskay</em> ·</div>
-    <div class="badge">
-      <svg viewBox="0 0 170 170"><defs><path id="c" d="M85,85 m-70,0 a70,70 0 1,1 140,0 a70,70 0 1,1 -140,0"/></defs>
-        <text font-family="Space Grotesk" font-size="11.5" letter-spacing="4.2" fill="#F3EBDD"><textPath href="#c">PARIS · MARTINIQUE · PARIS · MARTINIQUE ·</textPath></text></svg>
-      <div class="badge-core"><img src="picto-souskay-creme.svg" alt=""></div>
+<section class="wrap evbody">
+  <div>
+    <div class="infos reveal">
+      <div class="info"><small>Date</small><b>Ven. 09.10.2026</b></div>
+      <div class="info"><small>Horaires</small><b>23h30 → 5h30</b></div>
+      <div class="info"><small>Lieu</small><b>Dévoilé aux inscrits</b></div>
+      <div class="info"><small>Dress code</small><b>Chic</b></div>
+      <div class="info"><small>Âge</small><b>18 ans et +</b></div>
+      <div class="info"><small>Ville</small><b>Paris</b></div>
+    </div>
+    <div class="desc reveal">
+      <p>La rentrée de la famille Souskay. La première date de la saison, celle où tout le monde revient.</p>
+      <p class="small">Texte de présentation de la soirée, éditable dans le back-office (onglet Dates → Description). Line-up, déroulé, infos pratiques : tout ce qui aide à décider.</p>
+    </div>
+    <div class="map reveal"><div><img class="pin" src="picto-souskay-creme.svg" alt=""><b>Le lieu sera dévoilé 48 h avant</b><br><small>aux inscrits de la famille · l'adresse et la carte s'affichent ici ensuite</small></div></div>
+    <div class="blockt"><h2>La série en photos</h2><a href="souvenirs.html">Tous les souvenirs <b>→</b></a></div>
+    <div class="ed">
+      <a href="souvenirs.html#album"><div class="p" style="--r:-3deg"><img src="hero1.jpg" alt=""><span>Édition 2025 · VB</span></div></a>
+      <a href="souvenirs.html#album"><div class="p" style="--r:2deg"><img src="crowd.jpg" alt=""><span>Édition 2025 · Laury</span></div></a>
+      <a href="souvenirs.html#album"><div class="p" style="--r:-1deg"><img src="hero3.jpg" alt=""><span>La salle</span></div></a>
+      <a href="souvenirs.html#album"><div class="p" style="--r:3deg"><img src="show.jpg" alt=""><span>Le show</span></div></a>
+    </div>
+    <div class="variant">
+      <div class="lbl">Variante · date « Annoncée » (pas encore en vente)</div>
+      <h3 style="font:400 26px var(--serif);margin-bottom:6px">Sois prévenu·e en premier</h3>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:14px">Le bloc Billets est remplacé par ce formulaire. La réponse part dans le CRM avec le tag de la série.</p>
+      <form class="notify" onsubmit="event.preventDefault();this.innerHTML='<b>C\'est noté, tu seras prévenu·e.</b>'"><input type="email" placeholder="Ton e-mail" required><input type="tel" placeholder="Ton téléphone (optionnel)"><button>Me prévenir →</button></form>
     </div>
   </div>
-</section>
-
-<!-- 4. MANIFESTE -->
-<section class="manifesto wrap">
-  <span class="eyebrow">Le manifeste</span>
-  <div class="mani-wrap"><p id="mani" style="margin-top:22px">Depuis 20 ans, Souskay fait vivre la nuit antillaise entre Paris et la Martinique. Un collectif, des séries de soirées qui ont chacune leur caractère, et une famille qui s'habille pour sortir.</p>
-  <div class="shards reveal"><div class="s1 shard"><img src="girls.jpg" alt=""></div><div class="s2 shard"><img src="crowd.jpg" alt=""></div><span class="sticker">Chic · créole · hip-hop</span></div></div>
-  <div class="sig reveal"><i></i><span class="eyebrow">Chic · créole · hip-hop</span></div>
-</section>
-
-<!-- 5. SOUVENIRS -->
-<section class="souv jag" id="souvenirs">
-  <div class="wrap">
-    <div class="stackw" id="stackw" aria-label="Retrouve-toi"><span data-d="1">!Retrouve-toi!</span><span data-d="-1">!Retrouve-toi!</span><span data-d="1">!Retrouve-toi!</span><span data-d="-1">!Retrouve-toi!</span></div>
-    <div class="head reveal"><h2 style="white-space:normal">Soirée après soirée.</h2><a href="souvenirs.html">Tous les souvenirs <b>→</b></a></div>
-    <div class="video reveal"><img src="show.jpg" alt=""><div class="play"><svg class="ring" viewBox="0 0 120 120"><defs><path id="c3" d="M60,60 m-48,0 a48,48 0 1,1 96,0 a48,48 0 1,1 -96,0"/></defs><text font-family="Archivo" font-weight="900" font-size="11" letter-spacing="2.6" fill="#F3EBDD"><textPath href="#c3">VOIR L'AFTERMOVIE · VOIR L'AFTERMOVIE ·</textPath></text></svg><div class="core"><svg width="26" height="26" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="#0E0B0A"/></svg></div></div><span class="cap">Aftermovie · Saison 2025-26</span><a class="sticker dark" href="#" style="position:absolute;right:16px;top:16px">Playlist Spotify <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></a></div>
-    <div class="rail" id="rail">
-      <a class="sv" href="souvenirs.html#album"><div class="ph" style="--r:-3deg"><span class="tape"></span><img src="mic.jpg" alt=""><span>KELOKÉ · EP08</span><span class="capt">The Last</span></div><h3>The Last</h3><p>Martinique · sept. 2026 · 49 photos</p></a>
-      <a class="sv" href="souvenirs.html#album"><div class="ph" style="--r:2deg"><span class="tape"></span><img src="plage.jpg" alt=""><span>LA PLAGE · S02</span><span class="capt">La Plage E03</span></div><h3>Épisode 03</h3><p>Martinique · sept. 2026</p></a>
-      <a class="sv" href="souvenirs.html#album"><div class="ph" style="--r:-1.5deg"><span class="tape"></span><img src="avatar.jpg" alt=""><span>AVA.TAR</span><span class="capt">Ava.tar</span></div><h3>Ava.tar</h3><p>Paris · fév. 2026</p></a>
-      <a class="sv" href="souvenirs.html#album"><div class="ph" style="--r:3deg"><span class="tape"></span><img src="sing.jpg" alt=""><span>SOUSKAY DE STAR</span><span class="capt">Souskay de Star</span></div><h3>Souskay de Star 25</h3><p>Paris · jan. 2026</p></a>
-      <a class="sv" href="souvenirs.html#album"><div class="ph" style="--r:-2.5deg"><span class="tape"></span><img src="hug.jpg" alt=""><span>KELOKÉ · EP06</span><span class="capt">Keloké Ep06</span></div><h3>Épisode 06</h3><p>Martinique · août 2026</p></a>
+  <aside class="buybox reveal">
+    <h3>Billets</h3>
+    <p>Paiement sécurisé chez notre billetterie partenaire.</p>
+    <div class="tiers">
+      <div class="tier out"><span>Early</span><b>—</b></div>
+      <div class="tier"><span>Prévente 1<span class="tag2">en cours</span></span><b>—</b></div>
+      <div class="tier"><span>Prévente 2</span><b>—</b></div>
+      <div class="tier"><span>Sur place</span><b>—</b></div>
     </div>
-    <div class="railfoot"><div class="dots" id="svDots"></div><span class="hint">Glisse →</span><div class="arrows"><button id="prevSv" aria-label="Précédent"><span>←</span></button><button id="nextSv" aria-label="Suivant"><span>→</span></button></div></div>
+    <a class="buy" href="#">Acheter sur Shotgun <small>→</small></a>
+    <a class="buy" href="#" style="margin-top:8px;background:none;border:1.5px solid rgba(243,235,221,.25);color:var(--cream)">Acheter sur Bizouk <small>→</small></a>
+    <p class="buyhint" style="margin-top:12px">Paliers et prix : saisis dans le back-office (ou lus depuis le CRM)</p>
+  </aside>
+</section>
+<section class="wrap" style="padding-bottom:40px">
+  <div class="blockt"><h2>Les autres dates</h2><a href="index.html#dates">Tout l'agenda <b>→</b></a></div>
+  <div class="others">
+    <a class="oc" href="#"><img src="djs.jpg" alt=""><div><b>Keloké</b><span>Saison 2 · bientôt</span></div></a>
+    <a class="oc" href="#"><img src="gold.jpg" alt=""><div><b>La Pièce d'Or</b><span>Date à venir</span></div></a>
+    <a class="oc" href="#"><img src="plage.jpg" alt=""><div><b>La Plage</b><span>Été 2027</span></div></a>
   </div>
 </section>
 
-<!-- 6. 20 ANS D'HISTOIRE -->
-<section class="rit jag" id="histoire">
-  <div class="vstrip"><div>20 ANS DE NUITS · PARIS ↔ MARTINIQUE · 20 ANS DE NUITS · PARIS ↔ MARTINIQUE · 20 ANS DE NUITS · PARIS ↔ MARTINIQUE ·</div></div>
-  <div class="wrap">
-    <div class="twenty reveal">20<span>ans de nuits</span></div>
-    <div class="head reveal"><h2>L'histoire</h2><a href="#">Toute l'histoire <b>→</b></a></div>
-    <p class="intro reveal">Des premières soirées aux séries d'aujourd'hui : un collectif qui n'a jamais arrêté de faire danser Paris et la Martinique.</p>
-    <div class="tl" id="tl">
-      <div class="rt"><span class="n">01</span><span class="h">2006</span><h3>Les débuts</h3><p>Les premières soirées Souskay. La nuit antillaise, en mieux habillée.</p></div>
-      <div class="rt"><span class="n">02</span><span class="h">2023</span><h3>Sex Appeal</h3><p>Deux salles, deux ambiances, et un dress code qui ne pardonne pas.</p></div>
-      <div class="rt"><span class="n">03</span><span class="h">2025</span><h3>Totem · Carnaval · La Plage</h3><p>Le carnaval, puis les premiers pieds dans le sable.</p></div>
-      <div class="rt"><span class="n">04</span><span class="h">2025-26</span><h3>La saison des séries</h3><p>L'Intégration, La Pièce d'Or, Souskay de Star, Ava.tar.</p></div>
-      <div class="rt"><span class="n">05</span><span class="h">2026</span><h3>Keloké · La Villa</h3><p>Les jeudis Keloké au BABA, La Villa, Osmose, Baya, Obsession.</p></div>
-      <div class="rt hl"><span class="n">06</span><span class="h">2026-27</span><h3>La suite</h3><p>20 ans, et la saison ne fait que commencer.</p></div>
-    </div>
-    <div class="railfoot" style="color:var(--cream)"><div class="dots" id="tlDots"></div><span class="hint">Glisse →</span><div class="arrows"><button id="prevTl" aria-label="Précédent"><span>←</span></button><button id="nextTl" aria-label="Suivant"><span>→</span></button></div></div>
-  </div>
-</section>
-
-<!-- 7. SERIES -->
-<section class="series wrap" id="series">
-  <div class="head reveal"><h2>Les séries</h2><span class="sticker cream" style="transform:rotate(4deg)">+10 séries</span></div>
-  <ul class="slist">
-    <li><a href="#"><span class="th"><img src="djs.jpg" alt=""></span><span class="nm">Keloké</span><span class="tg">Cocktails & DJ · Martinique</span></a></li>
-    <li><a href="#"><span class="th"><img src="plage.jpg" alt=""></span><span class="nm">La Plage</span><span class="tg">Pieds dans le sable · été</span></a></li>
-    <li><a href="#"><span class="th"><img src="girls.jpg" alt=""></span><span class="nm">Sex Appeal</span><span class="tg">Dress code exigé · Paris</span></a></li>
-    <li><a href="#"><span class="th"><img src="gold.jpg" alt=""></span><span class="nm">La Pièce d'Or</span><span class="tg">Fin d'année · Paris</span></a></li>
-    <li><a href="#"><span class="th"><img src="sing.jpg" alt=""></span><span class="nm">Souskay de Star</span><span class="tg">Le show · Paris</span></a></li>
-    <li><a href="#"><span class="th"><img src="avatar.jpg" alt=""></span><span class="nm">Ava.tar</span><span class="tg">Paris</span></a></li>
-    <li><a href="#"><span class="th"><img src="hero2.jpg" alt=""></span><span class="nm">L'Intégration</span><span class="tg">La rentrée · Paris</span></a></li>
-    <li><a href="#"><span class="th"><img src="friends.jpg" alt=""></span><span class="nm">La Villa</span><span class="tg">Martinique</span></a></li>
-  </ul>
-</section>
-
-<!-- 8. CHIFFRES -->
-<section class="stats wrap">
-  <div class="head reveal"><h2>Souskay en chiffres</h2></div>
-  <div class="bento">
-    <div class="st dark reveal"><b data-n="20">0</b><span>Ans de soirées</span></div>
-    <div class="st reveal"><b data-n="2">0</b><span>Territoires · Paris & Martinique</span><div class="mini"><img src="plage.jpg" alt=""></div></div>
-    <div class="st reveal"><b data-n="29">0</b><span>Albums photo en ligne</span><div class="mini"><img src="friends.jpg" alt=""></div></div>
-    <div class="st reveal"><b>∞</b><span>Une seule famille</span><div class="mini"><img src="crowd.jpg" alt=""></div></div>
-    <div class="st gold reveal wide"><b data-n="10" data-p="+">0</b><span>Séries de soirées</span><div class="djs"><i>Keloké</i><i>La Plage</i><i>Sex Appeal</i><i>La Pièce d'Or</i><i>Souskay de Star</i><i>Ava.tar</i><i>La Villa</i></div></div>
-  </div>
-</section>
-
-<!-- 9. LA FAMILLE -->
-<section class="fam reveal" id="famille">
-  <div class="vis">
-    <div class="stamp">
-      <svg viewBox="0 0 250 250"><defs><path id="c2" d="M125,125 m-105,0 a105,105 0 1,1 210,0 a105,105 0 1,1 -210,0"/></defs>
-        <text font-family="Space Grotesk" font-size="13" letter-spacing="4.2" fill="#11C98C"><textPath href="#c2" textLength="655" lengthAdjust="spacing">PARIS · MARTINIQUE · DEPUIS 2006 · PARIS · MARTINIQUE · DEPUIS 2006 ·</textPath></text></svg>
-      <div class="core"><img src="picto-souskay-creme.svg" alt=""></div>
-    </div>
-    <span class="cap">La famille Souskay</span>
-  </div>
-  <div class="form">
-    <h2>Rejoins la <em>famille</em></h2>
-    <p class="lead">Toutes les soirées Souskay, à Paris comme en Martinique, avant tout le monde.</p>
-    <ul class="perks">
-      <li><b>Les dates en premier</b>Chaque annonce avant les réseaux</li>
-      <li><b>Les préventes</b>Au meilleur prix, réservées à la famille</li>
-      <li><b>Les lieux dévoilés</b>Avant tout le monde</li>
-      <li><b>Tes photos</b>Après chaque soirée</li>
-    </ul>
-    <form id="joinF">
-      <div class="two"><div class="field"><input id="fn" placeholder=" " required><label for="fn">Prénom</label></div><div class="field"><input id="ci" placeholder=" "><label for="ci">Ville</label></div></div>
-      <div class="field"><input id="em" type="email" placeholder=" " required><label for="em">E-mail</label></div>
-      <div class="field"><input id="ph" type="tel" placeholder=" "><label for="ph">Téléphone (WhatsApp)</label></div>
-      <label class="chk"><input type="checkbox" required> J'accepte la politique de confidentialité et de recevoir les annonces Souskay.</label>
-      <button class="send" type="submit">Rejoindre la famille <span>→</span></button>
-    </form>
-    <div class="ok" id="ok">Bienvenue dans la <em>famille</em>, <span id="okN"></span>.</div>
-  </div>
-</section>
-
-<!-- 10. FOOTER -->
 <footer class="jag">
   <div class="bg"><img src="hero3.jpg" alt=""></div>
   <div class="inner wrap"><div class="fpicto"><img src="picto-souskay-creme.svg" alt=""></div>
@@ -556,7 +511,6 @@ body.lock{overflow:hidden}
   <div class="giant wrap" id="giant"><img src="logo-souskay-creme.svg" alt="Souskay"></div>
   <div class="wrap legal"><span>© SOUSKAY 2026 · ASSOCIATION</span><a href="#">MENTIONS LÉGALES</a><a href="#">COOKIES</a><a href="#">CONFIDENTIALITÉ</a></div>
 </footer>
-
 <!-- MENU -->
 <nav class="menu" id="menu" aria-hidden="true">
   <div class="ghost"><img src="picto-souskay-mono-noir.svg" alt=""></div>
@@ -574,7 +528,7 @@ body.lock{overflow:hidden}
 <div class="dock" id="dock">
   <button class="primary" id="primary" onclick="location.hash='dates'">
     <span class="dot"></span>
-    <span class="lbl"><span class="main">Dates</span><span class="alt">Prochaine date · 09.10</span></span>
+    <span class="lbl"><span class="main">Dates</span><span class="alt">Billets · Shotgun</span></span>
   </button>
   <label class="search"><input id="q" placeholder="Une soirée, une ville, un DJ…"></label>
   <button class="ibtn" id="sbtn" aria-label="Rechercher"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="6"/><path d="M12.5 12.5l4 4"/></svg></button>
@@ -583,69 +537,12 @@ body.lock{overflow:hidden}
 
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-/* hero slideshow */
-let si=0;const slides=$$('.hero .slide');setInterval(()=>{slides[si].classList.remove('on');si=(si+1)%slides.length;slides[si].classList.add('on')},6000);
-/* agenda filter */
-function setPill(b){const p=$('#tog .pill');p.style.left=b.offsetLeft+'px';p.style.width=b.offsetWidth+'px'}
-$$('#tog button').forEach(b=>b.onclick=()=>{$$('#tog button').forEach(x=>x.classList.toggle('on',x===b));setPill(b);
-  $$('#agenda .ev').forEach(ev=>ev.classList.toggle('hidden',b.dataset.c!=='all'&&ev.dataset.c!==b.dataset.c));$('#agenda').scrollLeft=0;agRail.refresh()});
-addEventListener('load',()=>setPill($('#tog .on')));setTimeout(()=>setPill($('#tog .on')),300);
-/* reveal + counters */
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;e.target.classList.add('in');
-  const b=e.target.querySelector('b[data-n]');if(b&&!b.done){b.done=1;const n=+b.dataset.n,p=b.dataset.p||'',t0=performance.now();
-    const f=t=>{const k=Math.min(1,(t-t0)/1400),v=Math.round(n*(1-Math.pow(1-k,3)));b.textContent=p+v.toLocaleString('fr-FR');if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)}
-  io.unobserve(e.target)}),{threshold:.18});
-$$('.reveal').forEach(el=>io.observe(el));
-/* manifesto word-by-word */
-const mani=$('#mani');const gold=['20','antillaise','caractère,','famille'];
-mani.innerHTML=mani.textContent.split(' ').map(w=>`<span class="w${gold.includes(w)?' gold':''}">${w}</span>`).join(' ');
-const words=$$('#mani .w');
-/* rail next */
-
-
-/* LittleBig bits */
-const stack=$$('#stackw span'),tix=$('#tix'),tks=$$('.ticket');
-tks.forEach(t=>{t.style.left=t.dataset.x+'%';t.style.top=t.dataset.y+'px'});
-function lbScroll(){const vh=innerHeight;
-  const sr=$('#stackw').getBoundingClientRect(),sp=(vh-sr.top)/(vh+sr.height);
-  stack.forEach(s=>s.style.setProperty('--x',(s.dataset.d*(sp*12-6))+'%'));
-  const tr=tix.getBoundingClientRect(),tp=(vh-tr.top)/(vh+tr.height);
-  tks.forEach(t=>t.style.transform=`translateY(${(tp-.5)*t.dataset.v*-160}px) rotate(${+t.dataset.r+(tp-.5)*t.dataset.v*30}deg)`);
-}
-addEventListener('scroll',lbScroll,{passive:true});lbScroll();
-/* rails: arrows + dots */
-function rail(el,prev,next,dots){let items;const build=()=>{items=[...el.children].filter(c=>!c.classList.contains('hidden'));dots.innerHTML=items.map(()=>'<i></i>').join('')};build();
-  const step=()=>items[0].offsetWidth+14;
-  const upd=()=>{const i=Math.round(el.scrollLeft/step());[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===Math.min(i,items.length-1)))};
-  prev.onclick=()=>el.scrollBy({left:-step(),behavior:'smooth'});
-  next.onclick=()=>el.scrollBy({left:(el.scrollLeft+el.clientWidth>=el.scrollWidth-5)?-el.scrollWidth:step(),behavior:'smooth'});
-  el.addEventListener('scroll',upd,{passive:true});upd();return{refresh(){build();upd()}}}
-rail($('#rail'),$('#prevSv'),$('#nextSv'),$('#svDots'));
-rail($('#tl'),$('#prevTl'),$('#nextTl'),$('#tlDots'));
-const agRail=rail($('#agenda'),$('#prevAg'),$('#nextAg'),$('#agDots'));
-
-/* join form */
-$('#joinF').onsubmit=e=>{e.preventDefault();$('#okN').textContent=$('#fn').value;e.target.style.display='none';$('#ok').style.display='block'};
-/* dock / menu / search */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});$$('.reveal').forEach(el=>io.observe(el));
 const dock=$('#dock'),menu=$('#menu'),mbtn=$('#mbtn');
-function toggleMenu(on){menu.classList.toggle('on',on);mbtn.classList.toggle('open',on);document.body.classList.toggle('lock',on);menu.setAttribute('aria-hidden',!on);dock.classList.remove('searching','hide')}
-mbtn.onclick=()=>toggleMenu(!menu.classList.contains('on'));
-$$('.menu ul a').forEach(a=>a.onclick=()=>toggleMenu(false));
+function toggleMenu(on){menu.classList.toggle('on',on);mbtn.classList.toggle('open',on);document.body.classList.toggle('lock',on);dock.classList.remove('searching','hide')}
+mbtn.onclick=()=>toggleMenu(!menu.classList.contains('on'));$$('.menu ul a').forEach(a=>a.onclick=()=>toggleMenu(false));
 $('#sbtn').onclick=()=>{const s=dock.classList.toggle('searching');if(s)setTimeout(()=>$('#q').focus(),300)};
-$('#q').addEventListener('keydown',e=>{if(e.key==='Escape'){dock.classList.remove('searching');e.target.blur()}});
-/* scroll engine */
-let last=0;const slo=$('#slogan'),lines=$$('.slogan .line'),giant=$('#giant');
-function onScroll(){const y=scrollY,vh=innerHeight;
-  dock.classList.toggle('ctx',y>vh*.7);
-  if(!menu.classList.contains('on')&&!dock.classList.contains('searching')){if(y>last+6&&y>vh)dock.classList.add('hide');if(y<last-4)dock.classList.remove('hide')}
-  last=y;
-  const r=slo.getBoundingClientRect(),p=Math.min(1,Math.max(0,-r.top/(r.height-vh)));
-  lines.forEach(l=>l.style.transform=`translateX(${(l.dataset.s>0?-60:0)+l.dataset.s*p*60}%)`);
-  const mr=mani.getBoundingClientRect(),mp=Math.min(1,Math.max(0,(vh*.85-mr.top)/(mr.height+vh*.25)));
-  words.forEach((w,i)=>w.classList.toggle('lit',i<mp*words.length*1.05));
-  
-}
-addEventListener('scroll',onScroll,{passive:true});onScroll();
+let last=0;addEventListener('scroll',()=>{const y=scrollY;dock.classList.toggle('ctx',y>innerHeight*.5);if(!menu.classList.contains('on')&&!dock.classList.contains('searching')){if(y>last+6&&y>innerHeight)dock.classList.add('hide');if(y<last-4)dock.classList.remove('hide')}last=y},{passive:true});
 </script>
 </body>
 </html>
