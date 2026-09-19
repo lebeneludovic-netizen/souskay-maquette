@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Souskay — Souvenirs (page photos)</title>
+<title>Keloké Ep08 · The Last — Souvenirs Souskay</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800;125,900&family=Libertinus+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="picto-souskay-noir.svg">
@@ -420,19 +420,226 @@ body.lock{overflow:hidden}
 </style>
 </head>
 <body>
-<a class="logo" href="#" aria-label="Souskay"><img src="logo-souskay-creme.svg" alt="Souskay"></a>
+<style>
+/* ================= PAGE ALBUM ================= */
+.back{position:absolute;top:max(30px,env(safe-area-inset-top));left:var(--pad);z-index:41;display:flex;align-items:center;gap:8px;text-decoration:none;
+  font:500 12px var(--sans);letter-spacing:.14em;text-transform:uppercase;padding:9px 14px;border-radius:99px;background:rgba(14,11,10,.45);backdrop-filter:blur(10px);border:1px solid rgba(243,235,221,.14)}
+.back:hover{background:rgba(14,11,10,.7)}
+@media(max-width:560px){.back span{display:none}.back{padding:9px 12px}}
 
-<section class="pg wrap">
-  <h1>Souvenirs<em>retrouve-toi</em></h1>
-  <div class="tabs"><button class="on">Tout</button><button>Photos</button><button>Aftermovies</button><button>Playlists</button></div>
-  <div class="fil"><div class="s">⌕ <input placeholder="Une soirée, une date, un lieu…"></div><select><option>Toutes les villes</option><option>Paris</option><option>Martinique</option></select><select><option>Toutes les séries</option><option>Keloké</option><option>La Star</option><option>La Plage</option><option>La Piscine</option><option>Sex Appeal</option><option>Osmose</option></select><select><option>2026</option><option>2025</option></select><span class="n">29 albums</span></div>
-  <div class="list"><a class="li" href="album.html"><img src="mic.jpg" alt=""><div><b>Keloké Ep08 · The Last</b><small>08.09.2026 · Le BABA · Martinique · Photos VB</small></div><div class="go"><span class="cnt">49 photos</span><span>Voir →</span></div></a><a class="li" href="#album"><img src="plage.jpg" alt=""><div><b>La Plage E03 S02</b><small>07.09.2026 · Martinique · Photos Luanne</small></div><div class="go"><span class="cnt">52 photos</span><span>Voir →</span></div></a><a class="li" href="#album"><img src="hug.jpg" alt=""><div><b>Keloké Ep06</b><small>20.08.2026 · Le BABA · Martinique · Photos VB</small></div><div class="go"><span class="cnt">47 photos</span><span>Voir →</span></div></a><a class="li" href="#album"><img src="djs.jpg" alt=""><div><b>Keloké Ep05</b><small>10.08.2026 · Le BABA · Martinique · Photos VB</small></div><div class="go"><span class="cnt">44 photos</span><span>Voir →</span></div></a><a class="li" href="#album"><img src="friends.jpg" alt=""><div><b>La Villa</b><small>17.04.2026 · Martinique · Photos VB</small></div><div class="go"><span class="cnt">38 photos</span><span>Voir →</span></div></a><a class="li" href="#album"><img src="avatar.jpg" alt=""><div><b>Ava.tar</b><small>13.02.2026 · Paris · Photos Laury</small></div><div class="go"><span class="cnt">61 photos</span><span>Voir →</span></div></a><a class="li" href="#album"><img src="sing.jpg" alt=""><div><b>Souskay de Star 25</b><small>03.01.2026 · Paris · Photos Laury</small></div><div class="go"><span class="cnt">55 photos</span><span>Voir →</span></div></a><a class="li" href="#album"><img src="gold.jpg" alt=""><div><b>La Pièce d'Or</b><small>09.12.2025 · Paris · Photos VB</small></div><div class="go"><span class="cnt">58 photos</span><span>Voir →</span></div></a><a class="li" href="#album"><img src="hero2.jpg" alt=""><div><b>L'Intégration 04/10/25</b><small>14.10.2025 · Paris · Photos VB · Laury</small></div><div class="go"><span class="cnt">96 photos</span><span>Voir →</span></div></a></div>
+.ahero{position:relative;height:100svh;min-height:600px;overflow:hidden;background:#000}
+.ahero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 35%;animation:kb2 14s ease-out forwards;filter:saturate(1.1) contrast(1.05)}
+@keyframes kb2{from{transform:scale(1.18)}to{transform:scale(1.02)}}
+.ahero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,11,10,.55) 0%,transparent 30%,transparent 45%,rgba(14,11,10,.92) 88%,var(--night) 100%)}
+.ahero .in{position:absolute;left:0;right:0;bottom:70px;z-index:2}
+@media(max-width:700px){.ahero .in{bottom:104px}}
+.ahero .sticker{margin-bottom:18px}
+.ahero h1{font:900 clamp(64px,17vw,230px)/.8 var(--wide);font-stretch:125%;text-transform:uppercase;letter-spacing:-.05em;margin-left:-.04em}
+.ahero h1 .o{color:transparent;-webkit-text-stroke:2px var(--cream)}
+.ahero .when{font:italic 400 clamp(22px,3vw,34px)/1.1 var(--serif);color:var(--gold-2);margin-top:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.chips span{font-size:12px;letter-spacing:.12em;text-transform:uppercase;border:1px solid rgba(243,235,221,.28);border-radius:99px;padding:7px 12px;background:rgba(14,11,10,.35);backdrop-filter:blur(6px)}
+.chips span b{color:var(--mint);font-weight:600}
+.rbadge{position:absolute;right:var(--pad);bottom:84px;z-index:3;width:150px;height:150px;display:none;text-decoration:none}
+@media(min-width:760px){.rbadge{display:block}}
+.rbadge svg.ring{position:absolute;inset:0;animation:spin 14s linear infinite}
+.rbadge .core{position:absolute;inset:32px;border-radius:50%;background:var(--mint);display:grid;place-items:center;color:var(--night);font:900 26px var(--wide);transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+.rbadge:hover .core{transform:scale(1.12) rotate(-8deg)}
+
+/* barre d'actions collante */
+.bar{position:sticky;top:0;z-index:30;background:rgba(14,11,10,.78);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);border-bottom:1px solid var(--night-3)}
+.bar .wrap{display:flex;align-items:center;gap:8px;height:62px}
+.bar .t{font:900 15px var(--wide);font-stretch:125%;text-transform:uppercase;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:0;transform:translateY(8px);transition:all .4s var(--ease)}
+.bar.stuck .t{opacity:1;transform:none}
+.bar .n{font-size:12px;color:var(--muted);white-space:nowrap}
+.seg{display:inline-flex;background:var(--night-3);border-radius:99px;padding:3px;margin-left:auto}
+.seg button{border:0;background:none;color:var(--muted);font:500 12px var(--sans);padding:8px 12px;border-radius:99px;cursor:pointer;display:flex;align-items:center;gap:6px}
+.seg button.on{background:var(--cream);color:var(--night)}
+.seg svg{width:14px;height:14px}
+.bbtn{border:1px solid rgba(243,235,221,.2);background:none;color:var(--cream);font:500 12px var(--sans);padding:9px 13px;border-radius:99px;cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;transition:background .3s,color .3s}
+.bbtn:hover{background:var(--cream);color:var(--night)}
+.bbtn.mint{background:var(--mint);border-color:var(--mint);color:var(--night)}
+@media(max-width:700px){.bar .t{display:none}.bar .lbl-d{display:none}.seg button span{display:none}}
+
+/* grille */
+.gallery{padding-top:26px}
+.gal{columns:2;column-gap:8px}
+@media(min-width:700px){.gal{columns:3;column-gap:10px}}
+@media(min-width:1100px){.gal{columns:4}}
+.gal.dense{columns:3;column-gap:4px}
+@media(min-width:700px){.gal.dense{columns:5}}
+@media(min-width:1100px){.gal.dense{columns:7}}
+.ph{position:relative;break-inside:avoid;margin-bottom:8px;border-radius:10px;overflow:hidden;cursor:zoom-in;background:var(--night-2);
+  opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.gal.dense .ph{margin-bottom:4px;border-radius:4px}
+.ph.in{opacity:1;transform:none}
+.ph img{width:100%;height:auto;transition:transform .8s var(--ease),filter .4s}
+.ph:hover img{transform:scale(1.04);filter:brightness(1.08)}
+.ph .num{position:absolute;left:10px;bottom:9px;font:600 11px var(--sans);letter-spacing:.12em;opacity:0;transition:opacity .3s;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+.ph .acts{position:absolute;right:8px;top:8px;display:flex;gap:6px;opacity:0;transform:translateY(-6px);transition:all .3s var(--ease)}
+.ph:hover .num,.ph:hover .acts,.ph.fav .acts{opacity:1;transform:none}
+.ph .acts button{width:34px;height:34px;border-radius:50%;border:0;background:rgba(14,11,10,.6);backdrop-filter:blur(6px);color:var(--cream);cursor:pointer;display:grid;place-items:center;font-size:15px;transition:transform .3s cubic-bezier(.3,1.6,.5,1),background .3s}
+.ph .acts button:hover{transform:scale(1.12)}
+.ph.fav .acts .hf{background:var(--mint);color:var(--night)}
+.ph.fav{box-shadow:0 0 0 3px var(--mint)}
+.gal.dense .ph .acts,.gal.dense .ph .num{display:none}
+@media(hover:none){.ph .acts{opacity:1;transform:none}.ph .acts .dl{display:none}}
+
+/* bande Retrouve-toi (entre deux paquets de photos) */
+.find{column-span:all;margin:26px 0 30px;background:var(--mint);color:var(--night);border-radius:26px;padding:34px 26px;position:relative;overflow:hidden}
+.find .stackw{margin:0 0 18px}
+.find .row{display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center;justify-content:space-between}
+.find p{font-size:15px;max-width:520px;line-height:1.5}
+.find p b{font-weight:700}
+.find .tag{font:900 clamp(18px,2.6vw,26px) var(--wide);font-stretch:125%;background:var(--night);color:var(--mint);padding:12px 18px;border-radius:14px;transform:rotate(-3deg);cursor:pointer;border:0;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.find .tag:hover{transform:rotate(2deg) scale(1.05)}
+
+/* après la grille */
+.after{display:grid;grid-template-columns:1fr;gap:12px;margin-top:70px}
+@media(min-width:900px){.after{grid-template-columns:1fr 1.25fr}}
+.cred{background:var(--night-2);border:1px solid var(--night-3);border-radius:26px;padding:26px;display:flex;flex-direction:column;gap:16px}
+.cred .who{display:flex;gap:14px;align-items:center}
+.cred .av{width:64px;height:64px;border-radius:50%;overflow:hidden;flex:none;box-shadow:0 0 0 2px var(--mint)}
+.cred .av img{width:100%;height:100%;object-fit:cover}
+.cred h3{font:900 26px/1 var(--wide);font-stretch:125%;text-transform:uppercase;letter-spacing:-.03em}
+.cred .ig{color:var(--gold-2);font-size:14px;text-decoration:none}
+.cred p{color:#D9CFC0;font-size:14px;line-height:1.55}
+.cred .rules{list-style:none;display:grid;gap:8px;font-size:13px;color:var(--muted);border-top:1px solid var(--night-3);padding-top:14px}
+.cred .rules li{display:flex;gap:10px}.cred .rules li i{font-style:normal;color:var(--mint)}
+.nxt{position:relative;border-radius:26px;overflow:hidden;min-height:380px;display:flex;flex-direction:column;justify-content:flex-end;padding:26px}
+.nxt>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.nxt:hover>img{transform:scale(1.05)}
+.nxt::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(14,11,10,.95) 10%,rgba(14,11,10,.2) 70%)}
+.nxt>*:not(img){position:relative;z-index:1}
+.nxt .sticker{position:absolute;top:22px;left:22px}
+.nxt h3{font:900 clamp(40px,6vw,76px)/.85 var(--wide);font-stretch:125%;text-transform:uppercase;letter-spacing:-.04em}
+.nxt .d{font:italic 24px var(--serif);color:var(--gold-2);margin:10px 0 18px}
+.notify{display:flex;gap:6px;background:rgba(243,235,221,.1);border:1px solid rgba(243,235,221,.2);border-radius:16px;padding:6px;backdrop-filter:blur(8px);max-width:460px}
+.notify input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--cream);font:500 15px var(--sans);padding:0 12px}
+.notify input::placeholder{color:rgba(243,235,221,.6)}
+.notify button{border:0;border-radius:12px;background:var(--mint);color:var(--night);font:600 14px var(--sans);padding:13px 16px;cursor:pointer;white-space:nowrap}
+.nxt small{font-size:11px;color:rgba(243,235,221,.6);margin-top:10px;display:block;max-width:460px}
+
+.more{margin-top:90px}
+.more .rail{padding-top:16px}
+
+/* lightbox */
+.lbx{position:fixed;inset:0;z-index:70;background:rgba(8,6,5,.97);display:grid;grid-template-rows:auto 1fr auto;opacity:0;pointer-events:none;transition:opacity .35s}
+.lbx.on{opacity:1;pointer-events:auto}
+.lbx .top{display:flex;align-items:center;justify-content:space-between;padding:16px var(--pad);gap:10px}
+.lbx .ct{font:600 12px var(--sans);letter-spacing:.18em}
+.lbx .ct b{color:var(--mint)}
+.lbx .tb{display:flex;gap:6px}
+.lbx .tb button{width:42px;height:42px;border-radius:50%;border:1px solid rgba(243,235,221,.2);background:rgba(243,235,221,.06);color:var(--cream);cursor:pointer;display:grid;place-items:center;font-size:16px;transition:background .3s,color .3s}
+.lbx .tb button:hover{background:var(--cream);color:var(--night)}
+.lbx .tb button.on{background:var(--mint);border-color:var(--mint);color:var(--night)}
+.lbx .stage{position:relative;display:grid;place-items:center;overflow:hidden;touch-action:pan-y}
+.lbx .stage img{max-width:94vw;max-height:100%;object-fit:contain;border-radius:6px;transition:transform .45s var(--ease),opacity .3s}
+.lbx .nav{position:absolute;top:50%;width:52px;height:52px;margin-top:-26px;border-radius:50%;border:0;background:rgba(243,235,221,.1);color:var(--cream);font-size:20px;cursor:pointer;backdrop-filter:blur(6px);transition:background .3s}
+.lbx .nav:hover{background:var(--mint);color:var(--night)}
+.lbx .pv{left:16px}.lbx .nx{right:16px}
+@media(max-width:700px){.lbx .nav{display:none}}
+.lbx .strip{display:flex;gap:6px;overflow-x:auto;padding:12px var(--pad) max(16px,env(safe-area-inset-bottom));scrollbar-width:none}
+.lbx .strip::-webkit-scrollbar{display:none}
+.lbx .strip img{height:58px;width:auto;border-radius:6px;opacity:.4;cursor:pointer;flex:none;transition:opacity .3s,transform .3s}
+.lbx .strip img.on{opacity:1;transform:translateY(-3px);box-shadow:0 0 0 2px var(--mint)}
+.lbx .prog{position:absolute;left:0;top:0;height:2px;background:var(--mint);width:0}
+.lbx.play .prog{animation:prog 3.5s linear infinite}
+@keyframes prog{to{width:100%}}
+
+/* toast */
+.toast{position:fixed;left:50%;bottom:100px;transform:translate(-50%,20px);z-index:80;background:var(--cream);color:var(--night);font:600 13px var(--sans);padding:12px 18px;border-radius:99px;opacity:0;pointer-events:none;transition:all .4s var(--ease)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.primary .count{font-style:normal;display:inline-block;background:var(--night);color:var(--mint);border-radius:99px;font-size:12px;padding:2px 8px;margin-left:2px}
+</style>
+
+<a class="logo" href="index.html" aria-label="Souskay"><img src="logo-souskay-creme.svg" alt="Souskay"></a>
+<a class="back" href="souvenirs.html">← <span>Souvenirs</span></a>
+
+<!-- ========== HERO DE L'ALBUM ========== -->
+<header class="ahero">
+  <img src="k08/38.webp" alt="">
+  <div class="in wrap">
+    <a class="sticker" href="evenement.html">Keloké · Ep08</a>
+    <h1>The <span class="o">Last</span></h1>
+    <div class="when">Septembre 2026 · Martinique</div>
+    <div class="chips"><span><b>48</b> photos</span><span>Photos · Luanne Philemon</span><span>Série Keloké</span></div>
+  </div>
+  <a class="rbadge" href="#galerie" aria-label="Voir les photos">
+    <svg class="ring" viewBox="0 0 150 150"><defs><path id="rc" d="M75,75 m-60,0 a60,60 0 1,1 120,0 a60,60 0 1,1 -120,0"/></defs>
+      <text font-family="Archivo" font-weight="900" font-size="13.5" letter-spacing="2.2" fill="#F3EBDD"><textPath href="#rc" textLength="372">RETROUVE-TOI · RETROUVE-TOI · </textPath></text></svg>
+    <span class="core">↓</span>
+  </a>
+</header>
+
+<!-- ========== BARRE D'ACTIONS ========== -->
+<div class="bar" id="bar">
+  <div class="wrap">
+    <span class="t">Keloké Ep08 · The Last</span>
+    <span class="n" id="cnt">48 photos</span>
+    <div class="seg" role="tablist">
+      <button class="on" data-v="mosaic"><svg viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="6" height="9" rx="1"/><rect x="9" y="1" width="6" height="5" rx="1"/><rect x="1" y="12" width="6" height="3" rx="1"/><rect x="9" y="8" width="6" height="7" rx="1"/></svg><span>Mosaïque</span></button>
+      <button data-v="dense"><svg viewBox="0 0 16 16" fill="currentColor"><rect x="1" y="1" width="4" height="4"/><rect x="6" y="1" width="4" height="4"/><rect x="11" y="1" width="4" height="4"/><rect x="1" y="6" width="4" height="4"/><rect x="6" y="6" width="4" height="4"/><rect x="11" y="6" width="4" height="4"/><rect x="1" y="11" width="4" height="4"/><rect x="6" y="11" width="4" height="4"/><rect x="11" y="11" width="4" height="4"/></svg><span>Planche</span></button>
+    </div>
+    <button class="bbtn" id="slide">▶ <span class="lbl-d">Diaporama</span></button>
+    <button class="bbtn" id="shareAlbum">↗ <span class="lbl-d">Partager</span></button>
+    <button class="bbtn mint" id="dlAll">↓ <span class="lbl-d">Tout (ZIP)</span></button>
+  </div>
+</div>
+
+<!-- ========== GALERIE ========== -->
+<section class="gallery wrap" id="galerie">
+  <div class="gal" id="gal"></div>
+
+  <div class="after">
+    <div class="cred reveal">
+      <div class="who"><div class="av"><img src="k08/34.webp" alt=""></div><div><h3>Luanne Philemon</h3><a class="ig" href="#">Son Instagram ↗</a></div></div>
+      <p>Toutes les photos de la soirée, en libre téléchargement. Tu t'es trouvé·e ? Poste-la en story, tague <b>@souskay</b> et la photographe : on repartage les meilleures.</p>
+      <ul class="rules">
+        <li><i>✓</i><span>Usage perso et réseaux sociaux : vas-y, avec le crédit.</span></li>
+        <li><i>✓</i><span>Tu veux la version HD sans logo ? Écris-nous.</span></li>
+        <li><i>✕</i><span>Tu veux qu'une photo soit retirée ? <a href="#" style="color:var(--cream)">Signale-la</a>, on la retire sous 48 h.</span></li>
+      </ul>
+    </div>
+    <div class="nxt reveal">
+      <img src="k08/27.webp" alt="">
+      <span class="sticker">La prochaine</span>
+      <h3>Keloké<br>Ep09</h3>
+      <div class="d">Date à venir · Martinique</div>
+      <form class="notify" onsubmit="event.preventDefault();this.innerHTML='<span style=&quot;padding:12px;font-weight:600&quot;>C\'est noté ✓ On te prévient en premier.</span>'">
+        <input type="email" placeholder="Ton e-mail" required><button>Me prévenir →</button>
+      </form>
+      <small>En t'inscrivant, tu acceptes de recevoir l'annonce de la prochaine Keloké par e-mail. Désinscription en un clic.</small>
+    </div>
+  </div>
+
+  <div class="more">
+    <div class="head"><h2>Même série</h2><a href="souvenirs.html">Tous les albums <b>→</b></a></div>
+    <div class="rail">
+      <a class="sv" href="#"><div class="ph" style="--r:-3deg"><span class="tape"></span><img src="mic.jpg" alt=""><span class="capt">Keloké Ep07</span></div><p>Août 2026 · 49 photos</p></a>
+      <a class="sv" href="#"><div class="ph" style="--r:2deg"><span class="tape"></span><img src="hug.jpg" alt=""><span class="capt">Keloké Ep06</span></div><p>Août 2026 · 50 photos</p></a>
+      <a class="sv" href="#"><div class="ph" style="--r:-1deg"><span class="tape"></span><img src="djs.jpg" alt=""><span class="capt">Keloké Ep05</span></div><p>Août 2026 · 113 photos</p></a>
+      <a class="sv" href="#"><div class="ph" style="--r:3deg"><span class="tape"></span><img src="friends.jpg" alt=""><span class="capt">Keloké Ep04</span></div><p>Août 2026 · 81 photos</p></a>
+    </div>
+  </div>
 </section>
-<section class="album wrap" id="album">
-  <div class="ahead"><div><span class="sticker">Keloké · Ep08</span><h2 style="margin-top:14px">The Last</h2><div class="when">Mardi 8 septembre 2026 · Le BABA</div></div><div class="credit">Photos · VB · 49 photos<br><a href="#" style="color:var(--mint);text-decoration:none">Tout télécharger ↓</a></div></div>
-  <div class="mason" id="mason"><img src="mic.jpg" alt=""><img src="hug.jpg" alt=""><img src="djs.jpg" alt=""><img src="sing.jpg" alt=""><img src="friends.jpg" alt=""><img src="crowd.jpg" alt=""><img src="hero1.jpg" alt=""><img src="girls.jpg" alt=""><img src="hero3.jpg" alt=""><img src="show.jpg" alt=""><img src="plage.jpg" alt=""><img src="gold.jpg" alt=""><img src="avatar.jpg" alt=""><img src="hero2.jpg" alt=""><img src="mic.jpg" alt=""><img src="hug.jpg" alt=""></div>
-</section>
-<div class="lb" id="lb"><button class="cl" id="lbc">✕ Fermer</button><img id="lbi" src="" alt=""><div class="ctr"><button id="lbp">←</button><button>Télécharger ↓</button><button>Partager</button><button id="lbn">→</button></div></div>
+
+<!-- ========== LIGHTBOX ========== -->
+<div class="lbx" id="lbx" aria-hidden="true">
+  <div class="top">
+    <span class="ct"><b id="li">1</b> / <span id="lt">48</span></span>
+    <div class="tb">
+      <button id="lFav" title="Ajouter à ma sélection">♡</button>
+      <button id="lPlay" title="Diaporama">▶</button>
+      <button id="lShare" title="Partager">↗</button>
+      <button id="lDl" title="Télécharger">↓</button>
+      <button id="lClose" title="Fermer">✕</button>
+    </div>
+  </div>
+  <div class="stage" id="stage"><span class="prog"></span><img id="limg" src="" alt=""><button class="nav pv" id="lPrev">←</button><button class="nav nx" id="lNext">→</button></div>
+  <div class="strip" id="strip"></div>
+</div>
+<div class="toast" id="toast"></div>
 
 <footer class="jag">
   <div class="bg"><img src="hero3.jpg" alt=""></div>
@@ -459,7 +666,7 @@ body.lock{overflow:hidden}
 
 <!-- DOCK -->
 <div class="dock" id="dock">
-  <button class="primary" id="primary" onclick="location.hash='dates'">
+  <button class="primary" id="primary">
     <span class="dot"></span>
     <span class="lbl"><span class="main">Dates</span><span class="alt">Tous les albums</span></span>
   </button>
@@ -470,18 +677,91 @@ body.lock{overflow:hidden}
 
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});$$('.reveal').forEach(el=>io.observe(el));
+/* === données : en prod = album_photos (url, thumb_url, width, height, position) === */
+const PHOTOS=[[1,960,1200],[2,960,1200],[3,960,1200],[4,960,1200],[5,960,1200],[6,960,1200],[7,960,1200],[8,960,1200],[9,960,1200],[10,960,1200],[11,960,1200],[12,960,1200],[13,960,1200],[14,960,1200],[15,1200,901],[16,1200,901],[17,960,1200],[18,1200,900],[19,1200,900],[20,960,1200],[21,960,1200],[22,960,1200],[23,1200,901],[24,1200,901],[25,960,1200],[26,960,1200],[27,960,1200],[28,960,1200],[29,960,1200],[30,1200,901],[31,1200,901],[32,960,1200],[33,1200,901],[34,960,1200],[35,960,1200],[36,960,1200],[37,1200,901],[38,960,1200],[39,960,1200],[40,960,1200],[41,960,1200],[42,960,1200],[43,900,1200],[44,960,1200],[45,960,1200],[46,960,1200],[47,960,1200],[48,960,1200]]
+  .map(([n,w,h])=>({n,w,h,src:`k08/${String(n).padStart(2,'0')}.webp`}));
+const FIND_AFTER=16;           // la bande « Retrouve-toi » s'insère après la 16e photo
+const favs=new Set();
+
+/* === grille === */
+const gal=$('#gal');
+PHOTOS.forEach((p,i)=>{
+  if(i===FIND_AFTER){gal.insertAdjacentHTML('beforeend',`<div class="find"><div class="stackw" id="stk"><span>Retrouve-toi</span><span>Retrouve-toi</span><span>Retrouve-toi</span></div>
+    <div class="row"><p>Clique sur le <b>♡</b> des photos où tu es : elles s'ajoutent à <b>ta sélection</b>, tu les télécharges d'un coup en bas de l'écran. Poste en story avec le tag, on repartage.</p>
+    <button class="tag" onclick="copyTag()">#KELOKEEP08</button></div></div>`)}
+  gal.insertAdjacentHTML('beforeend',`<figure class="ph" data-i="${i}"><img src="${p.src}" width="${p.w}" height="${p.h}" loading="${i<8?'eager':'lazy'}" alt="Keloké Ep08, photo ${p.n}">
+    <span class="num">${String(p.n).padStart(2,'0')}</span><div class="acts"><button class="hf" aria-label="Ajouter à ma sélection">♡</button><button class="dl" aria-label="Télécharger">↓</button></div></figure>`);
+});
+const phs=$$('.ph');
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{rootMargin:'0px 0px -40px 0px'});
+phs.forEach(el=>io.observe(el));$$('.reveal').forEach(el=>io.observe(el));
+phs.forEach(el=>el.addEventListener('click',e=>{const i=+el.dataset.i;
+  if(e.target.closest('.hf')){toggleFav(i);return}
+  if(e.target.closest('.dl')){toast('Téléchargement de la photo '+PHOTOS[i].n);return}
+  openLb(i)}));
+
+/* === sélection (favoris) === */
+function toggleFav(i){favs.has(i)?favs.delete(i):favs.add(i);
+  const el=phs[i];el.classList.toggle('fav',favs.has(i));el.querySelector('.hf').textContent=favs.has(i)?'♥':'♡';
+  if(lbx.classList.contains('on')&&cur===i)syncFav();updateDock();}
+function updateDock(){const n=favs.size;
+  $('#primary .alt').innerHTML=n?`Ma sélection <i class="count">${n}</i> ↓`:'Tous les albums';
+  dock.classList.toggle('ctx',n>0||scrollY>innerHeight*.5);}
+function copyTag(){navigator.clipboard?.writeText('#KelokeEp08 @souskay');toast('Copié : #KelokeEp08 @souskay')}
+
+/* === vue mosaïque / planche === */
+$$('.seg button').forEach(b=>b.onclick=()=>{$$('.seg button').forEach(x=>x.classList.toggle('on',x===b));gal.classList.toggle('dense',b.dataset.v==='dense')});
+
+/* === barre collante === */
+const bar=$('#bar');new IntersectionObserver(([e])=>bar.classList.toggle('stuck',e.intersectionRatio<1),{threshold:[1],rootMargin:'-1px 0px 0px 0px'}).observe(bar);
+
+/* === lightbox === */
+const lbx=$('#lbx'),limg=$('#limg'),strip=$('#strip');let cur=0,timer=null;
+$('#lt').textContent=PHOTOS.length;
+strip.innerHTML=PHOTOS.map((p,i)=>`<img src="${p.src}" data-i="${i}" alt="">`).join('');
+const thumbs=[...strip.children];thumbs.forEach(t=>t.onclick=()=>show(+t.dataset.i));
+function openLb(i){lbx.classList.add('on');lbx.setAttribute('aria-hidden','false');document.body.classList.add('lock');show(i)}
+function closeLb(){lbx.classList.remove('on','play');lbx.setAttribute('aria-hidden','true');document.body.classList.remove('lock');clearInterval(timer);timer=null;$('#lPlay').classList.remove('on');history.replaceState(null,'',location.pathname)}
+function show(i,dir=0){cur=(i+PHOTOS.length)%PHOTOS.length;
+  limg.style.opacity=0;limg.style.transform=`translateX(${dir*30}px)`;
+  setTimeout(()=>{limg.src=PHOTOS[cur].src;limg.onload=()=>{limg.style.opacity=1;limg.style.transform='none'}},120);
+  $('#li').textContent=cur+1;thumbs.forEach((t,k)=>t.classList.toggle('on',k===cur));
+  thumbs[cur].scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+  history.replaceState(null,'','#photo-'+PHOTOS[cur].n);syncFav()}
+function syncFav(){const b=$('#lFav');b.textContent=favs.has(cur)?'♥':'♡';b.classList.toggle('on',favs.has(cur))}
+$('#lPrev').onclick=()=>show(cur-1,-1);$('#lNext').onclick=()=>show(cur+1,1);$('#lClose').onclick=closeLb;
+$('#lFav').onclick=()=>toggleFav(cur);
+$('#lDl').onclick=()=>toast('Téléchargement de la photo '+PHOTOS[cur].n);
+$('#lShare').onclick=()=>share('Keloké Ep08 · photo '+PHOTOS[cur].n,location.href);
+function play(on){clearInterval(timer);timer=null;lbx.classList.toggle('play',on);$('#lPlay').classList.toggle('on',on);if(on)timer=setInterval(()=>show(cur+1,1),3500)}
+$('#lPlay').onclick=()=>play(!timer);
+$('#slide').onclick=()=>{openLb(0);play(true)};
+addEventListener('keydown',e=>{if(!lbx.classList.contains('on'))return;
+  if(e.key==='Escape')closeLb();if(e.key==='ArrowRight')show(cur+1,1);if(e.key==='ArrowLeft')show(cur-1,-1);if(e.key===' '){e.preventDefault();play(!timer)}if(e.key.toLowerCase()==='f')toggleFav(cur)});
+let sx=null;$('#stage').addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+$('#stage').addEventListener('touchend',e=>{if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)show(cur+(dx<0?1:-1),dx<0?1:-1);sx=null});
+$('#stage').addEventListener('click',e=>{if(e.target.id==='stage')closeLb()});
+/* lien direct vers une photo : album.html#photo-12 */
+const m=location.hash.match(/photo-(\d+)/);if(m){const i=PHOTOS.findIndex(p=>p.n==m[1]);if(i>=0)setTimeout(()=>openLb(i),300)}
+
+/* === partage / téléchargement === */
+function share(title,url){if(navigator.share)navigator.share({title,url}).catch(()=>{});else{navigator.clipboard?.writeText(url);toast('Lien copié')}}
+$('#shareAlbum').onclick=()=>share('Keloké Ep08 · The Last · Souskay',location.href.split('#')[0]);
+$('#dlAll').onclick=()=>toast('Préparation du ZIP · 48 photos');
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('on'),2200)}
+
+/* === mots empilés qui glissent au scroll === */
+const stk=()=>$('#stk');
+/* === dock + menu (identique au reste du site) === */
 const dock=$('#dock'),menu=$('#menu'),mbtn=$('#mbtn');
 function toggleMenu(on){menu.classList.toggle('on',on);mbtn.classList.toggle('open',on);document.body.classList.toggle('lock',on);dock.classList.remove('searching','hide')}
 mbtn.onclick=()=>toggleMenu(!menu.classList.contains('on'));$$('.menu ul a').forEach(a=>a.onclick=()=>toggleMenu(false));
 $('#sbtn').onclick=()=>{const s=dock.classList.toggle('searching');if(s)setTimeout(()=>$('#q').focus(),300)};
-let last=0;addEventListener('scroll',()=>{const y=scrollY;dock.classList.toggle('ctx',y>innerHeight*.5);if(!menu.classList.contains('on')&&!dock.classList.contains('searching')){if(y>last+6&&y>innerHeight)dock.classList.add('hide');if(y<last-4)dock.classList.remove('hide')}last=y},{passive:true});
-
-const ims=$$('#mason img');let k=0;const lb=$('#lb'),lbi=$('#lbi');
-const show=i=>{k=(i+ims.length)%ims.length;lbi.src=ims[k].src;lb.classList.add('on')};
-ims.forEach((im,i)=>im.onclick=()=>show(i));$('#lbc').onclick=()=>lb.classList.remove('on');$('#lbp').onclick=()=>show(k-1);$('#lbn').onclick=()=>show(k+1);
-addEventListener('keydown',e=>{if(!lb.classList.contains('on'))return;if(e.key==='Escape')lb.classList.remove('on');if(e.key==='ArrowRight')show(k+1);if(e.key==='ArrowLeft')show(k-1)});
-$$('.tabs button').forEach(b=>b.onclick=()=>$$('.tabs button').forEach(x=>x.classList.toggle('on',x===b)));
+$('#primary').onclick=()=>{if(favs.size)toast(`Téléchargement de ta sélection · ${favs.size} photo${favs.size>1?'s':''}`);else location.href='souvenirs.html'};
+let last=0;addEventListener('scroll',()=>{const y=scrollY;updateDock();
+  if(!menu.classList.contains('on')&&!dock.classList.contains('searching')){if(y>last+6&&y>innerHeight&&!favs.size)dock.classList.add('hide');if(y<last-4||favs.size)dock.classList.remove('hide')}last=y;
+  const s=stk();if(s){const r=s.getBoundingClientRect(),p=(innerHeight-r.top)/(innerHeight+r.height);[...s.children].forEach((sp,k)=>sp.style.setProperty('--x',((k%2?-1:1)*(p-.5)*18)+'%'))}
+},{passive:true});
 </script>
 </body>
 </html>
