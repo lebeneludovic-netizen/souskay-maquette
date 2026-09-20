@@ -217,6 +217,10 @@ button,input,select,textarea{font:inherit;color:inherit}
 .prep .tb{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;color:#fff;font-weight:700;font-size:12px}
 @media(min-width:1100px){#t-stk .agrid{grid-template-columns:1.3fr 1fr}}
 .addb{width:100%;margin-top:6px;background:var(--night-2);border:1px dashed var(--line);border-radius:12px;padding:10px 12px;font-size:14px;color:var(--mint)}
+.cellin{width:56px;background:var(--night);border:1px solid var(--line);border-radius:8px;padding:5px 7px;color:var(--cream)}
+.due{background:var(--night-3);border-radius:12px;padding:10px 11px;font-weight:700;font-size:15px}
+.barTot{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chipb{font-size:12px;border:1px solid var(--line);border-radius:99px;padding:5px 10px;background:var(--night)}.chipb b{color:var(--mint)}
 .srcpill{font-size:10px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:2px 7px;color:var(--muted);margin-left:6px}
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);z-index:95;background:var(--cream);color:var(--night);font-weight:600;font-size:13px;padding:12px 18px;border-radius:99px;opacity:0;pointer-events:none;transition:all .4s var(--ease);max-width:92vw;text-align:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
@@ -261,7 +265,7 @@ button,input,select,textarea{font:inherit;color:inherit}
         <ol class="how">
           <li><span><b>Choisis ta table</b> sur le plan (les cercles verts sont libres).</span></li>
           <li><span><b>Envoie ta demande</b> : 1 minute, aucun paiement maintenant.</span></li>
-          <li><span><b>On te confirme sur WhatsApp</b> sous 24 h avec un lien d'acompte pour bloquer ta table.</span></li>
+          <li><span><b>On te confirme sur WhatsApp</b> sous 24 h pour la confirmer (et l'acompte s'il y en a un).</span></li>
         </ol>
       </div>
       <div id="pForm" hidden>
@@ -284,7 +288,7 @@ button,input,select,textarea{font:inherit;color:inherit}
           <div class="fld"><label>Un message ? (bouteilles, surprise…)</label><textarea name="msg" placeholder="Ex. anniversaire de Kenza, on voudrait un gâteau à minuit"></textarea></div>
           <label class="chk"><input type="checkbox" required><span>J'accepte d'être recontacté·e par Souskay sur WhatsApp et par e-mail au sujet de cette réservation.</span></label>
           <label class="chk"><input type="checkbox"><span>Je veux aussi recevoir les prochaines dates Souskay (préventes, lieux dévoilés).</span></label>
-          <p class="note"><b>Aucun paiement maintenant.</b> On valide ta table et tes bouteilles avec toi sur WhatsApp. Selon la soirée, un acompte (<b id="depo">300 €</b>) peut t'être demandé pour la bloquer. Le reste se règle sur place.</p>
+          <p class="note"><b>Aucun paiement maintenant.</b> On confirme ta table et tes bouteilles avec toi sur WhatsApp. Un acompte (<b id="depo">300 €</b>) peut t'être demandé pour la bloquer, par Lydia ou virement. Le reste se règle à l'entrée.</p>
           <button class="send">Envoyer ma demande <span>→</span></button>
         </form>
       </div>
@@ -306,7 +310,7 @@ button,input,select,textarea{font:inherit;color:inherit}
       <div><div class="eyebrow">Back-office · Réservations de tables</div><h1>L'Intégration · 09.10</h1></div>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><select class="sel"><option>L'Intégration · ven. 9 oct. 2026 · Paris</option><option>Keloké · Ep09 · date à venir</option></select><button class="newbtn" id="newRes">+ Ajouter une réservation</button></div>
     </div>
-    <div class="tabs2" id="atabs"><button class="on" data-t="dem">Demandes</button><button data-t="stk">Bouteilles & stock</button><button data-t="cfg">Plan & tarifs</button><button data-t="mail">E-mails envoyés</button></div>
+    <div class="tabs2" id="atabs"><button class="on" data-t="dem">Demandes</button><button data-t="soir">Listes du soir</button><button data-t="stk">Bouteilles & stock</button><button data-t="cfg">Plan & tarifs</button><button data-t="mail">E-mails envoyés</button></div>
 
     <div id="t-dem">
       <div class="kpis" id="kpis"></div>
@@ -314,11 +318,11 @@ button,input,select,textarea{font:inherit;color:inherit}
         <div class="card">
           <h3>Plan de salle <span style="text-transform:none;letter-spacing:0">clique une table</span></h3>
           <div class="aplan" id="aplan"><img src="plan-integration.jpg" alt=""></div>
-          <div class="leg2"><span><i style="background:var(--amber)"></i>Nouvelle</span><span><i style="background:#7FA8FF"></i>En discussion</span><span><i style="background:var(--mint)"></i>Validée · acompte attendu</span><span><i style="background:#000;border:1px solid var(--mint)"></i>Confirmée</span><span><i style="border:1px solid #555"></i>Libre</span></div>
+          <div class="leg2"><span><i style="background:var(--amber)"></i>Nouvelle</span><span><i style="background:#7FA8FF"></i>En discussion</span><span><i style="background:var(--mint)"></i>Confirmée · reste à encaisser</span><span><i style="background:#000;border:1px solid var(--mint)"></i>Confirmée · payée</span><span><i style="border:1px solid #555"></i>Libre</span></div>
         </div>
         <div class="card">
           <h3>Demandes <div class="fil2" id="fil2"></div></h3>
-          <table class="tbl"><thead><tr><th>Table</th><th>Client</th><th class="hide-m">Pers.</th><th class="hide-m">Montant</th><th>Statut</th></tr></thead><tbody id="rows"></tbody></table>
+          <table class="tbl"><thead><tr><th>Table</th><th>Client / pack</th><th class="hide-m">Prix</th><th>Statut</th></tr></thead><tbody id="rows"></tbody></table>
         </div>
       </div>
     </div>
@@ -333,13 +337,13 @@ button,input,select,textarea{font:inherit;color:inherit}
         </div>
         <div class="card">
           <h3>Catégories & tarifs</h3>
-          <table class="tbl cfg"><thead><tr><th>Catégorie</th><th>Min. conso</th><th>Pers. max</th><th>Acompte</th><th>Tables</th></tr></thead><tbody>
+          <table class="tbl cfg"><thead><tr><th>Catégorie</th><th>Min. conso</th><th>Pers. max</th><th>Acompte conseillé</th><th>Tables</th></tr></thead><tbody>
             <tr><td><span class="tb" style="background:var(--cA)">A</span> Carré 10</td><td><input value="1 000 €"></td><td><input value="10"></td><td><input value="30 %"></td><td>9</td></tr>
             <tr><td><span class="tb" style="background:var(--cB)">B</span> Table 6</td><td><input value="600 €"></td><td><input value="6"></td><td><input value="30 %"></td><td>10</td></tr>
             <tr><td><span class="tb" style="background:var(--cC)">C</span> Table 4</td><td><input value="400 €"></td><td><input value="4"></td><td><input value="30 %"></td><td>12</td></tr>
           </tbody></table>
           <div class="blk" style="margin-top:14px"><h4>Réglages de la date</h4>
-            <div class="kv"><span>Réservations</span><b style="color:var(--mint)">Ouvertes</b><span>Fermeture auto</span><b>J-1 à 18h</b><span>Alerte e-mail à</span><b>booking@souskay.fr</b><span>Délai de réponse</span><b>24 h (affiché au client)</b><span>Acompte</span><b>Lien Stripe envoyé à la validation</b></div>
+            <div class="kv"><span>Réservations</span><b style="color:var(--mint)">Ouvertes</b><span>Fermeture auto</span><b>J-1 à 18h</b><span>Alerte e-mail à</span><b>booking@souskay.fr</b><span>Délai de réponse</span><b>24 h (affiché au client)</b><span>Acompte</span><b>Réglé par Lydia, espèces, CB ou virement · saisi à la main</b></div>
           </div>
         </div>
       </div>
@@ -347,11 +351,20 @@ button,input,select,textarea{font:inherit;color:inherit}
 
     <div id="t-stk" hidden>
       <div class="agrid">
-        <div class="card"><h3>Stock de la soirée <span style="text-transform:none;letter-spacing:0">réservé = tables validées + confirmées</span></h3>
+        <div class="card"><h3>Carte & stock de la soirée <span style="text-transform:none;letter-spacing:0">prix et stock modifiables</span></h3>
           <div style="overflow-x:auto"><table class="tbl stock"><thead><tr><th>Bouteille</th><th>Prix</th><th>Stock</th><th>Réservées</th><th class="hide-m">Demandées</th><th>Reste</th><th class="hide-m"></th></tr></thead><tbody id="stkRows"></tbody></table></div>
           <p style="font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5">Le client ne peut pas choisir plus que le reste disponible. Les bouteilles d'une demande refusée reviennent dans le stock. Prix et stock modifiables ici, par soirée.</p>
         </div>
-        <div class="card"><h3>Préparation bar · à sortir par table <button class="fil2" style="border:0;background:none"><span class="pill p-ok" style="cursor:pointer">Imprimer</span></button></h3><div class="prep" id="prep"></div></div>
+        <div class="card"><h3>Comment lire ce tableau</h3><p style="font-size:13px;color:#D9CFC0;line-height:1.6">C'est la feuille « Bouteilles PACK » du Drive, mais calculée toute seule : <b>Stock</b> = ce que vous avez pour la soirée, <b>Réservées</b> = dans les tables confirmées, <b>Demandées</b> = dans les demandes pas encore confirmées, <b>Reste</b> = ce qu'on peut encore proposer. Les softs (Red Bull, jus, coca, eau) sont suivis de la même façon.</p></div>
+      </div>
+    </div>
+
+    <div id="t-soir" hidden>
+      <div class="agrid">
+        <div class="card"><h3>Liste entrée · A → Z <button class="print" style="border:0;background:none"><span class="pill p-ok" style="cursor:pointer">Imprimer</span></button></h3>
+          <div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Pack / nom</th><th>Table</th><th>Pers.</th><th>À encaisser à l'entrée</th><th class="hide-m">Caisse</th></tr></thead><tbody id="door"></tbody></table></div></div>
+        <div class="card"><h3>Bar · à sortir par table <button class="print" style="border:0;background:none"><span class="pill p-ok" style="cursor:pointer">Imprimer</span></button></h3>
+          <div class="barTot" id="barTot"></div><div class="prep" id="prep"></div></div>
       </div>
     </div>
 
@@ -363,7 +376,7 @@ button,input,select,textarea{font:inherit;color:inherit}
         </div>
         <div class="card"><h3>Accusé au client</h3>
           <div class="mail"><div class="h">De : Souskay · À : ines@… · Objet : <b>On a bien reçu ta demande pour la table 16</b></div>
-          Hello Inès,<br><br>Ta demande pour la <b>table 16</b> à L'Intégration (vendredi 9 octobre) est bien arrivée. On te répond <b>sous 24 h sur WhatsApp</b>.<br><br>Si elle est validée, tu recevras un lien d'acompte de 300 € pour la bloquer. Le reste se règle sur place.<br><br>À très vite,<br>La famille Souskay</div>
+          Hello Inès,<br><br>Ta demande pour la <b>table 16</b> à L'Intégration (vendredi 9 octobre) est bien arrivée. On te répond <b>sous 24 h sur WhatsApp</b>.<br><br>Si elle est confirmée, on te dit sur WhatsApp s'il y a un acompte à régler. Le reste se règle à l'entrée.<br><br>À très vite,<br>La famille Souskay</div>
         </div>
       </div>
     </div>
@@ -380,60 +393,68 @@ const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const CAT={A:{name:'Carré 10',min:1000,pax:10,color:'var(--cA)'},B:{name:'Table 6',min:600,pax:6,color:'var(--cB)'},C:{name:'Table 4',min:400,pax:4,color:'var(--cC)'}};
 const TABLES=[[1,22.8,10.8,'B','VIP 1'],[2,22.7,17.0,'B','VIP 1'],[3,22.7,24.1,'B','VIP 1'],[4,23.2,30.3,'C','VIP 1'],[5,23.1,36.2,'C','VIP 1'],[6,29.3,10.8,'A','VIP 1'],[7,29.7,17.6,'A','VIP 1'],[8,29.7,24.1,'B','VIP 1'],[9,29.5,30.3,'C','VIP 1'],[10,29.8,36.2,'C','VIP 1'],[11,35.8,10.8,'A','VIP 1'],[12,36.1,17.6,'A','VIP 1'],[13,36.4,23.8,'B','VIP 1'],[14,36.1,30.3,'C','VIP 1'],[15,41.6,10.8,'A','VIP 1'],[16,41.4,17.6,'A','VIP 1'],[17,41.6,23.5,'B','VIP 1'],[18,42.0,29.8,'C','VIP 1'],[19,69.5,10.5,'A','VIP 2'],[20,69.5,17.8,'A','VIP 2'],[21,76.1,10.5,'A','VIP 2'],[22,84.4,10.0,'B','VIP 2'],[23,89.9,14.8,'B','VIP 2'],[24,90.1,22.7,'B','VIP 2'],[25,84.1,22.7,'B','VIP 2'],[26,83.9,30.7,'C','VIP 2'],[27,90.2,33.2,'C','VIP 2'],[28,90.2,39.1,'C','VIP 2'],[29,83.9,36.6,'C','VIP 2'],[30,83.9,45.7,'C','VIP 2'],[31,90.2,46.9,'C','VIP 2']]
   .map(([n,x,y,c,z])=>({n,x,y,c,z}));
-const ST={new:['Nouvelle','p-new'],talk:['En discussion','p-talk'],ok:['Validée · acompte attendu','p-ok'],paid:['Confirmée','p-paid'],no:['Refusée','p-no']};
-/* catalogue bouteilles de la soirée (prix et stock = exemples, modifiables dans l'admin) */
+const ST={new:['Nouvelle','p-new'],talk:['En discussion','p-talk'],ok:['Confirmée','p-paid'],no:['Annulée','p-no']};
+/* carte de la soirée — reprise du Drive « Bouteilles PACK ». Prix et stock = EXEMPLES à remplacer dans l'admin */
 const BOT=[
- {id:'moet',name:'Moët & Chandon Impérial',cat:'Champagne',vol:'75 cl',price:120,stock:40},
- {id:'moetmag',name:'Moët & Chandon Impérial',cat:'Champagne',vol:'Magnum 1,5 L',price:250,stock:8},
- {id:'veuve',name:'Veuve Clicquot Brut',cat:'Champagne',vol:'75 cl',price:140,stock:24},
- {id:'ruinart',name:'Ruinart Blanc de Blancs',cat:'Champagne',vol:'75 cl',price:220,stock:6},
- {id:'clement',name:'Clément VSOP',cat:'Rhum',vol:'70 cl',price:110,stock:15},
- {id:'jm',name:'JM VSOP',cat:'Rhum',vol:'70 cl',price:120,stock:12},
- {id:'hennessy',name:'Hennessy VS',cat:'Cognac',vol:'70 cl',price:130,stock:20},
- {id:'greygoose',name:'Grey Goose',cat:'Vodka',vol:'70 cl',price:140,stock:18},
- {id:'jack',name:"Jack Daniel's",cat:'Whisky',vol:'70 cl',price:110,stock:12},
-];
+ ['moet','Moët & Chandon','Champagne','75 cl',120,30],['moetice','Moët Ice Impérial','Champagne','75 cl',140,8],['mercier','Mercier','Champagne','75 cl',90,12],
+ ['lp','Laurent-Perrier','Champagne','75 cl',130,8],['feuillatte','Nicolas Feuillatte','Champagne','75 cl',110,8],['veuve','Veuve Clicquot','Champagne','75 cl',150,20],
+ ['ruinart','Ruinart','Champagne','75 cl',220,6],['domp','Dom Pérignon','Champagne','75 cl',450,3],['cristal','Cristal','Champagne','75 cl',600,2],['armand','Armand de Brignac','Champagne','75 cl',700,2],
+ ['moetmag','Moët & Chandon','Champagne','Magnum 1,5 L',260,6],['moetjero','Moët & Chandon','Champagne','Jéroboam 3 L',600,2],
+ ['hennessy','Hennessy','Cognac','70 cl',160,30],['remy','Rémy Martin','Cognac','70 cl',160,8],['hennessymag','Hennessy','Cognac','Magnum 1,5 L',350,3],['hennessylum','Hennessy lumineux','Cognac','Magnum 1,5 L',400,2],
+ ['absolut','Absolut','Vodka','70 cl',120,20],['greygoose','Grey Goose','Vodka','70 cl',160,15],['ciroc','Cîroc','Vodka','70 cl',160,8],['belvedere','Belvédère','Vodka','70 cl',170,6],['greygoosemag','Grey Goose','Vodka','Magnum 1,5 L',350,2],
+ ['rhumvieux','Rhum vieux','Rhum','70 cl',140,10],['rhumblanc','Rhum blanc','Rhum','70 cl',100,10],
+ ['lawson','William Lawson\'s','Whisky','70 cl',110,8],['jack','Jack Daniel\'s','Whisky','70 cl',140,8],
+ ['redbull','Red Bull','Softs','25 cl',0,120],['energ','Énergisant','Softs','25 cl',0,40],['pomme','Jus de pomme','Softs','1 L',0,30],['cranberry','Jus de cranberry','Softs','1 L',0,20],['ananas','Jus d\'ananas','Softs','1 L',0,20],['coca','Coca-Cola','Softs','1 L',0,20],['eau','Eau','Softs','1 L',0,40],
+].map(([id,name,cat,vol,price,stock])=>({id,name,cat,vol,price,stock}));
 const SRC=['Site','WhatsApp','Téléphone','Instagram','Sur place'];
+const PAY=['—','Lydia','Espèces','CB','Virement','Offert'];
+const WHERE={entree:'À l\'entrée',table:'À table',done:'Déjà réglé'};
+const TARIF=['Standard','Prix assos / partenaire','Offerte'];
+/* réservations d'exemple (noms fictifs) — les colonnes reprennent celles du Drive : pack, pers., articles, prix total, acompte + mode, solde, zone d'encaissement, statut caisse, infos */
 let REQ=[
- {id:1,t:6,name:'Jordan K.',pax:10,amount:1400,bottles:{moet:4,hennessy:2,greygoose:2},src:'Site',deposit:null,status:'paid',at:'14 sept. · 21:04',occ:'Entre potes',crm:{tier:'Majò',n:9,last:'août 2026'}},
- {id:2,t:11,name:'Nadia B.',pax:9,amount:1000,bottles:{veuve:3,clement:2},src:'Site',deposit:null,status:'paid',at:'15 sept. · 10:12',occ:'Anniversaire',crm:{tier:'Konpè',n:5,last:'juil. 2026'}},
- {id:3,t:15,name:'Team Karib Agency',pax:10,amount:1500,bottles:{moetmag:2,ruinart:2,hennessy:2},src:'Téléphone',deposit:null,status:'paid',at:'15 sept. · 18:40',occ:'Afterwork / pro',crm:null},
- {id:4,t:19,name:'Steeve L.',pax:10,amount:1000,bottles:{moet:3,jm:3},src:'WhatsApp',deposit:null,status:'paid',at:'16 sept. · 23:15',occ:'Entre potes',crm:{tier:'Konpè',n:3,last:'mai 2026'}},
- {id:5,t:1,name:'Cassandra P.',pax:6,amount:600,bottles:{moet:2,greygoose:1},src:'Site',deposit:null,status:'paid',at:'17 sept. · 12:02',occ:'EVJF / EVG',crm:null},
- {id:6,t:22,name:'Yohan D.',pax:6,amount:700,bottles:{veuve:2,jack:1},src:'Site',deposit:null,status:'paid',at:'17 sept. · 19:30',occ:'Entre potes',crm:{tier:'Moun',n:1,last:'oct. 2025'}},
- {id:7,t:4,name:'Maëva R.',pax:4,amount:400,bottles:{moet:1,clement:1},src:'Site',deposit:null,status:'paid',at:'18 sept. · 09:48',occ:'Anniversaire',crm:{tier:'Konpè',n:4,last:'juin 2026'}},
- {id:8,t:26,name:'Kévin T.',pax:4,amount:400,bottles:{hennessy:2},src:'Sur place',deposit:null,status:'paid',at:'18 sept. · 16:21',occ:'Entre potes',crm:null},
- {id:9,t:12,name:'Laura & co',pax:10,amount:1000,bottles:{ruinart:2,moet:2},src:'Site',deposit:null,status:'ok',at:'19 sept. · 11:05',occ:'Anniversaire',crm:{tier:'Moun',n:2,last:'avr. 2026'}},
- {id:10,t:23,name:'Christopher A.',pax:6,amount:600,bottles:{moet:2,jm:1},src:'Site',deposit:null,status:'ok',at:'19 sept. · 14:37',occ:'Entre potes',crm:null},
- {id:11,t:27,name:'Océane F.',pax:4,amount:400,bottles:{moet:2},src:'Instagram',deposit:null,status:'ok',at:'19 sept. · 20:02',occ:'EVJF / EVG',crm:{tier:'Moun',n:1,last:'déc. 2025'}},
- {id:12,t:7,name:'Alexis M.',pax:10,amount:1000,bottles:{moetmag:1,greygoose:2},src:'Site',deposit:null,status:'talk',at:'19 sept. · 22:48',occ:'Entre potes',crm:{tier:'Majò',n:11,last:'août 2026'}},
- {id:13,t:30,name:'Sarah-Lyne G.',pax:3,amount:400,bottles:{},src:'Site',deposit:null,status:'talk',at:'20 sept. · 00:12',occ:'Anniversaire',crm:null},
- {id:14,t:16,name:'Inès M.',pax:8,amount:1000,bottles:{veuve:3,moet:2},src:'Site',deposit:null,status:'new',at:'20 sept. · 08:31',occ:'Anniversaire',msg:"On fête les 30 ans d'Inès, possible d'avoir des sparklers ?",crm:{tier:'Konpè',n:4,last:'juil. 2026'}},
- {id:15,t:2,name:'Wilfried N.',pax:6,amount:600,bottles:{clement:2,jack:1},src:'Site',deposit:null,status:'new',at:'20 sept. · 09:02',occ:'Entre potes',crm:null},
- {id:16,t:9,name:'Anaïs C.',pax:4,amount:400,bottles:{},src:'Site',deposit:null,status:'new',at:'20 sept. · 09:40',occ:'EVJF / EVG',crm:{tier:'Moun',n:1,last:'sept. 2025'}},
- {id:17,t:28,name:'Dylan R.',pax:4,amount:400,bottles:{},src:'Site',deposit:null,status:'new',at:'20 sept. · 10:15',occ:'Entre potes',crm:null},
+ {id:1,t:6,name:'Jordan K.',pack:'',pax:10,amount:1000,paid:300,payMode:'Lydia',where:'entree',pos:true,tariff:'Standard',bottles:{moet:3,hennessy:2,redbull:6},src:'WhatsApp',status:'ok',at:'14 sept. · 21:04',occ:'Entre potes',note:'',crm:{tier:'Majò',n:9,last:'août 2026'}},
+ {id:2,t:11,name:'Nadia B.',pack:'',pax:6,amount:500,paid:500,payMode:'Lydia',where:'done',pos:true,tariff:'Standard',bottles:{rhumvieux:1,hennessy:1,mercier:1,moet:1,redbull:3,coca:1},src:'Site',status:'ok',at:'15 sept. · 10:12',occ:'Anniversaire',note:'Anniversaire',crm:{tier:'Konpè',n:5,last:'juil. 2026'}},
+ {id:3,t:15,name:'Collectif Spicy',pack:'SPICY',pax:10,amount:400,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Prix assos / partenaire',bottles:{},src:'Téléphone',status:'ok',at:'15 sept. · 18:40',occ:'Afterwork / pro',note:'Prix assos',crm:null},
+ {id:4,t:19,name:'Steeve L.',pack:'WORLDBASS',pax:8,amount:480,paid:0,payMode:'—',where:'entree',pos:true,tariff:'Standard',bottles:{hennessy:3,redbull:9},src:'WhatsApp',status:'ok',at:'16 sept. · 23:15',occ:'Entre potes',note:'Prix Hennessy 160 € à l\'entrée uniquement',crm:{tier:'Konpè',n:3,last:'mai 2026'}},
+ {id:5,t:1,name:'Cassandra P.',pack:'',pax:6,amount:0,paid:0,payMode:'Offert',where:'table',pos:false,tariff:'Offerte',bottles:{hennessy:1,pomme:1},src:'Sur place',status:'ok',at:'17 sept. · 12:02',occ:'Anniversaire',note:'Anniversaire · table offerte',crm:null},
+ {id:6,t:22,name:'Yohan D.',pack:'',pax:2,amount:140,paid:0,payMode:'—',where:'entree',pos:true,tariff:'Standard',bottles:{moet:1},src:'Site',status:'ok',at:'17 sept. · 19:30',occ:'Entre potes',note:'',crm:{tier:'Moun',n:1,last:'oct. 2025'}},
+ {id:7,t:4,name:'Maëva R.',pack:'',pax:4,amount:400,paid:200,payMode:'Lydia',where:'entree',pos:true,tariff:'Standard',bottles:{hennessy:2,pomme:3},src:'Site',status:'ok',at:'18 sept. · 09:48',occ:'Anniversaire',note:'',crm:{tier:'Konpè',n:4,last:'juin 2026'}},
+ {id:8,t:26,name:'Kévin T.',pack:'',pax:6,amount:300,paid:0,payMode:'—',where:'table',pos:false,tariff:'Standard',bottles:{},src:'Sur place',status:'ok',at:'18 sept. · 16:21',occ:'Entre potes',note:'',crm:null,late:true},
+ {id:9,t:12,name:'Laura & co',pack:'',pax:10,amount:570,paid:0,payMode:'—',where:'entree',pos:true,tariff:'Standard',bottles:{moet:3,absolut:1},src:'Site',status:'ok',at:'19 sept. · 11:05',occ:'Anniversaire',note:'Prix modifié : 570 € au lieu de 510 €',crm:{tier:'Moun',n:2,last:'avr. 2026'}},
+ {id:10,t:23,name:'Christopher A.',pack:'',pax:5,amount:500,paid:0,payMode:'—',where:'entree',pos:true,tariff:'Standard',bottles:{absolut:2,veuve:1,redbull:6},src:'Site',status:'ok',at:'19 sept. · 14:37',occ:'Entre potes',note:'',crm:null},
+ {id:11,t:27,name:'Océane F.',pack:'',pax:3,amount:340,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',bottles:{moet:1,remy:1},src:'Instagram',status:'ok',at:'19 sept. · 20:02',occ:'EVJF / EVG',note:'Va vouloir modifier le pack',crm:{tier:'Moun',n:1,last:'déc. 2025'},late:true},
+ {id:12,t:7,name:'Alexis M.',pack:'',pax:10,amount:1000,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',bottles:{moetmag:1,greygoose:2,redbull:6},src:'Site',status:'talk',at:'19 sept. · 22:48',occ:'Entre potes',note:'',crm:{tier:'Majò',n:11,last:'août 2026'}},
+ {id:13,t:30,name:'Sarah-Lyne G.',pack:'',pax:3,amount:400,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',bottles:{},src:'Site',status:'talk',at:'20 sept. · 00:12',occ:'Anniversaire',note:'',crm:null},
+ {id:14,t:16,name:'Inès M.',pack:'',pax:8,amount:1000,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',bottles:{veuve:3,moet:2,pomme:2},src:'Site',status:'new',at:'20 sept. · 08:31',occ:'Anniversaire',msg:"On fête les 30 ans d'Inès, possible d'avoir des sparklers ?",note:'',crm:{tier:'Konpè',n:4,last:'juil. 2026'}},
+ {id:15,t:2,name:'Wilfried N.',pack:'',pax:6,amount:600,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',bottles:{rhumvieux:2,jack:1,coca:2},src:'Site',status:'new',at:'20 sept. · 09:02',occ:'Entre potes',note:'',crm:null},
+ {id:16,t:9,name:'Anaïs C.',pack:'',pax:4,amount:400,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',bottles:{},src:'Site',status:'new',at:'20 sept. · 09:40',occ:'EVJF / EVG',note:'',crm:{tier:'Moun',n:1,last:'sept. 2025'}},
 ];
 const reqOf=n=>REQ.find(r=>r.t===n&&r.status!=='no');
-const depOf=r=>r.deposit==null?Math.round(r.amount*.3):r.deposit;
+const due=r=>Math.max(0,(r.amount||0)-(r.paid||0));
+const payState=r=>r.tariff==='Offerte'||r.amount===0?['Offerte','p-talk']:due(r)===0?['Payée','p-paid']:r.paid>0?[`Acompte ${eur(r.paid)}`,'p-ok']:['À encaisser','p-new'];
+const who=r=>r.pack?`${r.pack} · ${r.name}`:r.name;
 function botCount(id,statuses){return REQ.filter(r=>statuses.includes(r.status)).reduce((a,r)=>a+((r.bottles||{})[id]||0),0)}
-const botLeft=(id,exceptReq)=>{const b=BOT.find(x=>x.id===id);let used=REQ.filter(r=>['new','talk','ok','paid'].includes(r.status)&&r!==exceptReq).reduce((a,r)=>a+((r.bottles||{})[id]||0),0);return b.stock-used};
+const botLeft=(id,exceptReq)=>{const b=BOT.find(x=>x.id===id);let used=REQ.filter(r=>['new','talk','ok'].includes(r.status)&&r!==exceptReq).reduce((a,r)=>a+((r.bottles||{})[id]||0),0);return b.stock-used};
 const botTotal=o=>Object.entries(o||{}).reduce((a,[id,q])=>a+q*BOT.find(b=>b.id===id).price,0);
-const botText=o=>Object.entries(o||{}).filter(([,q])=>q>0).map(([id,q])=>{const b=BOT.find(x=>x.id===id);return `${q} × ${b.name}${b.vol.startsWith('Mag')?' Magnum':''}`}).join(' · ')||'À choisir sur place';
-/* stepper de bouteilles réutilisable (client + admin) */
+const botName=b=>`${b.name}${b.vol.includes('L')&&b.cat!=='Softs'?' '+b.vol.split(' ')[0]:''}`;
+const botText=o=>Object.entries(o||{}).filter(([,q])=>q>0).map(([id,q])=>`${q} × ${botName(BOT.find(x=>x.id===id))}`).join(' · ')||'Rien de choisi (sur place)';
+const nBot=o=>Object.entries(o||{}).filter(([id])=>BOT.find(b=>b.id===id).cat!=='Softs').reduce((a,[,q])=>a+q,0);
+/* stepper réutilisable (client + admin) */
 function renderBottles(box,sel,{cat='all',exceptReq=null,onChange=()=>{},compact=false}={}){
   const list=BOT.filter(b=>(cat==='all'||b.cat===cat)&&(!compact||sel[b.id]));
-  box.innerHTML=(compact&&!list.length?'<p style="font-size:13px;color:var(--muted)">Aucune bouteille choisie : le client choisira sur place.</p>':'')+list.map(b=>{const q=sel[b.id]||0,left=botLeft(b.id,exceptReq)-q;
-    return `<div class="bt ${q?'on':''} ${left<=0&&!q?'out':''}" data-b="${b.id}"><div><b>${b.name}</b><small>${b.cat} · ${b.vol}${left<=0&&!q?' · <span class="low">épuisé</span>':left<=3?` · <span class="low">plus que ${left+q}</span>`:''}</small></div><span class="pr">${eur(b.price)}</span><div class="qty"><button type="button" data-d="-1" ${q?'':'disabled'}>−</button><span>${q}</span><button type="button" data-d="1" ${left>0?'':'disabled'}>+</button></div></div>`}).join('')+(compact?`<select class="addb"><option value="">+ Ajouter une bouteille</option>${BOT.filter(b=>!sel[b.id]&&botLeft(b.id,exceptReq)>0).map(b=>`<option value="${b.id}">${b.name} · ${b.vol} · ${eur(b.price)} (reste ${botLeft(b.id,exceptReq)})</option>`).join('')}</select>`:'');
+  box.innerHTML=(compact&&!list.length?'<p style="font-size:13px;color:var(--muted)">Rien de choisi : le client choisira sur place.</p>':'')+list.map(b=>{const q=sel[b.id]||0,left=botLeft(b.id,exceptReq)-q;
+    return `<div class="bt ${q?'on':''} ${left<=0&&!q?'out':''}" data-b="${b.id}"><div><b>${b.name}</b><small>${b.cat==='Softs'?'Soft':b.cat} · ${b.vol}${left<=0&&!q?' · <span class="low">épuisé</span>':left<=3?` · <span class="low">plus que ${left+q}</span>`:''}</small></div><span class="pr">${b.price?eur(b.price):'inclus'}</span><div class="qty"><button type="button" data-d="-1" ${q?'':'disabled'}>−</button><span>${q}</span><button type="button" data-d="1" ${left>0?'':'disabled'}>+</button></div></div>`}).join('')
+    +(compact?`<select class="addb"><option value="">+ Ajouter un article</option>${BOT.filter(b=>!sel[b.id]&&botLeft(b.id,exceptReq)>0).map(b=>`<option value="${b.id}">${b.name} · ${b.vol}${b.price?' · '+eur(b.price):''} (reste ${botLeft(b.id,exceptReq)})</option>`).join('')}</select>`:'');
   const again=()=>{renderBottles(box,sel,{cat,exceptReq,onChange,compact});onChange()};
   box.querySelectorAll('.qty button').forEach(btn=>btn.onclick=()=>{const id=btn.closest('.bt').dataset.b;sel[id]=Math.max(0,(sel[id]||0)+ +btn.dataset.d);if(!sel[id])delete sel[id];again()});
   const ad=box.querySelector('.addb');if(ad)ad.onchange=()=>{if(ad.value){sel[ad.value]=1;again()}};
 }
-const pubState=n=>{const r=reqOf(n);if(!r)return'free';return r.status==='paid'?'taken':'pend'};
-const eur=v=>v.toLocaleString('fr-FR')+' €';
+const pubState=n=>{const r=reqOf(n);if(!r)return'free';return r.status==='ok'?'taken':'pend'};
+const eur=v=>(v||0).toLocaleString('fr-FR')+' €';
 
 /* ===== CÔTÉ CLIENT ===== */
 const planbox=$('#planbox'),tip=$('#tip'),ps=$('#planscroll');
-let cSel={},cCat='all';
+let cSel={},cCat='Champagne';
 const cats=['all',...new Set(BOT.map(b=>b.cat))];
 function drawCBottles(){
   $('#cCats').innerHTML=cats.map(c=>`<button type="button" class="${c===cCat?'on':''}" data-c="${c}">${c==='all'?'Tout':c}</button>`).join('');
@@ -473,121 +494,138 @@ $('#mn').onclick=()=>{pax=Math.max(1,pax-1);$('#pax').textContent=pax};
 $('#pl').onclick=()=>{const c=CAT[TABLES.find(x=>x.n===sel).c];pax=Math.min(c.pax,pax+1);$('#pax').textContent=pax;if(pax===c.pax)toast(`${c.pax} pers. max sur cette table`)};
 $('#fChg').onclick=$('#again').onclick=()=>{sel=null;$('#pForm').hidden=true;$('#pDone').hidden=true;$('#pIdle').hidden=false;$('#panel').classList.remove('open');drawClient();planbox.scrollIntoView({behavior:'smooth',block:'center'})};
 $('#form').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target),t=TABLES.find(x=>x.n===sel);
-  REQ.push({id:REQ.length+1,t:sel,name:`${f.get('first')} ${String(f.get('last')).charAt(0)}.`,pax,amount:CAT[t.c].min,status:'new',at:"à l'instant",occ:f.get('occ'),msg:f.get('msg'),crm:null,fresh:true,bottles:$('#later').checked?{}:{...cSel},src:'Site',deposit:null});
+  REQ.push({id:REQ.length+1,t:sel,pack:'',name:`${f.get('first')} ${String(f.get('last')).charAt(0)}.`,pax,amount:CAT[t.c].min,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',status:'new',at:"à l'instant",occ:f.get('occ'),msg:f.get('msg'),note:f.get('occ')==='Anniversaire'?'Anniversaire':'',crm:null,fresh:true,bottles:$('#later').checked?{}:{...cSel},src:'Site'});
   $('#dTitle').textContent='Table '+sel;$('#pForm').hidden=true;$('#pDone').hidden=false;sel=null;drawClient();drawAdmin();
   toast('Demande envoyée · alerte e-mail partie à l\'équipe')};
 $('#panel .grab').onclick=()=>$('#panel').classList.toggle('open');
 
 /* ===== BACK-OFFICE ===== */
 let filt='all',openId=null;
-const F=[['all','Toutes'],['new','Nouvelles'],['talk','En discussion'],['ok','Validées'],['paid','Confirmées'],['no','Refusées']];
+const F=[['all','Toutes'],['new','Nouvelles'],['talk','En discussion'],['ok','Confirmées'],['due','Reste à encaisser'],['no','Annulées']];
 function drawAdmin(){
-  const c=s=>REQ.filter(r=>r.status===s).length;
-  const conf=REQ.filter(r=>r.status==='paid'),pend=REQ.filter(r=>['new','talk','ok'].includes(r.status));
-  $('#kpis').innerHTML=`<div class="kpi"><b>${c('new')}</b><span>Nouvelles demandes</span></div><div class="kpi"><b>${c('talk')}</b><span>En discussion</span></div><div class="kpi"><b>${c('ok')}</b><span>Acompte attendu</span></div><div class="kpi hl"><b>${conf.length}/31</b><span>Tables confirmées</span></div><div class="kpi"><b>${eur(conf.reduce((a,r)=>a+r.amount,0))}</b><span>Minimum conso confirmé</span></div><div class="kpi"><b>${eur(pend.reduce((a,r)=>a+r.amount,0))}</b><span>En attente</span></div>`;
+  const c=s=>REQ.filter(r=>r.status===s).length,conf=REQ.filter(r=>r.status==='ok');
+  const ca=conf.reduce((a,r)=>a+r.amount,0),enc=conf.reduce((a,r)=>a+(r.paid||0),0),pax=conf.reduce((a,r)=>a+r.pax,0);
+  $('#kpis').innerHTML=`<div class="kpi"><b>${c('new')+c('talk')}</b><span>Demandes à traiter</span></div><div class="kpi hl"><b>${conf.length}/${TABLES.length}</b><span>Tables confirmées</span></div><div class="kpi"><b>${pax}</b><span>Personnes en table</span></div><div class="kpi"><b>${eur(ca)}</b><span>Total tables</span></div><div class="kpi"><b>${eur(enc)}</b><span>Déjà encaissé (acomptes)</span></div><div class="kpi"><b>${eur(ca-enc)}</b><span>Reste à encaisser</span></div>`;
   $('#fil2').innerHTML=F.map(([k,l])=>`<button data-f="${k}" class="${filt===k?'on':''}">${l}</button>`).join('');
   $$('#fil2 button').forEach(b=>b.onclick=()=>{filt=b.dataset.f;drawAdmin()});
-  const order={new:0,talk:1,ok:2,paid:3,no:4};
-  $('#rows').innerHTML=REQ.filter(r=>filt==='all'||r.status===filt).sort((a,b)=>order[a.status]-order[b.status]||b.id-a.id).map(r=>{const t=TABLES.find(x=>x.n===r.t);const nb=Object.values(r.bottles||{}).reduce((a,q)=>a+q,0);
-    return `<tr data-id="${r.id}"><td><span class="tb" style="background:${CAT[t.c].color}">${r.t}</span></td><td><b>${r.name}</b>${r.src!=='Site'?`<span class="srcpill">${r.src}</span>`:''}${r.fresh?' <span class="pill p-new">nouveau</span>':''}<small>${r.at} · ${nb?nb+' bouteille'+(nb>1?'s':''):'bouteilles sur place'}</small></td><td class="hide-m">${r.pax}</td><td class="hide-m">${eur(r.amount)}</td><td><span class="pill ${ST[r.status][1]}">${ST[r.status][0]}</span></td></tr>`}).join('');
+  const order={new:0,talk:1,ok:2,no:3};
+  $('#rows').innerHTML=REQ.filter(r=>filt==='all'||(filt==='due'?r.status==='ok'&&due(r)>0:r.status===filt)).sort((a,b)=>order[a.status]-order[b.status]||a.t-b.t).map(r=>{const t=TABLES.find(x=>x.n===r.t);const ps=payState(r);
+    return `<tr data-id="${r.id}"><td><span class="tb" style="background:${CAT[t.c].color}">${r.t}</span></td><td><b>${who(r)}</b>${r.src!=='Site'?`<span class="srcpill">${r.src}</span>`:''}${r.fresh?' <span class="pill p-new">nouveau</span>':''}${r.late?' <span class="pill p-no">modif jour J</span>':''}<small>${r.pax} pers. · ${nBot(r.bottles)?nBot(r.bottles)+' bouteille'+(nBot(r.bottles)>1?'s':''):'bouteilles sur place'}${r.note?' · '+r.note:''}</small></td><td class="hide-m">${eur(r.amount)}<small>${r.status==='ok'?`<span class="pill ${ps[1]}" style="margin-top:4px">${ps[0]}</span>`:''}</small></td><td><span class="pill ${ST[r.status][1]}">${ST[r.status][0]}</span></td></tr>`}).join('');
   $$('#rows tr').forEach(tr=>tr.onclick=()=>openReq(+tr.dataset.id));
   const ap=$('#aplan');$$('.ahs').forEach(e=>e.remove());
-  TABLES.forEach(t=>{const r=reqOf(t.n);const b=document.createElement('button');b.className='ahs'+(r?' s-'+r.status:'')+(r&&r.id===openId?' pick':'');
-    b.style.left=t.x+'%';b.style.top=t.y+'%';b.title=`Table ${t.n}`+(r?` · ${r.name} · ${ST[r.status][0]}`:' · libre : cliquer pour réserver');
+  TABLES.forEach(t=>{const r=reqOf(t.n);const b=document.createElement('button');b.className='ahs'+(r?' s-'+(r.status==='ok'?(due(r)>0?'ok':'paid'):r.status):'')+(r&&r.id===openId?' pick':'');
+    b.style.left=t.x+'%';b.style.top=t.y+'%';b.title=`Table ${t.n}`+(r?` · ${who(r)} · ${ST[r.status][0]}`:' · libre : cliquer pour réserver');
     b.onclick=()=>r?openReq(r.id):openNew(t.n);ap.appendChild(b)});
-  drawStock();
+  drawStock();drawLists();
 }
 function drawStock(){
-  $('#stkRows').innerHTML=BOT.map(b=>{const res=botCount(b.id,['ok','paid']),dem=botCount(b.id,['new','talk']),left=b.stock-res-dem;
-    return `<tr><td><b>${b.name}</b><small>${b.cat} · ${b.vol}</small></td><td>${eur(b.price)}</td><td><input value="${b.stock}" data-s="${b.id}" style="width:56px;background:var(--night);border:1px solid var(--line);border-radius:8px;padding:5px 7px;color:var(--cream)"></td><td><b>${res}</b></td><td class="hide-m">${dem}</td><td><b class="${left<=3?'low':''}">${left}</b></td><td class="hide-m"><div class="sbar"><i style="width:${res/b.stock*100}%;background:var(--mint)"></i><i style="width:${dem/b.stock*100}%;background:var(--amber)"></i></div></td></tr>`}).join('');
-  $$('#stkRows input').forEach(i=>i.onchange=()=>{BOT.find(b=>b.id===i.dataset.s).stock=Math.max(0,+i.value||0);drawStock();toast('Stock mis à jour')});
-  $('#prep').innerHTML=REQ.filter(r=>['ok','paid'].includes(r.status)).sort((a,b)=>a.t-b.t).map(r=>{const t=TABLES.find(x=>x.n===r.t);
-    return `<div><span class="tb" style="background:${CAT[t.c].color}">${r.t}</span><span><b>${r.name}</b> · ${r.pax} pers. · ${r.status==='paid'?'confirmée':'acompte attendu'}<br><span style="color:var(--muted)">${botText(r.bottles)}</span></span></div>`}).join('')||'<p style="color:var(--muted);font-size:13px">Aucune table validée pour l\'instant.</p>';
+  $('#stkRows').innerHTML=BOT.map(b=>{const res=botCount(b.id,['ok']),dem=botCount(b.id,['new','talk']),left=b.stock-res-dem;
+    return `<tr><td><b>${b.name}</b><small>${b.cat==='Softs'?'Soft':b.cat} · ${b.vol}</small></td><td><input value="${b.price}" data-p="${b.id}" class="cellin" style="width:64px"></td><td><input value="${b.stock}" data-s="${b.id}" class="cellin"></td><td><b>${res}</b></td><td class="hide-m">${dem}</td><td><b class="${left<=3?'low':''}">${left}</b></td><td class="hide-m"><div class="sbar"><i style="width:${Math.min(100,res/b.stock*100)}%;background:var(--mint)"></i><i style="width:${Math.min(100,dem/b.stock*100)}%;background:var(--amber)"></i></div></td></tr>`}).join('');
+  $$('#stkRows input[data-s]').forEach(i=>i.onchange=()=>{BOT.find(b=>b.id===i.dataset.s).stock=Math.max(0,+i.value||0);drawStock();toast('Stock mis à jour')});
+  $$('#stkRows input[data-p]').forEach(i=>i.onchange=()=>{BOT.find(b=>b.id===i.dataset.p).price=Math.max(0,+i.value||0);toast('Prix mis à jour')});
+}
+function drawLists(){
+  const conf=REQ.filter(r=>r.status==='ok');
+  $('#door').innerHTML=[...conf].sort((a,b)=>who(a).localeCompare(who(b),'fr')).map(r=>`<tr><td><b>${who(r)}</b>${r.late?' <span class="pill p-no">modif jour J</span>':''}<small>${r.note||''}</small></td><td>${r.t}</td><td>${r.pax}</td><td>${r.where==='entree'&&due(r)>0?`<b>${eur(due(r))}</b>`:'<span style="color:var(--muted)">—</span>'}</td><td class="hide-m">${r.pos?'<span class="pill p-paid">OK caisse</span>':'<span class="pill p-new">À paramétrer</span>'}</td></tr>`).join('');
+  $('#prep').innerHTML=[...conf].sort((a,b)=>a.t-b.t).map(r=>{const t=TABLES.find(x=>x.n===r.t);
+    return `<div><span class="tb" style="background:${CAT[t.c].color}">${r.t}</span><span><b>${who(r)}</b> · ${r.pax} pers.${r.where==='table'&&due(r)>0?` · <b class="low">${eur(due(r))} à encaisser à table</b>`:''}${r.late?' · <b class="low">modifiée le jour J</b>':''}<br><span style="color:var(--muted)">${botText(r.bottles)}</span></span></div>`}).join('')||'<p style="color:var(--muted);font-size:13px">Aucune table confirmée.</p>';
+  const tot={};conf.forEach(r=>Object.entries(r.bottles||{}).forEach(([id,q])=>tot[id]=(tot[id]||0)+q));
+  $('#barTot').innerHTML=Object.entries(tot).sort((a,b)=>b[1]-a[1]).map(([id,q])=>`<span class="chipb"><b>${q}</b> ${botName(BOT.find(b=>b.id===id))}</span>`).join('')||'—';
 }
 function field(label,html){return `<div class="fld"><label>${label}</label>${html}</div>`}
+function payBlock(r,pfx){const c=CAT[TABLES.find(x=>x.n===r.t).c];
+  return `<div class="blk"><h4>Prix & paiement</h4><div class="grid2">
+   ${field('Tarif',`<select id="${pfx}Tar">${TARIF.map(x=>`<option ${x===r.tariff?'selected':''}>${x}</option>`).join('')}</select>`)}
+   ${field('Prix total de la table (€)',`<input type="number" step="10" value="${r.amount}" id="${pfx}Amt">`)}
+   ${field('Acompte versé (€)',`<input type="number" step="10" value="${r.paid||0}" id="${pfx}Paid">`)}
+   ${field('Réglé par',`<select id="${pfx}Mode">${PAY.map(x=>`<option ${x===r.payMode?'selected':''}>${x}</option>`).join('')}</select>`)}
+   ${field('Le reste s\'encaisse',`<select id="${pfx}Where">${Object.entries(WHERE).map(([k,l])=>`<option value="${k}" ${k===r.where?'selected':''}>${l}</option>`).join('')}</select>`)}
+   ${field('Reste à payer',`<div class="due" id="${pfx}Due">${eur(due(r))}</div>`)}
+  </div>
+  <label class="chk" style="margin-top:10px"><input type="checkbox" id="${pfx}Pos" ${r.pos?'checked':''}><span>Table paramétrée dans la caisse</span></label>
+  <p style="font-size:12px;color:var(--muted);margin-top:6px">Prix de base ${c.name} : ${eur(c.min)}. Tu mets le prix que tu veux (prix assos, geste, table offerte…).</p></div>`}
+function bindPay(pfx,r){const upd=()=>{if($('#'+pfx+'Tar').value==='Offerte'){$('#'+pfx+'Amt').value=0;$('#'+pfx+'Mode').value='Offert'}
+  $('#'+pfx+'Due').textContent=eur(Math.max(0,(+$('#'+pfx+'Amt').value||0)-(+$('#'+pfx+'Paid').value||0)))};
+  ['Tar','Amt','Paid'].forEach(k=>$('#'+pfx+k).oninput=$('#'+pfx+k).onchange=upd);upd()}
+function readPay(pfx,r){r.tariff=$('#'+pfx+'Tar').value;r.amount=+$('#'+pfx+'Amt').value||0;r.paid=+$('#'+pfx+'Paid').value||0;r.payMode=$('#'+pfx+'Mode').value;r.where=$('#'+pfx+'Where').value;r.pos=$('#'+pfx+'Pos').checked;if(due(r)===0&&r.amount>0)r.where='done'}
 function openReq(id){openId=id;const r=REQ.find(x=>x.id===id),t=TABLES.find(x=>x.n===r.t),c=CAT[t.c];
-  const steps=['new','talk','ok','paid'],i=steps.indexOf(r.status),dep=depOf(r);
+  const i=['new','talk','ok'].indexOf(r.status);
   const wa=`https://wa.me/33600000000?text=${encodeURIComponent(`Hello ${r.name.split(' ')[0]} ! C'est Souskay pour ta table ${r.t} à L'Intégration (09.10).`)}`;
   const edit={...r.bottles};
   $('#drawer').innerHTML=`
-   <div class="dh"><div><h2>Table ${r.t} · ${r.name}</h2><p>${t.z} · ${c.name} · via ${r.src} · ${r.at}</p></div><button class="x" id="dx">✕</button></div>
-   <div class="flow">${['Nouvelle','En discussion','Validée','Confirmée'].map((l,k)=>`<div class="${k<=i?'on':''}">${l}</div>`).join('')}</div>
-   ${r.status==='no'?'<p class="pill p-no" style="margin-bottom:12px">Demande refusée · table et bouteilles libérées</p>':''}
-   <div class="blk"><h4>Réservation · modifiable</h4>
-     <div class="grid2">
-       ${field('Personnes',`<input type="number" min="1" max="${c.pax+4}" value="${r.pax}" id="ePax">`)}
-       ${field('Arrivée',`<select id="eArr"><option>23h30</option><option>00h00</option><option selected>00h30</option><option>01h00</option></select>`)}
-       ${field('Montant de la résa (€)',`<input type="number" step="50" value="${r.amount}" id="eAmt">`)}
-       ${field('Acompte (€) · 0 = aucun',`<input type="number" step="10" value="${dep}" id="eDep">`)}
-     </div>
-     <p style="font-size:12px;color:var(--muted);margin-top:8px">Prix de base de la catégorie : ${eur(c.min)}. Tu fixes le montant que tu veux (remise, table négociée…).</p>
-     ${r.msg?`<p style="font-size:13px;margin-top:10px">« ${r.msg} »</p>`:''}
-   </div>
-   <div class="blk"><h4>Bouteilles réservées · <span id="eBTot"></span></h4><div class="btls" id="eBtl"></div></div>
-   <button class="btn" id="eSave" style="width:100%;margin-bottom:6px">Enregistrer les modifications <span>✓</span></button>
-   <div class="blk ${r.crm?'crm':''}"><h4>${r.crm?'Déjà dans le CRM':'Nouveau client'}</h4>${r.crm?`<div class="kv"><span>Statut</span><b>${r.crm.tier}</b><span>Soirées</span><b>${r.crm.n} venues</b><span>Dernière venue</span><b>${r.crm.last}</b></div>`:`<p style="font-size:13px;color:var(--muted);line-height:1.5">Aucun contact avec ce téléphone ou cet e-mail. Il sera créé dans le CRM à la validation.</p>`}</div>
+   <div class="dh"><div><h2>Table ${r.t} · ${who(r)}</h2><p>${t.z} · ${c.name} · via ${r.src} · ${r.at}</p></div><button class="x" id="dx">✕</button></div>
+   <div class="flow">${['Nouvelle','En discussion','Confirmée'].map((l,k)=>`<div class="${k<=i?'on':''}">${l}</div>`).join('')}</div>
+   ${r.status==='no'?'<p class="pill p-no" style="margin-bottom:12px">Annulée · table et bouteilles libérées</p>':''}
+   <div class="blk"><h4>Réservation</h4><div class="grid2">
+     ${field('Nom du pack / groupe',`<input id="ePack" value="${r.pack||''}" placeholder="Ex. WORLDBASS (facultatif)">`)}
+     ${field('Personnes',`<input type="number" min="1" value="${r.pax}" id="ePax">`)}
+     ${field('Arrivée',`<select id="eArr"><option>23h30</option><option>00h00</option><option selected>00h30</option><option>01h00</option></select>`)}
+     ${field('Table',`<select id="eTab">${TABLES.filter(x=>x.n===r.t||!reqOf(x.n)).map(x=>`<option value="${x.n}" ${x.n===r.t?'selected':''}>Table ${x.n} · ${x.z}</option>`).join('')}</select>`)}
+   </div>${r.msg?`<p style="font-size:13px;margin-top:10px">« ${r.msg} »</p>`:''}</div>
+   <div class="blk"><h4>Articles réservés · bouteilles et softs · <span id="eBTot"></span></h4><div class="btls" id="eBtl"></div></div>
+   ${payBlock(r,'e')}
+   <div class="blk"><h4>Infos pour l'équipe</h4><textarea class="notes" id="eNote" placeholder="Ex. anniversaire, prix assos, va vouloir modifier le pack">${r.note||''}</textarea>
+     <label class="chk" style="margin-top:8px"><input type="checkbox" id="eLate" ${r.late?'checked':''}><span>Modifiée le jour J (signalée à l'entrée et au bar)</span></label></div>
+   <button class="btn" id="eSave" style="width:100%;margin-bottom:6px">Enregistrer <span>✓</span></button>
+   <div class="blk ${r.crm?'crm':''}"><h4>${r.crm?'Déjà dans le CRM':'Nouveau client'}</h4>${r.crm?`<div class="kv"><span>Statut</span><b>${r.crm.tier}</b><span>Soirées</span><b>${r.crm.n} venues</b><span>Dernière venue</span><b>${r.crm.last}</b></div>`:`<p style="font-size:13px;color:var(--muted);line-height:1.5">Aucun contact avec ce téléphone ou cet e-mail. Il sera créé dans le CRM à la confirmation.</p>`}</div>
    <div class="acts">
-     ${r.status==='new'||r.status==='talk'?`<button class="btn pri" data-a="paid">Confirmer la table · sans paiement <span>✓</span></button>${dep>0?`<button class="btn" data-a="ok">Valider et envoyer le lien d'acompte (${eur(dep)}) <span>→</span></button>`:''}`:''}
-     ${r.status==='ok'?`<button class="btn pri" data-a="paid">Acompte reçu · confirmer <span>✓</span></button><button class="btn" data-a="paid">Confirmer sans attendre l'acompte <span>→</span></button><button class="btn" data-a="relance">Relancer le lien d'acompte <span>↻</span></button>`:''}
+     ${r.status!=='ok'&&r.status!=='no'?`<button class="btn pri" data-a="ok">Confirmer la table <span>✓</span></button>`:''}
      <a class="btn wa" href="${wa}" target="_blank" rel="noopener">Écrire sur WhatsApp <span>↗</span></a>
-     ${r.status!=='no'?`<div class="two2">${r.status==='new'?`<button class="btn" data-a="talk">En discussion</button>`:`<button class="btn" data-a="move">Changer de table</button>`}<button class="btn no" data-a="no">${r.status==='paid'?'Annuler':'Refuser'}</button></div>`:''}
+     ${r.status!=='no'?`<div class="two2">${r.status==='new'?`<button class="btn" data-a="talk">En discussion</button>`:`<button class="btn" data-a="print">Ticket bar</button>`}<button class="btn no" data-a="no">${r.status==='ok'?'Annuler':'Refuser'}</button></div>`:''}
    </div>
-   <div class="blk"><h4>Notes internes</h4><textarea class="notes" placeholder="Ex. arrive avec 2 personnes en plus, gâteau à minuit"></textarea></div>
    <div class="blk"><h4>Historique</h4><ul class="log">
-     <li><time>${r.at}</time>${r.src==='Site'?'Demande reçue depuis le site':`Réservation saisie par l'équipe (${r.src})`}</li>
-     ${r.src==='Site'?`<li><time>${r.at}</time>Alerte e-mail envoyée à booking@souskay.fr</li><li><time>${r.at}</time>Accusé de réception envoyé au client</li>`:''}
-     ${i>=1?'<li><time>+ 2 h</time>Passée en discussion (WhatsApp)</li>':''}
-     ${i>=2?`<li><time>+ 3 h</time>Validée · bouteilles bloquées dans le stock</li>`:''}
-     ${i>=3?`<li><time>+ 1 j</time>Table confirmée</li><li><time>+ 1 j</time><span style="color:var(--mint)">Envoyée au CRM ✓ contact ${r.crm?'mis à jour':'créé'}, tag table:integration-2026</span></li>`:''}
+     <li><time>${r.at}</time>${r.src==='Site'?'Demande reçue depuis le site · alerte e-mail envoyée':`Réservation saisie par l'équipe (${r.src})`}</li>
+     ${i>=1?'<li><time>+ 2 h</time>En discussion (WhatsApp)</li>':''}
+     ${r.paid?`<li><time>+ 3 h</time>Acompte ${eur(r.paid)} reçu (${r.payMode})</li>`:''}
+     ${i>=2?`<li><time>+ 1 j</time>Table confirmée · articles bloqués dans le stock</li><li><time>+ 1 j</time><span style="color:var(--mint)">Envoyée au CRM ✓ contact ${r.crm?'mis à jour':'créé'}</span></li>`:''}
    </ul></div>`;
-  const drawE=()=>{$('#eBTot').textContent=`${eur(botTotal(edit))} · min. ${eur(+$('#eAmt').value||0)}`};
-  renderBottles($('#eBtl'),edit,{exceptReq:r,onChange:drawE,compact:true});drawE();$('#eAmt').oninput=drawE;
-  $('#eSave').onclick=()=>{r.pax=+$('#ePax').value||r.pax;r.amount=+$('#eAmt').value||0;r.deposit=+$('#eDep').value||0;r.bottles={...edit};openReq(r.id);drawClient();toast('Réservation mise à jour'+(['ok','paid'].includes(r.status)?' · CRM et stock à jour':''))};
+  const drawE=()=>{const b=botTotal(edit);$('#eBTot').textContent=b?`${eur(b)} en bouteilles`:''};
+  renderBottles($('#eBtl'),edit,{exceptReq:r,onChange:drawE,compact:true});drawE();bindPay('e',r);
+  $('#eSave').onclick=()=>{r.pack=$('#ePack').value.trim().toUpperCase();r.pax=+$('#ePax').value||r.pax;r.t=+$('#eTab').value;r.bottles={...edit};r.note=$('#eNote').value;r.late=$('#eLate').checked;readPay('e',r);openReq(r.id);drawClient();toast('Réservation mise à jour'+(r.status==='ok'?' · stock, listes du soir et CRM à jour':''))};
   $('#drawer').classList.add('on');$('#scrim').classList.add('on');drawAdmin();
   $('#dx').onclick=closeReq;
   $$('#drawer [data-a]').forEach(b=>b.onclick=()=>act(r,b.dataset.a));
 }
 function openNew(tn){openId=null;const free=TABLES.filter(t=>!reqOf(t.n));if(!free.length){toast('Plus aucune table libre');return}
-  tn=tn||free[0].n;const nb={};
-  const opts=free.map(t=>`<option value="${t.n}" ${t.n===tn?'selected':''}>Table ${t.n} · ${t.z} · ${CAT[t.c].name}</option>`).join('');
+  tn=tn||free[0].n;const nb={};const draft={t:tn,amount:CAT[TABLES.find(x=>x.n===tn).c].min,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard'};
   $('#drawer').innerHTML=`
    <div class="dh"><div><h2>Nouvelle réservation</h2><p>Saisie par l'équipe (téléphone, WhatsApp, Insta, sur place)</p></div><button class="x" id="dx">✕</button></div>
    <form id="nf" class="f">
-   <div class="blk"><h4>Table</h4>${field('Table',`<select id="nT">${opts}</select>`)}</div>
-   <div class="blk"><h4>Client</h4><div class="grid2">
+   <div class="blk"><h4>Table & client</h4><div class="grid2">
+     ${field('Table',`<select id="nT">${free.map(t=>`<option value="${t.n}" ${t.n===tn?'selected':''}>Table ${t.n} · ${t.z} · ${CAT[t.c].name}</option>`).join('')}</select>`)}
+     ${field('Nom du pack / groupe',`<input id="nPack" placeholder="Facultatif">`)}
      ${field('Prénom',`<input required id="nFirst">`)}${field('Nom',`<input id="nLast">`)}
-     ${field('Téléphone',`<input required id="nPhone" type="tel" placeholder="0696 12 34 56">`)}${field('E-mail (optionnel)',`<input id="nMail" type="email">`)}
+     ${field('Téléphone',`<input required id="nPhone" type="tel" placeholder="0696 12 34 56">`)}${field('E-mail (facultatif)',`<input id="nMail" type="email">`)}
      ${field('Source',`<select id="nSrc">${SRC.slice(1).map(x=>`<option>${x}</option>`).join('')}</select>`)}${field('Personnes',`<input type="number" id="nPax" min="1" value="6">`)}
-   </div><p style="font-size:12px;color:var(--muted);margin-top:8px">Retrouvé dans le CRM par téléphone ou e-mail, sinon créé à l'enregistrement. Pas de consentement marketing coché d'office.</p></div>
-   <div class="blk"><h4>Montant & statut</h4><div class="grid2">
-     ${field('Montant de la résa (€)',`<input type="number" step="50" id="nAmt">`)}${field('Acompte (€) · 0 = aucun',`<input type="number" step="10" id="nDep" value="0">`)}
-     ${field('Statut',`<select id="nSt"><option value="paid">Confirmée</option><option value="ok">Validée · acompte attendu</option><option value="talk">En discussion (option)</option></select>`)}${field('Arrivée',`<select><option>23h30</option><option>00h00</option><option selected>00h30</option><option>01h00</option></select>`)}
-   </div></div>
-   <div class="blk"><h4>Bouteilles · <span id="nBTot">0 €</span></h4><div class="btls" id="nBtl"></div></div>
-   <div class="blk"><h4>Note</h4><textarea class="notes" id="nNote" placeholder="Ex. ami de Gérald, bouteille offerte"></textarea></div>
-   <button class="btn pri" style="width:100%">Enregistrer la réservation <span>✓</span></button>
+   </div><p style="font-size:12px;color:var(--muted);margin-top:8px">Retrouvé dans le CRM par téléphone ou e-mail, sinon créé. Jamais inscrit aux campagnes sans son accord.</p></div>
+   <div class="blk"><h4>Articles · bouteilles et softs · <span id="nBTot"></span></h4><div class="btls" id="nBtl"></div></div>
+   <div id="nPay">${payBlock(draft,'n')}</div>
+   <div class="blk"><h4>Infos pour l'équipe</h4><textarea class="notes" id="nNote" placeholder="Ex. anniversaire, prix assos, ami de l'équipe"></textarea></div>
+   ${field('Statut',`<select id="nSt"><option value="ok">Confirmée</option><option value="talk">En discussion (option posée)</option></select>`)}
+   <button class="btn pri" style="width:100%;margin-top:10px">Enregistrer la réservation <span>✓</span></button>
    </form>`;
-  const setAmt=()=>{const t=TABLES.find(x=>x.n===+$('#nT').value);$('#nAmt').value=CAT[t.c].min;$('#nPax').max=CAT[t.c].pax+4};setAmt();$('#nT').onchange=setAmt;
-  renderBottles($('#nBtl'),nb,{onChange:()=>$('#nBTot').textContent=eur(botTotal(nb)),compact:true});
-  $('#nf').onsubmit=e=>{e.preventDefault();const st=$('#nSt').value;
-    const r={id:REQ.length+1,t:+$('#nT').value,name:`${$('#nFirst').value} ${($('#nLast').value||' ').charAt(0)}.`.replace(' .',''),pax:+$('#nPax').value,amount:+$('#nAmt').value||0,deposit:+$('#nDep').value||0,status:st,at:"à l'instant",occ:'—',crm:null,bottles:{...nb},src:$('#nSrc').value};
-    if(st==='paid')r.crm={tier:'Moun',n:0,last:'—'};
-    REQ.push(r);drawClient();openReq(r.id);toast(`Table ${r.t} enregistrée${st!=='talk'?' · bouteilles bloquées · envoyée au CRM ✓':''}`)};
+  bindPay('n',draft);
+  $('#nT').onchange=()=>{draft.t=+$('#nT').value;draft.amount=CAT[TABLES.find(x=>x.n===draft.t).c].min;$('#nPay').innerHTML=payBlock(draft,'n');bindPay('n',draft)};
+  renderBottles($('#nBtl'),nb,{onChange:()=>{const b=botTotal(nb);$('#nBTot').textContent=b?eur(b)+' en bouteilles':''},compact:true});
+  $('#nf').onsubmit=e=>{e.preventDefault();
+    const r={id:REQ.length+1,t:+$('#nT').value,pack:$('#nPack').value.trim().toUpperCase(),name:`${$('#nFirst').value} ${($('#nLast').value||'').charAt(0)}${$('#nLast').value?'.':''}`.trim(),pax:+$('#nPax').value,status:$('#nSt').value,at:"à l'instant",occ:'—',crm:null,bottles:{...nb},src:$('#nSrc').value,note:$('#nNote').value};
+    readPay('n',r);if(r.status==='ok')r.crm={tier:'Moun',n:0,last:'—'};
+    REQ.push(r);drawClient();openReq(r.id);toast(`Table ${r.t} enregistrée${r.status==='ok'?' · articles bloqués · envoyée au CRM ✓':''}`)};
   $('#dx').onclick=closeReq;$('#drawer').classList.add('on');$('#scrim').classList.add('on');drawAdmin();
 }
 $('#newRes').onclick=()=>openNew();
 function closeReq(){openId=null;$('#drawer').classList.remove('on');$('#scrim').classList.remove('on');drawAdmin()}
 $('#scrim').onclick=closeReq;
 function act(r,a){
-  if(a==='ok'){r.status='ok';toast(`Validée · bouteilles bloquées · lien d'acompte (${eur(depOf(r))}) envoyé à ${r.name}`)}
-  if(a==='paid'){r.status='paid';toast(`Table ${r.t} confirmée · envoyée au CRM ✓`);if(!r.crm)r.crm={tier:'Moun',n:0,last:'—'}}
+  if(a==='ok'){r.status='ok';if(!r.crm)r.crm={tier:'Moun',n:0,last:'—'};toast(`Table ${r.t} confirmée · articles bloqués · envoyée au CRM ✓`)}
   if(a==='talk'){r.status='talk';toast('Passée en discussion')}
-  if(a==='relance'){toast('Lien d\'acompte renvoyé');return}
-  if(a==='move'){toast('En prod : clique la nouvelle table sur le plan');return}
-  if(a==='no'){r.status='no';toast('Table et bouteilles libérées · message envoyé au client')}
+  if(a==='print'){toast('Ticket bar imprimé (table, pack, articles)');return}
+  if(a==='no'){r.status='no';toast('Table et articles libérés · message au client')}
   r.fresh=false;openReq(r.id);drawClient();
 }
-$$('#atabs button').forEach(b=>b.onclick=()=>{$$('#atabs button').forEach(x=>x.classList.toggle('on',x===b));['dem','stk','cfg','mail'].forEach(k=>$('#t-'+k).hidden=b.dataset.t!==k)});
+$$('.print').forEach(b=>b.onclick=()=>toast('Impression de la liste'));
+
+$$('#atabs button').forEach(b=>b.onclick=()=>{$$('#atabs button').forEach(x=>x.classList.toggle('on',x===b));['dem','soir','stk','cfg','mail'].forEach(k=>$('#t-'+k).hidden=b.dataset.t!==k)});
 
 /* ===== bascule ===== */
 $$('.switch button').forEach(b=>b.onclick=()=>{$$('.switch button').forEach(x=>x.classList.toggle('on',x===b));$$('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+b.dataset.v));closeReq();scrollTo(0,0)});
