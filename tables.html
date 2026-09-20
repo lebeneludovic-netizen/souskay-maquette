@@ -222,6 +222,11 @@ button,input,select,textarea{font:inherit;color:inherit}
 .due{background:var(--night-3);border-radius:12px;padding:10px 11px;font-weight:700;font-size:15px}
 .barTot{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
 .chipb{font-size:12px;border:1px solid var(--line);border-radius:99px;padding:5px 10px;background:var(--night)}.chipb b{color:var(--mint)}
+.payopt{display:grid;gap:8px}
+.po{display:flex!important;gap:12px;align-items:flex-start;background:var(--night);border:1px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer;text-transform:none!important;letter-spacing:0!important;font-size:14px!important;color:var(--cream)!important;margin:0!important;transition:border-color .2s}
+.po.on{border-color:var(--mint);background:rgba(17,201,140,.07)}
+.po input{accent-color:var(--mint);margin-top:3px;width:auto!important;padding:0!important;border:0!important}
+.po b{display:block;font-weight:600}.po small{display:block;color:var(--muted);font-size:12px;line-height:1.45;margin-top:3px}
 .srcpill{font-size:10px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:2px 7px;color:var(--muted);margin-left:6px}
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);z-index:95;background:var(--cream);color:var(--night);font-weight:600;font-size:13px;padding:12px 18px;border-radius:99px;opacity:0;pointer-events:none;transition:all .4s var(--ease);max-width:92vw;text-align:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
@@ -265,8 +270,8 @@ button,input,select,textarea{font:inherit;color:inherit}
         <p class="lead">31 tables, 2 carrés VIP autour de la cabine DJ. Les prix sont des minimums de consommation : tu les dépenses en bouteilles, sur place.</p>
         <ol class="how">
           <li><span><b>Choisis ta table</b> sur le plan (les cercles verts sont libres).</span></li>
-          <li><span><b>Envoie ta demande</b> : 1 minute, aucun paiement maintenant.</span></li>
-          <li><span><b>On te confirme sur WhatsApp</b> sous 24 h avec le lien pour payer l'acompte : une fois payé, ta table est à toi.</span></li>
+          <li><span><b>Envoie ta demande</b> : paie l'acompte tout de suite pour bloquer ta table, ou plus tard.</span></li>
+          <li><span><b>On te confirme sur WhatsApp</b> sous 24 h. Si tu n'as pas encore payé, on t'envoie le lien d'acompte.</span></li>
         </ol>
       </div>
       <div id="pForm" hidden>
@@ -289,14 +294,19 @@ button,input,select,textarea{font:inherit;color:inherit}
           <div class="fld"><label>Un message ? (bouteilles, surprise…)</label><textarea name="msg" placeholder="Ex. anniversaire de Kenza, on voudrait un gâteau à minuit"></textarea></div>
           <label class="chk"><input type="checkbox" required><span>J'accepte d'être recontacté·e par Souskay sur WhatsApp et par e-mail au sujet de cette réservation.</span></label>
           <label class="chk"><input type="checkbox"><span>Je veux aussi recevoir les prochaines dates Souskay (préventes, lieux dévoilés).</span></label>
-          <p class="note"><b>Aucun paiement maintenant.</b> On valide ta table et tes bouteilles avec toi sur WhatsApp, puis tu reçois un <b>lien de paiement pour l'acompte</b> (<b id="depo">300 €</b>) : dès qu'il est payé, ta table est confirmée. Le reste se règle à l'entrée.</p>
-          <button class="send">Envoyer ma demande <span>→</span></button>
+          <div class="fld"><label>Comment tu veux réserver ?</label>
+            <div class="payopt">
+              <label class="po on"><input type="radio" name="pay" value="now" checked><span><b>Je paie l'acompte maintenant · <span class="depo">300 €</span></b><small>Ta table est bloquée tout de suite, on te confirme sous 24 h. Si on ne peut pas te la donner, l'acompte t'est remboursé.</small></span></label>
+              <label class="po"><input type="radio" name="pay" value="later"><span><b>Je paie plus tard</b><small>Tu envoies juste une demande. On revient vers toi sur WhatsApp ; un lien d'acompte peut t'être envoyé pour confirmer.</small></span></label>
+            </div></div>
+          <p class="note">Le reste se règle à l'entrée. Paiement sécurisé par carte.</p>
+          <button class="send" id="sendBtn">Payer l'acompte et réserver <span>→</span></button>
         </form>
       </div>
       <div id="pDone" hidden class="done">
         <span class="sticker">Demande reçue</span>
         <div class="big" id="dTitle">Table 12</div>
-        <p>On revient vers toi <b>sous 24 h sur WhatsApp</b>. Un récap vient de partir sur ton e-mail.</p>
+        <p id="dMsg">On revient vers toi <b>sous 24 h sur WhatsApp</b>. Un récap vient de partir sur ton e-mail.</p>
         <p style="font-size:12px;color:var(--muted)">Tant qu'elle n'est pas confirmée, la table apparaît « demande en cours » pour les autres.</p>
         <button class="btn" id="again" style="margin:14px auto 0;width:100%;justify-content:center">Revoir le plan</button>
       </div>
@@ -412,7 +422,7 @@ const BOT=[
  ['redbull','Red Bull','Softs','25 cl',0,120],['energ','Énergisant','Softs','25 cl',0,40],['pomme','Jus de pomme','Softs','1 L',0,30],['cranberry','Jus de cranberry','Softs','1 L',0,20],['ananas','Jus d\'ananas','Softs','1 L',0,20],['coca','Coca-Cola','Softs','1 L',0,20],['eau','Eau','Softs','1 L',0,40],
 ].map(([id,name,cat,vol,price,stock])=>({id,name,cat,vol,price,stock}));
 const SRC=['Site','WhatsApp','Téléphone','Instagram','Sur place'];
-const PAY=['—','Lien de paiement','Lydia','Espèces','CB','Virement','Offert'];
+const PAY=['—','Paiement en ligne','Lien de paiement','Lydia','Espèces','CB','Virement','Offert'];
 const WHERE={entree:'À l\'entrée',table:'À table',done:'Déjà réglé'};
 const TARIF=['Standard','Prix assos / partenaire','Offerte'];
 /* réservations d'exemple (noms fictifs) — les colonnes reprennent celles du Drive : pack, pers., articles, prix total, acompte + mode, solde, zone d'encaissement, statut caisse, infos */
@@ -431,7 +441,7 @@ let REQ=[
  {id:12,t:7,name:'Alexis M.',pack:'',pax:10,amount:1000,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',bottles:{moetmag:1,greygoose:2,redbull:6},src:'Site',status:'talk',at:'19 sept. · 22:48',occ:'Entre potes',note:'',crm:{tier:'Majò',n:11,last:'août 2026'}},
  {id:13,t:30,name:'Sarah-Lyne G.',pack:'',pax:3,amount:400,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',bottles:{},src:'Site',status:'talk',at:'20 sept. · 00:12',occ:'Anniversaire',note:'',crm:null},
  {id:14,t:16,name:'Inès M.',pack:'',pax:8,amount:1000,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',bottles:{veuve:3,moet:2,pomme:2},src:'Site',status:'new',at:'20 sept. · 08:31',occ:'Anniversaire',msg:"On fête les 30 ans d'Inès, possible d'avoir des sparklers ?",note:'',crm:{tier:'Konpè',n:4,last:'juil. 2026'}},
- {id:15,t:2,name:'Wilfried N.',pack:'',pax:6,amount:600,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',bottles:{rhumvieux:2,jack:1,coca:2},src:'Site',status:'new',at:'20 sept. · 09:02',occ:'Entre potes',note:'',crm:null},
+ {id:15,t:2,prepaid:true,ask:180,name:'Wilfried N.',pack:'',pax:6,amount:600,paid:180,payMode:'Paiement en ligne',where:'entree',pos:false,tariff:'Standard',bottles:{rhumvieux:2,jack:1,coca:2},src:'Site',status:'new',at:'20 sept. · 09:02',occ:'Entre potes',note:'',crm:null},
  {id:16,t:9,name:'Anaïs C.',pack:'',pax:4,amount:400,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',bottles:{},src:'Site',status:'new',at:'20 sept. · 09:40',occ:'EVJF / EVG',note:'',crm:{tier:'Moun',n:1,last:'sept. 2025'}},
 ];
 const reqOf=n=>REQ.find(r=>r.t===n&&r.status!=='no');
@@ -473,6 +483,7 @@ function drawCTot(){const t=TABLES.find(x=>x.n===sel);if(!t)return;const min=CAT
   $('#cTot').innerHTML=n?`<b>${n} bouteille${n>1?'s':''} · ${eur(tot)}</b> · minimum de la table ${eur(min)}<br><span style="color:var(--muted)">${tot>=min?'Minimum atteint : le reste se consomme sur place.':`Encore ${eur(min-tot)} à consommer sur place, ou ajoute une bouteille.`}</span><div class="bar"><i style="width:${Math.min(100,tot/min*100)}%"></i></div>`
    :`<span style="color:var(--muted)">Choisis tes bouteilles : on les réserve dans notre stock pour toi. Rien n'est payé maintenant.</span>`}
 $('#later').onchange=drawCBottles;
+$$('input[name=pay]').forEach(r=>r.onchange=()=>{$$('.po').forEach(l=>l.classList.toggle('on',l.querySelector('input').checked));$('#sendBtn').firstChild.textContent=r.value==='now'&&r.checked?"Payer l'acompte et réserver ":"Envoyer ma demande "});
 function zone(z){$$('.zones button').forEach(b=>b.classList.toggle('on',+b.dataset.z===z));planbox.classList.toggle('all',z===-1);
   requestAnimationFrame(()=>{if(z>=0){const W=planbox.offsetWidth;ps.scrollTo({left:z===0?W*.12:W*.6,top:0,behavior:'smooth'})}})}
 $$('.zones button').forEach(b=>b.onclick=()=>zone(+b.dataset.z));
@@ -493,7 +504,7 @@ function drawClient(){
 }
 function pick(n){sel=n;const t=TABLES.find(x=>x.n===n),c=CAT[t.c];pax=Math.min(pax,c.pax);
   $('#fNum').textContent=n;$('#fNum').style.background=c.color;$('#fTitle').textContent='Table '+n;
-  $('#fSub').textContent=`${t.z} · jusqu'à ${c.pax} pers. · dès ${eur(c.min)}`;$('#pax').textContent=pax;$('#depo').textContent=eur(Math.round(c.min*.3));
+  $('#fSub').textContent=`${t.z} · jusqu'à ${c.pax} pers. · dès ${eur(c.min)}`;$('#pax').textContent=pax;$$('.depo').forEach(e=>e.textContent=eur(Math.round(c.min*.3/10)*10));
   cSel={};$('#later').checked=false;drawCBottles();
   $('#pIdle').hidden=true;$('#pDone').hidden=true;$('#pForm').hidden=false;$('#panel').classList.add('open');drawClient();
   if(innerWidth>=980)$('#panel').scrollIntoView({block:'nearest',behavior:'smooth'})}
@@ -501,9 +512,11 @@ $('#mn').onclick=()=>{pax=Math.max(1,pax-1);$('#pax').textContent=pax};
 $('#pl').onclick=()=>{const c=CAT[TABLES.find(x=>x.n===sel).c];pax=Math.min(c.pax,pax+1);$('#pax').textContent=pax;if(pax===c.pax)toast(`${c.pax} pers. max sur cette table`)};
 $('#fChg').onclick=$('#again').onclick=()=>{sel=null;$('#pForm').hidden=true;$('#pDone').hidden=true;$('#pIdle').hidden=false;$('#panel').classList.remove('open');drawClient();planbox.scrollIntoView({behavior:'smooth',block:'center'})};
 $('#form').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target),t=TABLES.find(x=>x.n===sel);
-  REQ.push({id:REQ.length+1,t:sel,pack:'',name:`${f.get('first')} ${String(f.get('last')).charAt(0)}.`,pax,amount:CAT[t.c].min,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',status:'new',at:"à l'instant",occ:f.get('occ'),msg:f.get('msg'),note:f.get('occ')==='Anniversaire'?'Anniversaire':'',crm:null,fresh:true,bottles:$('#later').checked?{}:{...cSel},src:'Site'});
-  $('#dTitle').textContent='Table '+sel;$('#pForm').hidden=true;$('#pDone').hidden=false;sel=null;drawClient();drawAdmin();
-  toast('Demande envoyée · alerte e-mail partie à l\'équipe')};
+  const now=f.get('pay')==='now',dep=Math.round(CAT[t.c].min*.3/10)*10;
+  REQ.push({id:REQ.length+1,prepaid:now,ask:dep,t:sel,pack:'',name:`${f.get('first')} ${String(f.get('last')).charAt(0)}.`,pax,amount:CAT[t.c].min,paid:now?dep:0,payMode:now?'Paiement en ligne':'—',where:'entree',pos:false,tariff:'Standard',status:'new',at:"à l'instant",occ:f.get('occ'),msg:f.get('msg'),note:f.get('occ')==='Anniversaire'?'Anniversaire':'',crm:null,fresh:true,bottles:$('#later').checked?{}:{...cSel},src:'Site'});
+  $('#dTitle').textContent='Table '+sel;
+  $('#dMsg').innerHTML=now?`Acompte de <b>${eur(dep)}</b> payé ✓ Ta table est bloquée : on te confirme <b>sous 24 h sur WhatsApp</b>. Si on ne peut pas te la donner, tu es remboursé·e.`:`On revient vers toi <b>sous 24 h sur WhatsApp</b>. Un récap vient de partir sur ton e-mail.`;$('#pForm').hidden=true;$('#pDone').hidden=false;sel=null;drawClient();drawAdmin();
+  toast(now?'Paiement accepté (simulation) · alerte e-mail partie à l\'équipe':'Demande envoyée · alerte e-mail partie à l\'équipe')};
 $('#panel .grab').onclick=()=>$('#panel').classList.toggle('open');
 
 /* ===== BACK-OFFICE ===== */
@@ -518,7 +531,7 @@ function drawAdmin(){
   $$('#fil2 button').forEach(b=>b.onclick=()=>{filt=b.dataset.f;drawAdmin()});
   const order={new:0,talk:1,wait:2,ok:3,no:4};
   $('#rows').innerHTML=REQ.filter(r=>filt==='all'||(filt==='due'?r.status==='ok'&&due(r)>0:r.status===filt)).sort((a,b)=>order[a.status]-order[b.status]||a.t-b.t).map(r=>{const t=TABLES.find(x=>x.n===r.t);const ps=payState(r);
-    return `<tr data-id="${r.id}"><td><span class="tb" style="background:${CAT[t.c].color}">${r.t}</span></td><td><b>${who(r)}</b>${r.src!=='Site'?`<span class="srcpill">${r.src}</span>`:''}${r.fresh?' <span class="pill p-new">nouveau</span>':''}${r.late?' <span class="pill p-no">modif jour J</span>':''}${r.status==='wait'&&r.overdue?' <span class="pill p-no">acompte en retard</span>':''}<small>${r.pax} pers. · ${nBot(r.bottles)?nBot(r.bottles)+' bouteille'+(nBot(r.bottles)>1?'s':''):'bouteilles sur place'}${r.note?' · '+r.note:''}</small></td><td class="hide-m">${eur(r.amount)}<small>${r.status==='ok'?`<span class="pill ${ps[1]}" style="margin-top:4px">${ps[0]}</span>`:''}</small></td><td><span class="pill ${ST[r.status][1]}">${ST[r.status][0]}</span></td></tr>`}).join('');
+    return `<tr data-id="${r.id}"><td><span class="tb" style="background:${CAT[t.c].color}">${r.t}</span></td><td><b>${who(r)}</b>${r.src!=='Site'?`<span class="srcpill">${r.src}</span>`:''}${r.fresh?' <span class="pill p-new">nouveau</span>':''}${r.late?' <span class="pill p-no">modif jour J</span>':''}${r.status==='wait'&&r.overdue?' <span class="pill p-no">acompte en retard</span>':''}${r.prepaid&&r.status!=='ok'&&r.status!=='no'?' <span class="pill p-paid">acompte payé</span>':''}<small>${r.pax} pers. · ${nBot(r.bottles)?nBot(r.bottles)+' bouteille'+(nBot(r.bottles)>1?'s':''):'bouteilles sur place'}${r.note?' · '+r.note:''}</small></td><td class="hide-m">${eur(r.amount)}<small>${r.status==='ok'?`<span class="pill ${ps[1]}" style="margin-top:4px">${ps[0]}</span>`:''}</small></td><td><span class="pill ${ST[r.status][1]}">${ST[r.status][0]}</span></td></tr>`}).join('');
   $$('#rows tr').forEach(tr=>tr.onclick=()=>openReq(+tr.dataset.id));
   const ap=$('#aplan');$$('.ahs').forEach(e=>e.remove());
   TABLES.forEach(t=>{const r=reqOf(t.n);const b=document.createElement('button');b.className='ahs'+(r?' s-'+(r.status==='ok'?(due(r)>0?'ok':'paid'):r.status):'')+(r&&r.id===openId?' pick':'');
@@ -578,17 +591,18 @@ function openReq(id){openId=id;const r=REQ.find(x=>x.id===id),t=TABLES.find(x=>x
    <button class="btn" id="eSave" style="width:100%;margin-bottom:6px">Enregistrer <span>✓</span></button>
    <div class="blk ${r.crm?'crm':''}"><h4>${r.crm?'Déjà dans le CRM':'Nouveau client'}</h4>${r.crm?`<div class="kv"><span>Statut</span><b>${r.crm.tier}</b><span>Soirées</span><b>${r.crm.n} venues</b><span>Dernière venue</span><b>${r.crm.last}</b></div>`:`<p style="font-size:13px;color:var(--muted);line-height:1.5">Aucun contact avec ce téléphone ou cet e-mail. Il sera créé dans le CRM à la confirmation.</p>`}</div>
    <div class="acts">
-     ${r.status==='new'||r.status==='talk'?`${ask>0?`<button class="btn pri" data-a="wait">Valider et envoyer le lien d'acompte (${eur(ask)}) <span>→</span></button>`:''}<button class="btn ${ask>0?'':'pri'}" data-a="ok">Confirmer sans acompte <span>✓</span></button>`:''}
+     ${(r.status==='new'||r.status==='talk')&&r.prepaid?`<div class="blk" style="border-color:var(--mint)"><h4>Le client a choisi de payer tout de suite</h4><div class="kv"><span>Acompte</span><b>${eur(r.paid)} payé en ligne ✓</b><span>Si tu refuses</span><b>remboursement automatique</b></div></div><button class="btn pri" data-a="ok">Confirmer la table <span>✓</span></button>`:''}
+     ${(r.status==='new'||r.status==='talk')&&!r.prepaid?`${ask>0?`<button class="btn pri" data-a="wait">Valider et envoyer le lien d'acompte (${eur(ask)}) <span>→</span></button>`:''}<button class="btn ${ask>0?'':'pri'}" data-a="ok">Confirmer sans acompte <span>✓</span></button>`:''}
      ${r.status==='wait'?`<div class="blk" style="border-color:var(--mint)"><h4>Lien d'acompte</h4><div class="kv"><span>Montant</span><b>${eur(ask)}</b><span>Envoyé</span><b>${r.sent||"à l'instant"} · WhatsApp + e-mail</b><span>État</span><b class="${r.overdue?'low':''}">${r.overdue?'Pas payé depuis plus de 48 h':'En attente du paiement'}</b></div><p style="font-size:12px;color:var(--muted);margin-top:8px">Dès que le client paie, la table passe toute seule en Confirmée et l'acompte s'inscrit comme payé.</p></div>
        <button class="btn pri" data-a="paylink">Simuler : le client a payé <span>✓</span></button><div class="two2"><button class="btn" data-a="relance">Renvoyer le lien</button><button class="btn" data-a="ok">Confirmer sans attendre</button></div><button class="btn" data-a="copy">Copier le lien de paiement <span>⧉</span></button>`:''}
      <a class="btn wa" href="${wa}" target="_blank" rel="noopener">Écrire sur WhatsApp <span>↗</span></a>
      ${r.status!=='no'?`<div class="two2">${r.status==='new'?`<button class="btn" data-a="talk">En discussion</button>`:`<button class="btn" data-a="print">Ticket bar</button>`}<button class="btn no" data-a="no">${r.status==='ok'?'Annuler':'Refuser'}</button></div>`:''}
    </div>
    <div class="blk"><h4>Historique</h4><ul class="log">
-     <li><time>${r.at}</time>${r.src==='Site'?'Demande reçue depuis le site · alerte e-mail envoyée':`Réservation saisie par l'équipe (${r.src})`}</li>
+     <li><time>${r.at}</time>${r.src==='Site'?(r.prepaid?`Demande reçue avec acompte ${eur(r.ask||r.paid)} payé en ligne · alerte e-mail envoyée`:'Demande reçue depuis le site (paiement plus tard) · alerte e-mail envoyée'):`Réservation saisie par l'équipe (${r.src})`}</li>
      ${i>=1?'<li><time>+ 2 h</time>En discussion (WhatsApp)</li>':''}
-     ${i>=2&&r.status!=='ok'||r.payMode==='Lien de paiement'?`<li><time>+ 3 h</time>Validée · lien d'acompte ${eur(ask)} envoyé (WhatsApp + e-mail) · articles bloqués</li>`:''}
-     ${r.paid?`<li><time>+ 5 h</time>Acompte ${eur(r.paid)} reçu (${r.payMode})</li>`:''}
+     ${!r.prepaid&&(i>=2&&r.status!=='ok'||r.payMode==='Lien de paiement')?`<li><time>+ 3 h</time>Validée · lien d'acompte ${eur(ask)} envoyé (WhatsApp + e-mail) · articles bloqués</li>`:''}
+     ${r.paid&&!r.prepaid?`<li><time>+ 5 h</time>Acompte ${eur(r.paid)} reçu (${r.payMode})</li>`:''}
      ${i>=3?`<li><time>+ 1 j</time>Table confirmée · articles bloqués dans le stock</li><li><time>+ 1 j</time><span style="color:var(--mint)">Envoyée au CRM ✓ contact ${r.crm?'mis à jour':'créé'}</span></li>`:''}
    </ul></div>`;
   const drawE=()=>{const b=botTotal(edit);$('#eBTot').textContent=b?`${eur(b)} en bouteilles`:''};
@@ -636,7 +650,7 @@ function act(r,a){
   if(a==='ok'){r.status='ok';if(!r.crm)r.crm={tier:'Moun',n:0,last:'—'};toast(`Table ${r.t} confirmée · articles bloqués · envoyée au CRM ✓`)}
   if(a==='talk'){r.status='talk';toast('Passée en discussion')}
   if(a==='print'){toast('Ticket bar imprimé (table, pack, articles)');return}
-  if(a==='no'){r.status='no';toast('Table et articles libérés · message au client')}
+  if(a==='no'){r.status='no';toast(r.prepaid&&r.paid?`Table libérée · acompte ${eur(r.paid)} remboursé · message au client`:'Table et articles libérés · message au client')}
   r.fresh=false;openReq(r.id);drawClient();
 }
 $$('.print').forEach(b=>b.onclick=()=>toast('Impression de la liste'));
