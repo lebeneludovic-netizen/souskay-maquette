@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Réserver une table — L'Intégration · Souskay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,800;125,900&family=Libertinus+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="picto-souskay-noir.svg">
+<style>
+:root{
+  --night:#0E0B0A;--night-2:#171210;--night-3:#221A17;--line:#2E2521;--cream:#F3EBDD;--muted:#A89C8C;
+  --mint:#11C98C;--mint-2:#5FE3B5;--deep:#0B6B4B;
+  --cA:#1C3A78;--cB:#A39A1C;--cC:#B8202B;--amber:#F2B23A;
+  --serif:'Libertinus Serif',Georgia,serif;--sans:'Space Grotesk',system-ui,sans-serif;--wide:'Archivo','Arial Black',sans-serif;
+  --ease:cubic-bezier(.7,0,.2,1);--pad:20px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--night);color:var(--cream);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+body{overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+.wrap{max-width:1240px;margin:0 auto;padding:0 var(--pad)}
+.eyebrow{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+.sticker{display:inline-flex;align-items:center;gap:8px;font:900 12px/1 var(--wide);font-stretch:125%;text-transform:uppercase;padding:9px 13px;background:var(--mint);color:var(--night);transform:rotate(-5deg);box-shadow:4px 4px 0 rgba(0,0,0,.35)}
+
+/* ===== bascule maquette ===== */
+.switch{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:90;display:flex;background:rgba(20,15,13,.85);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:99px;padding:4px;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.switch button{border:0;background:none;color:var(--muted);font-weight:600;font-size:13px;padding:9px 16px;border-radius:99px;cursor:pointer;white-space:nowrap}
+.switch button.on{background:var(--cream);color:var(--night)}
+.view{display:none}.view.on{display:block}
+
+/* ===== CÔTÉ CLIENT ===== */
+.chead{padding:86px 0 26px;position:relative}
+.chead .logo{width:150px;margin:0 auto 34px}
+.back{display:inline-flex;gap:8px;align-items:center;text-decoration:none;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:22px}
+.chead h1{font:900 clamp(46px,9vw,120px)/.85 var(--wide);font-stretch:125%;text-transform:uppercase;letter-spacing:-.045em;margin-top:16px}
+.chead .when{font:italic 400 clamp(20px,2.6vw,30px) var(--serif);color:var(--mint-2);margin-top:10px}
+.chead .intro{max-width:560px;color:#D9CFC0;font-size:15px;line-height:1.55;margin-top:14px}
+
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 14px}
+.lg{display:flex;align-items:center;gap:10px;border:1px solid var(--line);background:var(--night-2);border-radius:14px;padding:10px 14px;cursor:pointer;transition:border-color .3s,opacity .3s}
+.lg i{width:14px;height:14px;border-radius:50%;flex:none}
+.lg b{font-weight:600;font-size:14px}.lg small{color:var(--muted);font-size:12px;display:block}
+.lg.off{opacity:.35}
+.lg:hover{border-color:var(--muted)}
+.states{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-bottom:18px}
+.states span{display:flex;align-items:center;gap:7px}
+.states i{width:12px;height:12px;border-radius:50%;display:inline-block}
+
+.book{display:grid;grid-template-columns:1fr;gap:16px;align-items:start;padding-bottom:120px}
+@media(min-width:980px){.book{grid-template-columns:1.25fr .9fr}}
+.planbox{position:relative;border-radius:22px;overflow:hidden;background:#EDE6D8;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.planbox img{width:100%;height:auto;user-select:none;-webkit-user-drag:none}
+.planscroll{overflow:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.planscroll::-webkit-scrollbar{display:none}
+.planin{position:relative;width:100%}
+.zones{display:none;gap:6px;margin-bottom:10px}
+.zones button{border:1px solid var(--line);background:var(--night-2);border-radius:99px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer}
+.zones button.on{background:var(--cream);color:var(--night)}
+@media(max-width:979px){.zones{display:flex}.planin{width:230%}.planin.all{width:100%}}
+.planbox .zoomhint{position:absolute;left:12px;bottom:12px;background:rgba(14,11,10,.8);color:var(--cream);font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:7px 11px;border-radius:99px}
+.hs{position:absolute;width:5.4%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;border:0;background:transparent;cursor:pointer;padding:0;min-width:26px}
+.hs::before{content:"";position:absolute;inset:-3px;border-radius:50%;border:3px solid transparent;transition:all .25s}
+.hs.free::before{border-color:var(--mint);animation:ring 2.4s ease-in-out infinite}
+.hs.free:hover::before{inset:-6px;background:rgba(17,201,140,.18)}
+.hs.pend::before{border:3px dashed var(--amber);background:rgba(242,178,58,.28)}
+.hs.taken{cursor:not-allowed}
+.hs.taken::before{background:rgba(14,11,10,.72);border-color:rgba(14,11,10,.72)}
+.hs.taken::after{content:"✕";position:absolute;inset:0;display:grid;place-items:center;color:var(--cream);font-weight:700;font-size:clamp(10px,1.4vw,15px)}
+.hs.sel::before{inset:-7px;border:4px solid var(--night);background:rgba(17,201,140,.35);animation:none;box-shadow:0 0 0 3px var(--mint)}
+.hs.dim{opacity:.18;pointer-events:none}
+@keyframes ring{0%,100%{opacity:1}50%{opacity:.35}}
+.tip{position:absolute;z-index:3;pointer-events:none;background:var(--night);color:var(--cream);font-size:12px;padding:7px 10px;border-radius:10px;white-space:nowrap;transform:translate(-50%,calc(-100% - 22px));opacity:0;transition:opacity .2s}
+.tip.on{opacity:1}
+
+.panel{background:var(--night-2);border:1px solid var(--line);border-radius:22px;padding:24px;position:sticky;top:76px}
+.panel h2{font-family:var(--serif);font-weight:400;font-size:34px;line-height:1}
+.panel .lead{color:var(--muted);font-size:14px;margin:8px 0 20px;line-height:1.5}
+.how{list-style:none;display:grid;gap:12px;counter-reset:s}
+.how li{display:flex;gap:14px;align-items:flex-start;font-size:14px;color:#D9CFC0;line-height:1.45}
+.how li::before{counter-increment:s;content:counter(s);flex:none;width:30px;height:30px;border-radius:50%;background:var(--night-3);display:grid;place-items:center;font-weight:700;color:var(--mint)}
+.how b{color:var(--cream)}
+.tcard{display:flex;gap:14px;align-items:center;padding:14px;border-radius:16px;background:var(--night-3);margin-bottom:18px}
+.tnum{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;font:900 22px var(--wide);color:#fff;flex:none}
+.tcard h3{font:900 20px/1 var(--wide);font-stretch:125%;text-transform:uppercase;letter-spacing:-.02em}
+.tcard p{font-size:13px;color:var(--muted);margin-top:5px}
+.tcard .chg{margin-left:auto;background:none;border:1px solid var(--line);border-radius:99px;font-size:12px;padding:7px 11px;cursor:pointer;color:var(--muted)}
+.f{display:grid;gap:10px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fld label{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.fld input,.fld select,.fld textarea{width:100%;background:var(--night);border:1px solid var(--line);border-radius:12px;padding:12px 13px;font-size:15px;outline:0;transition:border-color .2s}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--mint)}
+.fld textarea{min-height:70px;resize:vertical}
+.step{display:flex;align-items:center;background:var(--night);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.step button{width:44px;height:44px;border:0;background:none;font-size:20px;cursor:pointer;color:var(--mint)}
+.step span{flex:1;text-align:center;font-weight:600}
+.chk{display:flex;gap:10px;font-size:12px;color:var(--muted);line-height:1.45;align-items:flex-start}
+.chk input{accent-color:var(--mint);margin-top:2px;flex:none}
+.send{margin-top:6px;border:0;border-radius:16px;padding:16px 18px;background:linear-gradient(135deg,var(--mint),var(--mint-2));color:var(--night);font-weight:700;font-size:15px;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.note{font-size:12px;color:var(--muted);line-height:1.5;background:var(--night);border-radius:12px;padding:12px}
+.note b{color:var(--cream)}
+.done{text-align:center;padding:10px 0}
+.done .big{font:900 34px/1 var(--wide);font-stretch:125%;text-transform:uppercase;color:var(--mint);margin:10px 0}
+.done p{color:#D9CFC0;font-size:14px;line-height:1.55;margin-bottom:10px}
+.listbtn{display:none}
+@media(max-width:979px){
+  .panel{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:60;border-radius:24px 24px 0 0;max-height:86svh;overflow:auto;transform:translateY(calc(100% - 92px));transition:transform .5s var(--ease);padding-bottom:max(24px,env(safe-area-inset-bottom))}
+  .panel.open{transform:none}
+  .panel .grab{display:block;width:44px;height:5px;border-radius:5px;background:var(--line);margin:-10px auto 14px}
+}
+.grab{display:none}
+
+/* ===== BACK-OFFICE ===== */
+.adm{padding:80px 0 60px}
+.atop{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px;margin-bottom:18px}
+.atop h1{font-family:var(--serif);font-weight:400;font-size:clamp(32px,4vw,46px);line-height:1}
+.atop .sel{background:var(--night-2);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14px}
+.tabs2{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}
+.tabs2 button{border:1px solid var(--line);background:var(--night-2);color:var(--muted);border-radius:99px;padding:8px 14px;font-size:13px;cursor:pointer}
+.tabs2 button.on{background:var(--cream);color:var(--night);border-color:var(--cream)}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
+@media(min-width:900px){.kpis{grid-template-columns:repeat(6,1fr)}}
+.kpi{background:var(--night-2);border:1px solid var(--line);border-radius:16px;padding:14px}
+.kpi b{display:block;font-family:var(--serif);font-weight:400;font-size:34px;line-height:1}
+.kpi span{font-size:12px;color:var(--muted)}
+.kpi.hl{background:var(--deep);border-color:var(--deep)}.kpi.hl span{color:rgba(243,235,221,.8)}
+.agrid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:1100px){.agrid{grid-template-columns:.9fr 1.1fr}}
+.card{background:var(--night-2);border:1px solid var(--line);border-radius:20px;padding:16px;overflow:hidden}
+.card h3{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.aplan{position:relative;border-radius:14px;overflow:hidden}
+.aplan img{width:100%}
+.ahs{position:absolute;width:5.4%;min-width:20px;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;border:0;background:transparent;cursor:pointer;padding:0}
+.ahs::before{content:"";position:absolute;inset:-3px;border-radius:50%;border:3px solid transparent}
+.ahs.s-new::before{border-color:var(--amber);background:rgba(242,178,58,.35)}
+.ahs.s-talk::before{border-color:#7FA8FF;background:rgba(127,168,255,.35)}
+.ahs.s-ok::before{border-color:var(--mint);background:rgba(17,201,140,.35)}
+.ahs.s-paid::before{border-color:var(--night);background:rgba(14,11,10,.75)}
+.ahs.s-paid::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:var(--mint);font-weight:800}
+.ahs.pick::before{box-shadow:0 0 0 4px var(--cream)}
+.leg2{display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:var(--muted);margin-top:10px}
+.leg2 span{display:flex;align-items:center;gap:6px}.leg2 i{width:11px;height:11px;border-radius:50%}
+.fil2{display:flex;gap:6px;flex-wrap:wrap}
+.fil2 button{border:1px solid var(--line);background:none;color:var(--muted);border-radius:99px;padding:6px 11px;font-size:12px;cursor:pointer}
+.fil2 button.on{background:var(--cream);color:var(--night)}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{text-align:left;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;padding:8px 8px;border-bottom:1px solid var(--line)}
+.tbl td{padding:11px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr{cursor:pointer;transition:background .2s}.tbl tbody tr:hover{background:var(--night-3)}
+.tbl .tb{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;color:#fff;font-weight:700;font-size:12px}
+.tbl small{display:block;color:var(--muted);font-size:12px}
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:5px 9px;border-radius:99px;white-space:nowrap}
+.p-new{background:rgba(242,178,58,.18);color:var(--amber)}
+.p-talk{background:rgba(127,168,255,.18);color:#9DBBFF}
+.p-ok{background:rgba(17,201,140,.16);color:var(--mint-2)}
+.p-paid{background:var(--mint);color:var(--night)}
+.p-no{background:rgba(184,32,43,.2);color:#FF8C94}
+.hide-m{}
+@media(max-width:700px){.hide-m{display:none}}
+
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(100%,520px);z-index:92;background:var(--night-2);border-left:1px solid var(--line);transform:translateX(105%);transition:transform .5s var(--ease);overflow:auto;padding:22px 22px 40px}
+.drawer.on{transform:none;box-shadow:-30px 0 80px rgba(0,0,0,.5)}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:91;opacity:0;pointer-events:none;transition:opacity .4s}
+.scrim.on{opacity:1;pointer-events:auto}
+.dh{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:16px}
+.dh h2{font:900 26px/1 var(--wide);font-stretch:125%;text-transform:uppercase;letter-spacing:-.03em}
+.dh p{color:var(--muted);font-size:13px;margin-top:6px}
+.x{border:1px solid var(--line);background:none;border-radius:50%;width:38px;height:38px;cursor:pointer;flex:none}
+.flow{display:flex;gap:4px;margin:6px 0 18px}
+.flow div{flex:1;border-top:3px solid var(--line);padding-top:7px;font-size:11px;color:var(--muted)}
+.flow div.on{border-color:var(--mint);color:var(--cream)}
+.blk{background:var(--night);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px}
+.blk h4{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:10px}
+.kv{display:grid;grid-template-columns:120px 1fr;gap:7px 10px;font-size:14px}
+.kv span{color:var(--muted)}
+.crm{border-color:var(--deep);background:linear-gradient(135deg,rgba(11,107,75,.35),rgba(14,11,10,.6))}
+.crm .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.crm .tags i{font-style:normal;font-size:11px;border:1px solid rgba(243,235,221,.25);border-radius:99px;padding:4px 9px}
+.acts{display:grid;gap:8px;margin:14px 0}
+.btn{border:1px solid var(--line);background:var(--night-3);border-radius:14px;padding:13px 14px;font-weight:600;font-size:14px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;text-decoration:none}
+.btn.pri{background:var(--mint);border-color:var(--mint);color:var(--night)}
+.btn.wa{background:#1F9E55;border-color:#1F9E55;color:#fff}
+.btn.no{color:#FF8C94}
+.two2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.log{list-style:none;display:grid;gap:9px;font-size:13px}
+.log li{display:flex;gap:10px;color:#D9CFC0}.log li time{color:var(--muted);min-width:78px;font-size:12px}
+.notes{width:100%;background:var(--night-2);border:1px solid var(--line);border-radius:12px;padding:10px;min-height:64px;font-size:14px}
+.cfg td input{width:90px;background:var(--night);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);z-index:95;background:var(--cream);color:var(--night);font-weight:600;font-size:13px;padding:12px 18px;border-radius:99px;opacity:0;pointer-events:none;transition:all .4s var(--ease);max-width:92vw;text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.mail{background:#fff;color:#1a1a1a;border-radius:14px;padding:16px;font-size:13px;line-height:1.5}
+.mail .h{font-size:11px;color:#777;border-bottom:1px solid #eee;padding-bottom:8px;margin-bottom:10px}
+.mail b{color:#000}
+.mail .cta{display:inline-block;background:#0E0B0A;color:#11C98C;padding:9px 13px;border-radius:9px;font-weight:700;margin-top:8px;text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="switch" role="tablist">
+  <button class="on" data-v="client">Côté client</button>
+  <button data-v="admin">Back-office</button>
+</div>
+
+<!-- ================= CÔTÉ CLIENT ================= -->
+<section class="view on" id="v-client">
+  <div class="wrap chead">
+    <img class="logo" src="logo-souskay-creme.svg" alt="Souskay">
+    <a class="back" href="evenement.html">← L'Intégration</a><br>
+    <span class="sticker">Hors série · Paris</span>
+    <h1>Réserve ta table</h1>
+    <div class="when">L'Intégration · vendredi 9 octobre 2026</div>
+    <p class="intro">Choisis ta table sur le plan et envoie ta demande. On te recontacte sur WhatsApp sous 24 h pour la confirmer.</p>
+    <div class="legend" id="legend"></div>
+    <div class="states"><span><i style="border:2px solid var(--mint)"></i>Libre</span><span><i style="background:rgba(242,178,58,.6);border:2px dashed var(--amber)"></i>Demande en cours</span><span><i style="background:#0E0B0A;border:1px solid #555"></i>Réservée</span></div>
+  </div>
+  <div class="wrap book">
+    <div>
+    <div class="zones"><button data-z="0">VIP 1</button><button data-z="1">VIP 2</button><button data-z="-1">Tout le plan</button></div>
+    <div class="planbox"><div class="planscroll" id="planscroll"><div class="planin" id="planbox">
+      <img src="plan-integration.jpg" alt="Plan de salle de L'Intégration : VIP 1 à gauche de la cabine DJ, VIP 2 à droite, bar au fond">
+      <div class="tip" id="tip"></div>
+    </div></div><span class="zoomhint">Touche une table</span></div>
+    </div>
+    <aside class="panel" id="panel">
+      <span class="grab"></span>
+      <div id="pIdle">
+        <h2>Ta table en 3 étapes</h2>
+        <p class="lead">31 tables, 2 carrés VIP autour de la cabine DJ. Les prix sont des minimums de consommation : tu les dépenses en bouteilles, sur place.</p>
+        <ol class="how">
+          <li><span><b>Choisis ta table</b> sur le plan (les cercles verts sont libres).</span></li>
+          <li><span><b>Envoie ta demande</b> : 1 minute, aucun paiement maintenant.</span></li>
+          <li><span><b>On te confirme sur WhatsApp</b> sous 24 h avec un lien d'acompte pour bloquer ta table.</span></li>
+        </ol>
+      </div>
+      <div id="pForm" hidden>
+        <div class="tcard"><div class="tnum" id="fNum">12</div><div><h3 id="fTitle">Table 12</h3><p id="fSub">VIP 1 · jusqu'à 10 pers. · dès 1 000 €</p></div><button class="chg" id="fChg">Changer</button></div>
+        <form class="f" id="form">
+          <div class="row2"><div class="fld"><label>Prénom</label><input required name="first" autocomplete="given-name"></div><div class="fld"><label>Nom</label><input required name="last" autocomplete="family-name"></div></div>
+          <div class="fld"><label>Téléphone (WhatsApp)</label><input required name="phone" type="tel" placeholder="06 12 34 56 78" autocomplete="tel"></div>
+          <div class="fld"><label>E-mail</label><input required name="email" type="email" autocomplete="email"></div>
+          <div class="row2">
+            <div class="fld"><label>Personnes</label><div class="step"><button type="button" id="mn">−</button><span id="pax">6</span><button type="button" id="pl">+</button></div></div>
+            <div class="fld"><label>Arrivée</label><select name="time"><option>23h30</option><option>00h00</option><option selected>00h30</option><option>01h00</option><option>01h30</option></select></div>
+          </div>
+          <div class="fld"><label>L'occasion</label><select name="occ"><option>Entre potes</option><option>Anniversaire</option><option>EVJF / EVG</option><option>Afterwork / pro</option><option>Autre</option></select></div>
+          <div class="fld"><label>Un message ? (bouteilles, surprise…)</label><textarea name="msg" placeholder="Ex. anniversaire de Kenza, on voudrait un gâteau à minuit"></textarea></div>
+          <label class="chk"><input type="checkbox" required><span>J'accepte d'être recontacté·e par Souskay sur WhatsApp et par e-mail au sujet de cette réservation.</span></label>
+          <label class="chk"><input type="checkbox"><span>Je veux aussi recevoir les prochaines dates Souskay (préventes, lieux dévoilés).</span></label>
+          <p class="note"><b>Aucun paiement maintenant.</b> Si ta demande est validée, tu reçois un lien d'acompte de <b id="depo">300 €</b> (30 %) pour bloquer la table. Le reste se règle sur place.</p>
+          <button class="send">Envoyer ma demande <span>→</span></button>
+        </form>
+      </div>
+      <div id="pDone" hidden class="done">
+        <span class="sticker">Demande reçue</span>
+        <div class="big" id="dTitle">Table 12</div>
+        <p>On revient vers toi <b>sous 24 h sur WhatsApp</b>. Un récap vient de partir sur ton e-mail.</p>
+        <p style="font-size:12px;color:var(--muted)">Tant qu'elle n'est pas confirmée, la table apparaît « demande en cours » pour les autres.</p>
+        <button class="btn" id="again" style="margin:14px auto 0;width:100%;justify-content:center">Revoir le plan</button>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ================= BACK-OFFICE ================= -->
+<section class="view" id="v-admin">
+  <div class="wrap adm">
+    <div class="atop">
+      <div><div class="eyebrow">Back-office · Réservations de tables</div><h1>L'Intégration · 09.10</h1></div>
+      <select class="sel"><option>L'Intégration · ven. 9 oct. 2026 · Paris</option><option>Keloké · Ep09 · date à venir</option></select>
+    </div>
+    <div class="tabs2" id="atabs"><button class="on" data-t="dem">Demandes</button><button data-t="cfg">Plan & tarifs</button><button data-t="mail">E-mails envoyés</button></div>
+
+    <div id="t-dem">
+      <div class="kpis" id="kpis"></div>
+      <div class="agrid">
+        <div class="card">
+          <h3>Plan de salle <span style="text-transform:none;letter-spacing:0">clique une table</span></h3>
+          <div class="aplan" id="aplan"><img src="plan-integration.jpg" alt=""></div>
+          <div class="leg2"><span><i style="background:var(--amber)"></i>Nouvelle</span><span><i style="background:#7FA8FF"></i>En discussion</span><span><i style="background:var(--mint)"></i>Validée · acompte attendu</span><span><i style="background:#000;border:1px solid var(--mint)"></i>Confirmée</span><span><i style="border:1px solid #555"></i>Libre</span></div>
+        </div>
+        <div class="card">
+          <h3>Demandes <div class="fil2" id="fil2"></div></h3>
+          <table class="tbl"><thead><tr><th>Table</th><th>Client</th><th class="hide-m">Pers.</th><th class="hide-m">Montant</th><th>Statut</th></tr></thead><tbody id="rows"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <div id="t-cfg" hidden>
+      <div class="agrid">
+        <div class="card">
+          <h3>Plan de la soirée</h3>
+          <div class="aplan"><img src="plan-integration.jpg" alt=""></div>
+          <p style="font-size:13px;color:var(--muted);margin-top:12px;line-height:1.5">Importe l'image du plan (celle que tu postes en story), puis <b style="color:var(--cream)">clique à l'endroit de chaque table</b> pour la placer : numéro, catégorie, zone. Le plan est réutilisable pour une autre date au même lieu.</p>
+          <div class="acts"><button class="btn">⤒ Remplacer l'image du plan <span>→</span></button><button class="btn">✎ Mode placement des tables <span>→</span></button></div>
+        </div>
+        <div class="card">
+          <h3>Catégories & tarifs</h3>
+          <table class="tbl cfg"><thead><tr><th>Catégorie</th><th>Min. conso</th><th>Pers. max</th><th>Acompte</th><th>Tables</th></tr></thead><tbody>
+            <tr><td><span class="tb" style="background:var(--cA)">A</span> Carré 10</td><td><input value="1 000 €"></td><td><input value="10"></td><td><input value="30 %"></td><td>9</td></tr>
+            <tr><td><span class="tb" style="background:var(--cB)">B</span> Table 6</td><td><input value="600 €"></td><td><input value="6"></td><td><input value="30 %"></td><td>10</td></tr>
+            <tr><td><span class="tb" style="background:var(--cC)">C</span> Table 4</td><td><input value="400 €"></td><td><input value="4"></td><td><input value="30 %"></td><td>12</td></tr>
+          </tbody></table>
+          <div class="blk" style="margin-top:14px"><h4>Réglages de la date</h4>
+            <div class="kv"><span>Réservations</span><b style="color:var(--mint)">Ouvertes</b><span>Fermeture auto</span><b>J-1 à 18h</b><span>Alerte e-mail à</span><b>booking@souskay.fr</b><span>Délai de réponse</span><b>24 h (affiché au client)</b><span>Acompte</span><b>Lien Stripe envoyé à la validation</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="t-mail" hidden>
+      <div class="agrid">
+        <div class="card"><h3>Alerte équipe (à chaque demande)</h3>
+          <div class="mail"><div class="h">De : Souskay Site · À : booking@souskay.fr · Objet : <b>🔔 Table 16 · L'Intégration · Inès M. · 8 pers.</b></div>
+          Nouvelle demande de table pour <b>L'Intégration (09.10)</b>.<br><br><b>Table 16</b> · VIP 1 · catégorie A (dès 1 000 €)<br>Inès M. · 06 12 •• •• 41 · 8 pers. · arrivée 00h30<br>Occasion : Anniversaire<br>« On fête les 30 ans d'Inès, possible d'avoir des sparklers ? »<br><br>Déjà dans le CRM : <b>Konpè</b> · 4 soirées · dernière venue juillet 2026<br><a class="cta" href="#">Ouvrir la demande →</a></div>
+        </div>
+        <div class="card"><h3>Accusé au client</h3>
+          <div class="mail"><div class="h">De : Souskay · À : ines@… · Objet : <b>On a bien reçu ta demande pour la table 16</b></div>
+          Hello Inès,<br><br>Ta demande pour la <b>table 16</b> à L'Intégration (vendredi 9 octobre) est bien arrivée. On te répond <b>sous 24 h sur WhatsApp</b>.<br><br>Si elle est validée, tu recevras un lien d'acompte de 300 € pour la bloquer. Le reste se règle sur place.<br><br>À très vite,<br>La famille Souskay</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer"></aside>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+/* ===== données (en prod : tables venue_tables + table_requests) ===== */
+const CAT={A:{name:'Carré 10',min:1000,pax:10,color:'var(--cA)'},B:{name:'Table 6',min:600,pax:6,color:'var(--cB)'},C:{name:'Table 4',min:400,pax:4,color:'var(--cC)'}};
+const TABLES=[[1,22.8,10.8,'B','VIP 1'],[2,22.7,17.0,'B','VIP 1'],[3,22.7,24.1,'B','VIP 1'],[4,23.2,30.3,'C','VIP 1'],[5,23.1,36.2,'C','VIP 1'],[6,29.3,10.8,'A','VIP 1'],[7,29.7,17.6,'A','VIP 1'],[8,29.7,24.1,'B','VIP 1'],[9,29.5,30.3,'C','VIP 1'],[10,29.8,36.2,'C','VIP 1'],[11,35.8,10.8,'A','VIP 1'],[12,36.1,17.6,'A','VIP 1'],[13,36.4,23.8,'B','VIP 1'],[14,36.1,30.3,'C','VIP 1'],[15,41.6,10.8,'A','VIP 1'],[16,41.4,17.6,'A','VIP 1'],[17,41.6,23.5,'B','VIP 1'],[18,42.0,29.8,'C','VIP 1'],[19,69.5,10.5,'A','VIP 2'],[20,69.5,17.8,'A','VIP 2'],[21,76.1,10.5,'A','VIP 2'],[22,84.4,10.0,'B','VIP 2'],[23,89.9,14.8,'B','VIP 2'],[24,90.1,22.7,'B','VIP 2'],[25,84.1,22.7,'B','VIP 2'],[26,83.9,30.7,'C','VIP 2'],[27,90.2,33.2,'C','VIP 2'],[28,90.2,39.1,'C','VIP 2'],[29,83.9,36.6,'C','VIP 2'],[30,83.9,45.7,'C','VIP 2'],[31,90.2,46.9,'C','VIP 2']]
+  .map(([n,x,y,c,z])=>({n,x,y,c,z}));
+const ST={new:['Nouvelle','p-new'],talk:['En discussion','p-talk'],ok:['Validée · acompte attendu','p-ok'],paid:['Confirmée','p-paid'],no:['Refusée','p-no']};
+let REQ=[
+ {id:1,t:6,name:'Jordan K.',pax:10,amount:1400,status:'paid',at:'14 sept. · 21:04',occ:'Entre potes',crm:{tier:'Majò',n:9,last:'août 2026'}},
+ {id:2,t:11,name:'Nadia B.',pax:9,amount:1000,status:'paid',at:'15 sept. · 10:12',occ:'Anniversaire',crm:{tier:'Konpè',n:5,last:'juil. 2026'}},
+ {id:3,t:15,name:'Team Karib Agency',pax:10,amount:1500,status:'paid',at:'15 sept. · 18:40',occ:'Afterwork / pro',crm:null},
+ {id:4,t:19,name:'Steeve L.',pax:10,amount:1000,status:'paid',at:'16 sept. · 23:15',occ:'Entre potes',crm:{tier:'Konpè',n:3,last:'mai 2026'}},
+ {id:5,t:1,name:'Cassandra P.',pax:6,amount:600,status:'paid',at:'17 sept. · 12:02',occ:'EVJF / EVG',crm:null},
+ {id:6,t:22,name:'Yohan D.',pax:6,amount:700,status:'paid',at:'17 sept. · 19:30',occ:'Entre potes',crm:{tier:'Moun',n:1,last:'oct. 2025'}},
+ {id:7,t:4,name:'Maëva R.',pax:4,amount:400,status:'paid',at:'18 sept. · 09:48',occ:'Anniversaire',crm:{tier:'Konpè',n:4,last:'juin 2026'}},
+ {id:8,t:26,name:'Kévin T.',pax:4,amount:400,status:'paid',at:'18 sept. · 16:21',occ:'Entre potes',crm:null},
+ {id:9,t:12,name:'Laura & co',pax:10,amount:1000,status:'ok',at:'19 sept. · 11:05',occ:'Anniversaire',crm:{tier:'Moun',n:2,last:'avr. 2026'}},
+ {id:10,t:23,name:'Christopher A.',pax:6,amount:600,status:'ok',at:'19 sept. · 14:37',occ:'Entre potes',crm:null},
+ {id:11,t:27,name:'Océane F.',pax:4,amount:400,status:'ok',at:'19 sept. · 20:02',occ:'EVJF / EVG',crm:{tier:'Moun',n:1,last:'déc. 2025'}},
+ {id:12,t:7,name:'Alexis M.',pax:10,amount:1000,status:'talk',at:'19 sept. · 22:48',occ:'Entre potes',crm:{tier:'Majò',n:11,last:'août 2026'}},
+ {id:13,t:30,name:'Sarah-Lyne G.',pax:3,amount:400,status:'talk',at:'20 sept. · 00:12',occ:'Anniversaire',crm:null},
+ {id:14,t:16,name:'Inès M.',pax:8,amount:1000,status:'new',at:'20 sept. · 08:31',occ:'Anniversaire',msg:"On fête les 30 ans d'Inès, possible d'avoir des sparklers ?",crm:{tier:'Konpè',n:4,last:'juil. 2026'}},
+ {id:15,t:2,name:'Wilfried N.',pax:6,amount:600,status:'new',at:'20 sept. · 09:02',occ:'Entre potes',crm:null},
+ {id:16,t:9,name:'Anaïs C.',pax:4,amount:400,status:'new',at:'20 sept. · 09:40',occ:'EVJF / EVG',crm:{tier:'Moun',n:1,last:'sept. 2025'}},
+ {id:17,t:28,name:'Dylan R.',pax:4,amount:400,status:'new',at:'20 sept. · 10:15',occ:'Entre potes',crm:null},
+];
+const reqOf=n=>REQ.find(r=>r.t===n&&r.status!=='no');
+const pubState=n=>{const r=reqOf(n);if(!r)return'free';return r.status==='paid'?'taken':'pend'};
+const eur=v=>v.toLocaleString('fr-FR')+' €';
+
+/* ===== CÔTÉ CLIENT ===== */
+const planbox=$('#planbox'),tip=$('#tip'),ps=$('#planscroll');
+function zone(z){$$('.zones button').forEach(b=>b.classList.toggle('on',+b.dataset.z===z));planbox.classList.toggle('all',z===-1);
+  requestAnimationFrame(()=>{if(z>=0){const W=planbox.offsetWidth;ps.scrollTo({left:z===0?W*.12:W*.6,top:0,behavior:'smooth'})}})}
+$$('.zones button').forEach(b=>b.onclick=()=>zone(+b.dataset.z));
+if(innerWidth<980)setTimeout(()=>zone(0),50);let sel=null,pax=6,catOff=new Set();
+$('#legend').innerHTML=Object.entries(CAT).map(([k,c])=>`<button class="lg" data-c="${k}"><i style="background:${c.color}"></i><span><b>Dès ${eur(c.min)}</b><small>${c.name} · jusqu'à ${c.pax} pers.</small></span></button>`).join('');
+$$('.lg').forEach(b=>b.onclick=()=>{const k=b.dataset.c;catOff.has(k)?catOff.delete(k):catOff.add(k);b.classList.toggle('off',catOff.has(k));drawClient()});
+function drawClient(){
+  $$('.hs').forEach(e=>e.remove());
+  TABLES.forEach(t=>{const s=pubState(t.n);const b=document.createElement('button');
+    b.className=`hs ${s}${sel===t.n?' sel':''}${catOff.has(t.c)?' dim':''}`;b.style.left=t.x+'%';b.style.top=t.y+'%';
+    b.setAttribute('aria-label',`Table ${t.n}, ${t.z}, ${s==='free'?'libre':s==='pend'?'demande en cours':'réservée'}`);
+    b.onmouseenter=()=>{tip.textContent=`Table ${t.n} · ${t.z} · dès ${eur(CAT[t.c].min)} · ${s==='free'?'libre':s==='pend'?'demande en cours':'réservée'}`;tip.style.left=t.x+'%';tip.style.top=t.y+'%';tip.classList.add('on')};
+    b.onmouseleave=()=>tip.classList.remove('on');
+    b.onclick=()=>{if(s==='taken'){toast('Cette table est déjà réservée');return}
+      if(s==='pend'){toast('Demande en cours sur cette table : choisis-en une autre ou réessaie plus tard');return}
+      pick(t.n)};
+    planbox.appendChild(b)});
+}
+function pick(n){sel=n;const t=TABLES.find(x=>x.n===n),c=CAT[t.c];pax=Math.min(pax,c.pax);
+  $('#fNum').textContent=n;$('#fNum').style.background=c.color;$('#fTitle').textContent='Table '+n;
+  $('#fSub').textContent=`${t.z} · jusqu'à ${c.pax} pers. · dès ${eur(c.min)}`;$('#pax').textContent=pax;$('#depo').textContent=eur(Math.round(c.min*.3));
+  $('#pIdle').hidden=true;$('#pDone').hidden=true;$('#pForm').hidden=false;$('#panel').classList.add('open');drawClient();
+  if(innerWidth>=980)$('#panel').scrollIntoView({block:'nearest',behavior:'smooth'})}
+$('#mn').onclick=()=>{pax=Math.max(1,pax-1);$('#pax').textContent=pax};
+$('#pl').onclick=()=>{const c=CAT[TABLES.find(x=>x.n===sel).c];pax=Math.min(c.pax,pax+1);$('#pax').textContent=pax;if(pax===c.pax)toast(`${c.pax} pers. max sur cette table`)};
+$('#fChg').onclick=$('#again').onclick=()=>{sel=null;$('#pForm').hidden=true;$('#pDone').hidden=true;$('#pIdle').hidden=false;$('#panel').classList.remove('open');drawClient();planbox.scrollIntoView({behavior:'smooth',block:'center'})};
+$('#form').onsubmit=e=>{e.preventDefault();const f=new FormData(e.target),t=TABLES.find(x=>x.n===sel);
+  REQ.push({id:REQ.length+1,t:sel,name:`${f.get('first')} ${String(f.get('last')).charAt(0)}.`,pax,amount:CAT[t.c].min,status:'new',at:"à l'instant",occ:f.get('occ'),msg:f.get('msg'),crm:null,fresh:true});
+  $('#dTitle').textContent='Table '+sel;$('#pForm').hidden=true;$('#pDone').hidden=false;sel=null;drawClient();drawAdmin();
+  toast('Demande envoyée · alerte e-mail partie à l\'équipe')};
+$('#panel .grab').onclick=()=>$('#panel').classList.toggle('open');
+
+/* ===== BACK-OFFICE ===== */
+let filt='all',openId=null;
+const F=[['all','Toutes'],['new','Nouvelles'],['talk','En discussion'],['ok','Validées'],['paid','Confirmées'],['no','Refusées']];
+function drawAdmin(){
+  const c=s=>REQ.filter(r=>r.status===s).length;
+  const conf=REQ.filter(r=>r.status==='paid'),pend=REQ.filter(r=>['new','talk','ok'].includes(r.status));
+  $('#kpis').innerHTML=`<div class="kpi"><b>${c('new')}</b><span>Nouvelles demandes</span></div><div class="kpi"><b>${c('talk')}</b><span>En discussion</span></div><div class="kpi"><b>${c('ok')}</b><span>Acompte attendu</span></div><div class="kpi hl"><b>${conf.length}/31</b><span>Tables confirmées</span></div><div class="kpi"><b>${eur(conf.reduce((a,r)=>a+r.amount,0))}</b><span>Minimum conso confirmé</span></div><div class="kpi"><b>${eur(pend.reduce((a,r)=>a+r.amount,0))}</b><span>En attente</span></div>`;
+  $('#fil2').innerHTML=F.map(([k,l])=>`<button data-f="${k}" class="${filt===k?'on':''}">${l}</button>`).join('');
+  $$('#fil2 button').forEach(b=>b.onclick=()=>{filt=b.dataset.f;drawAdmin()});
+  const order={new:0,talk:1,ok:2,paid:3,no:4};
+  $('#rows').innerHTML=REQ.filter(r=>filt==='all'||r.status===filt).sort((a,b)=>order[a.status]-order[b.status]||b.id-a.id).map(r=>{const t=TABLES.find(x=>x.n===r.t);
+    return `<tr data-id="${r.id}"><td><span class="tb" style="background:${CAT[t.c].color}">${r.t}</span></td><td><b>${r.name}</b>${r.fresh?' <span class="pill p-new">nouveau</span>':''}<small>${r.at} · ${r.occ}</small></td><td class="hide-m">${r.pax}</td><td class="hide-m">${eur(r.amount)}</td><td><span class="pill ${ST[r.status][1]}">${ST[r.status][0]}</span></td></tr>`}).join('');
+  $$('#rows tr').forEach(tr=>tr.onclick=()=>openReq(+tr.dataset.id));
+  const ap=$('#aplan');$$('.ahs').forEach(e=>e.remove());
+  TABLES.forEach(t=>{const r=reqOf(t.n);const b=document.createElement('button');b.className='ahs'+(r?' s-'+r.status:'')+(r&&r.id===openId?' pick':'');
+    b.style.left=t.x+'%';b.style.top=t.y+'%';b.title=`Table ${t.n}`+(r?` · ${r.name} · ${ST[r.status][0]}`:' · libre');
+    b.onclick=()=>r?openReq(r.id):toast(`Table ${t.n} libre · tu peux la bloquer à la main (appel, WhatsApp)`);ap.appendChild(b)});
+}
+function openReq(id){openId=id;const r=REQ.find(x=>x.id===id),t=TABLES.find(x=>x.n===r.t),c=CAT[t.c];
+  const steps=['new','talk','ok','paid'],i=steps.indexOf(r.status);
+  const wa=`https://wa.me/33600000000?text=${encodeURIComponent(`Hello ${r.name.split(' ')[0]} ! C'est Souskay pour ta demande de table ${r.t} à L'Intégration (09.10).`)}`;
+  $('#drawer').innerHTML=`
+   <div class="dh"><div><h2>Table ${r.t} · ${r.name}</h2><p>${t.z} · ${c.name} · dès ${eur(c.min)} · reçue ${r.at}</p></div><button class="x" id="dx">✕</button></div>
+   <div class="flow">${['Nouvelle','En discussion','Validée','Confirmée'].map((l,k)=>`<div class="${k<=i?'on':''}">${l}</div>`).join('')}</div>
+   ${r.status==='no'?'<p class="pill p-no" style="margin-bottom:12px">Demande refusée · table libérée</p>':''}
+   <div class="blk"><h4>La demande</h4><div class="kv"><span>Personnes</span><b>${r.pax} / ${c.pax} max</b><span>Arrivée</span><b>00h30</b><span>Occasion</span><b>${r.occ}</b><span>Montant</span><b>${eur(r.amount)} (min. conso)</b><span>Acompte</span><b>${eur(Math.round(r.amount*.3))} (30 %)</b>${r.msg?`<span>Message</span><b style="font-weight:400">« ${r.msg} »</b>`:''}</div></div>
+   <div class="blk ${r.crm?'crm':''}"><h4>${r.crm?'Déjà dans le CRM':'Nouveau client'}</h4>${r.crm?`<div class="kv"><span>Statut</span><b>${r.crm.tier}</b><span>Soirées</span><b>${r.crm.n} venues</b><span>Dernière venue</span><b>${r.crm.last}</b></div><div class="tags"><i>site:famille</i><i>interet:la-star</i>${r.status==='paid'?`<i>table:integration-2026</i>`:''}</div>`:`<p style="font-size:13px;color:var(--muted);line-height:1.5">Aucun contact avec ce téléphone ou cet e-mail. Il sera créé dans le CRM à la validation.</p>`}</div>
+   <div class="acts">
+     ${r.status==='new'||r.status==='talk'?`<button class="btn pri" data-a="ok">Valider et envoyer le lien d'acompte (${eur(Math.round(r.amount*.3))}) <span>→</span></button><button class="btn" data-a="paid">Confirmer sans acompte (client connu) <span>→</span></button>`:''}
+     ${r.status==='ok'?`<button class="btn pri" data-a="paid">Marquer l'acompte comme reçu <span>✓</span></button><button class="btn" data-a="relance">Relancer le lien d'acompte <span>↻</span></button>`:''}
+     <a class="btn wa" href="${wa}" target="_blank" rel="noopener">Écrire sur WhatsApp <span>↗</span></a>
+     ${r.status!=='paid'&&r.status!=='no'?`<div class="two2">${r.status==='new'?`<button class="btn" data-a="talk">En discussion</button>`:`<button class="btn" data-a="move">Proposer une autre table</button>`}<button class="btn no" data-a="no">Refuser</button></div>`:''}
+   </div>
+   <div class="blk"><h4>Notes internes</h4><textarea class="notes" placeholder="Ex. veut 2 bouteilles de champagne, arrive avec 2 personnes en plus"></textarea></div>
+   <div class="blk"><h4>Historique</h4><ul class="log">
+     <li><time>${r.at}</time>Demande reçue depuis le site</li>
+     <li><time>${r.at}</time>Alerte e-mail envoyée à booking@souskay.fr</li>
+     <li><time>${r.at}</time>Accusé de réception envoyé au client</li>
+     ${i>=1?'<li><time>+ 2 h</time>Passée en discussion (WhatsApp)</li>':''}
+     ${i>=2?`<li><time>+ 3 h</time>Validée · lien d'acompte envoyé</li>`:''}
+     ${i>=3?`<li><time>+ 1 j</time>Acompte reçu · table confirmée</li><li><time>+ 1 j</time><span style="color:var(--mint)">Envoyée au CRM ✓ contact ${r.crm?'mis à jour':'créé'}, tag table:integration-2026</span></li>`:''}
+   </ul></div>`;
+  $('#drawer').classList.add('on');$('#scrim').classList.add('on');drawAdmin();
+  $('#dx').onclick=closeReq;
+  $$('#drawer [data-a]').forEach(b=>b.onclick=()=>act(r,b.dataset.a));
+}
+function closeReq(){openId=null;$('#drawer').classList.remove('on');$('#scrim').classList.remove('on');drawAdmin()}
+$('#scrim').onclick=closeReq;
+function act(r,a){
+  if(a==='ok'){r.status='ok';toast(`Validée · lien d'acompte envoyé à ${r.name} (WhatsApp + e-mail)`)}
+  if(a==='paid'){r.status='paid';toast(`Table ${r.t} confirmée · envoyée au CRM ✓`);if(!r.crm)r.crm={tier:'Moun',n:0,last:'—'}}
+  if(a==='talk'){r.status='talk';toast('Passée en discussion')}
+  if(a==='relance'){toast('Lien d\'acompte renvoyé');return}
+  if(a==='move'){toast('Choisis la nouvelle table sur le plan (en prod : sélection sur le plan)');return}
+  if(a==='no'){r.status='no';toast('Refusée · message envoyé au client, table libérée')}
+  r.fresh=false;openReq(r.id);drawClient();
+}
+$$('#atabs button').forEach(b=>b.onclick=()=>{$$('#atabs button').forEach(x=>x.classList.toggle('on',x===b));['dem','cfg','mail'].forEach(k=>$('#t-'+k).hidden=b.dataset.t!==k)});
+
+/* ===== bascule ===== */
+$$('.switch button').forEach(b=>b.onclick=()=>{$$('.switch button').forEach(x=>x.classList.toggle('on',x===b));$$('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+b.dataset.v));closeReq();scrollTo(0,0)});
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('on'),2600)}
+addEventListener('keydown',e=>{if(e.key==='Escape')closeReq()});
+drawClient();drawAdmin();
+</script>
+</body>
+</html>
