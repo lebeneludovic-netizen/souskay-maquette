@@ -135,6 +135,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .ahs::before{content:"";position:absolute;inset:-3px;border-radius:50%;border:3px solid transparent}
 .ahs.s-new::before{border-color:var(--amber);background:rgba(242,178,58,.35)}
 .ahs.s-talk::before{border-color:#7FA8FF;background:rgba(127,168,255,.35)}
+.ahs.s-wait::before{border:3px dashed var(--mint);background:rgba(17,201,140,.15)}
 .ahs.s-ok::before{border-color:var(--mint);background:rgba(17,201,140,.35)}
 .ahs.s-paid::before{border-color:var(--night);background:rgba(14,11,10,.75)}
 .ahs.s-paid::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;color:var(--mint);font-weight:800}
@@ -265,7 +266,7 @@ button,input,select,textarea{font:inherit;color:inherit}
         <ol class="how">
           <li><span><b>Choisis ta table</b> sur le plan (les cercles verts sont libres).</span></li>
           <li><span><b>Envoie ta demande</b> : 1 minute, aucun paiement maintenant.</span></li>
-          <li><span><b>On te confirme sur WhatsApp</b> sous 24 h pour la confirmer (et l'acompte s'il y en a un).</span></li>
+          <li><span><b>On te confirme sur WhatsApp</b> sous 24 h avec le lien pour payer l'acompte : une fois payé, ta table est à toi.</span></li>
         </ol>
       </div>
       <div id="pForm" hidden>
@@ -288,7 +289,7 @@ button,input,select,textarea{font:inherit;color:inherit}
           <div class="fld"><label>Un message ? (bouteilles, surprise…)</label><textarea name="msg" placeholder="Ex. anniversaire de Kenza, on voudrait un gâteau à minuit"></textarea></div>
           <label class="chk"><input type="checkbox" required><span>J'accepte d'être recontacté·e par Souskay sur WhatsApp et par e-mail au sujet de cette réservation.</span></label>
           <label class="chk"><input type="checkbox"><span>Je veux aussi recevoir les prochaines dates Souskay (préventes, lieux dévoilés).</span></label>
-          <p class="note"><b>Aucun paiement maintenant.</b> On confirme ta table et tes bouteilles avec toi sur WhatsApp. Un acompte (<b id="depo">300 €</b>) peut t'être demandé pour la bloquer, par Lydia ou virement. Le reste se règle à l'entrée.</p>
+          <p class="note"><b>Aucun paiement maintenant.</b> On valide ta table et tes bouteilles avec toi sur WhatsApp, puis tu reçois un <b>lien de paiement pour l'acompte</b> (<b id="depo">300 €</b>) : dès qu'il est payé, ta table est confirmée. Le reste se règle à l'entrée.</p>
           <button class="send">Envoyer ma demande <span>→</span></button>
         </form>
       </div>
@@ -318,7 +319,7 @@ button,input,select,textarea{font:inherit;color:inherit}
         <div class="card">
           <h3>Plan de salle <span style="text-transform:none;letter-spacing:0">clique une table</span></h3>
           <div class="aplan" id="aplan"><img src="plan-integration.jpg" alt=""></div>
-          <div class="leg2"><span><i style="background:var(--amber)"></i>Nouvelle</span><span><i style="background:#7FA8FF"></i>En discussion</span><span><i style="background:var(--mint)"></i>Confirmée · reste à encaisser</span><span><i style="background:#000;border:1px solid var(--mint)"></i>Confirmée · payée</span><span><i style="border:1px solid #555"></i>Libre</span></div>
+          <div class="leg2"><span><i style="background:var(--amber)"></i>Nouvelle</span><span><i style="background:#7FA8FF"></i>En discussion</span><span><i style="border:2px dashed var(--mint)"></i>Acompte attendu</span><span><i style="background:var(--mint)"></i>Confirmée · reste à encaisser</span><span><i style="background:#000;border:1px solid var(--mint)"></i>Confirmée · payée</span><span><i style="border:1px solid #555"></i>Libre</span></div>
         </div>
         <div class="card">
           <h3>Demandes <div class="fil2" id="fil2"></div></h3>
@@ -343,7 +344,7 @@ button,input,select,textarea{font:inherit;color:inherit}
             <tr><td><span class="tb" style="background:var(--cC)">C</span> Table 4</td><td><input value="400 €"></td><td><input value="4"></td><td><input value="30 %"></td><td>12</td></tr>
           </tbody></table>
           <div class="blk" style="margin-top:14px"><h4>Réglages de la date</h4>
-            <div class="kv"><span>Réservations</span><b style="color:var(--mint)">Ouvertes</b><span>Fermeture auto</span><b>J-1 à 18h</b><span>Alerte e-mail à</span><b>booking@souskay.fr</b><span>Délai de réponse</span><b>24 h (affiché au client)</b><span>Acompte</span><b>Réglé par Lydia, espèces, CB ou virement · saisi à la main</b></div>
+            <div class="kv"><span>Réservations</span><b style="color:var(--mint)">Ouvertes</b><span>Fermeture auto</span><b>J-1 à 18h</b><span>Alerte e-mail à</span><b>booking@souskay.fr</b><span>Délai de réponse</span><b>24 h (affiché au client)</b><span>Acompte</span><b>Lien de paiement envoyé à la validation (ou Lydia / espèces saisis à la main)</b><span>Délai de paiement</span><b>48 h, puis alerte</b></div>
           </div>
         </div>
       </div>
@@ -376,7 +377,11 @@ button,input,select,textarea{font:inherit;color:inherit}
         </div>
         <div class="card"><h3>Accusé au client</h3>
           <div class="mail"><div class="h">De : Souskay · À : ines@… · Objet : <b>On a bien reçu ta demande pour la table 16</b></div>
-          Hello Inès,<br><br>Ta demande pour la <b>table 16</b> à L'Intégration (vendredi 9 octobre) est bien arrivée. On te répond <b>sous 24 h sur WhatsApp</b>.<br><br>Si elle est confirmée, on te dit sur WhatsApp s'il y a un acompte à régler. Le reste se règle à l'entrée.<br><br>À très vite,<br>La famille Souskay</div>
+          Hello Inès,<br><br>Ta demande pour la <b>table 16</b> à L'Intégration (vendredi 9 octobre) est bien arrivée. On te répond <b>sous 24 h sur WhatsApp</b>.<br><br>Si elle est validée, tu reçois un lien pour payer l'acompte : dès qu'il est réglé, ta table est confirmée. Le reste se règle à l'entrée.<br><br>À très vite,<br>La famille Souskay</div>
+        </div>
+        <div class="card"><h3>Lien d'acompte (à la validation)</h3>
+          <div class="mail"><div class="h">De : Souskay · À : ines@… · Objet : <b>Ta table 16 est validée ✔ Plus qu'une étape</b></div>
+          Hello Inès,<br><br>Bonne nouvelle : la <b>table 16</b> est à toi pour L'Intégration (vendredi 9 octobre), avec tes bouteilles mises de côté.<br><br>Pour la bloquer définitivement, règle l'acompte de <b>300 €</b> ici :<br><a class="cta" href="#">Payer l'acompte →</a><br><br>Sans paiement sous 48 h, la table peut être proposée à quelqu'un d'autre. Le reste se règle à l'entrée.<br><br>La famille Souskay</div>
         </div>
       </div>
     </div>
@@ -393,7 +398,7 @@ const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const CAT={A:{name:'Carré 10',min:1000,pax:10,color:'var(--cA)'},B:{name:'Table 6',min:600,pax:6,color:'var(--cB)'},C:{name:'Table 4',min:400,pax:4,color:'var(--cC)'}};
 const TABLES=[[1,22.8,10.8,'B','VIP 1'],[2,22.7,17.0,'B','VIP 1'],[3,22.7,24.1,'B','VIP 1'],[4,23.2,30.3,'C','VIP 1'],[5,23.1,36.2,'C','VIP 1'],[6,29.3,10.8,'A','VIP 1'],[7,29.7,17.6,'A','VIP 1'],[8,29.7,24.1,'B','VIP 1'],[9,29.5,30.3,'C','VIP 1'],[10,29.8,36.2,'C','VIP 1'],[11,35.8,10.8,'A','VIP 1'],[12,36.1,17.6,'A','VIP 1'],[13,36.4,23.8,'B','VIP 1'],[14,36.1,30.3,'C','VIP 1'],[15,41.6,10.8,'A','VIP 1'],[16,41.4,17.6,'A','VIP 1'],[17,41.6,23.5,'B','VIP 1'],[18,42.0,29.8,'C','VIP 1'],[19,69.5,10.5,'A','VIP 2'],[20,69.5,17.8,'A','VIP 2'],[21,76.1,10.5,'A','VIP 2'],[22,84.4,10.0,'B','VIP 2'],[23,89.9,14.8,'B','VIP 2'],[24,90.1,22.7,'B','VIP 2'],[25,84.1,22.7,'B','VIP 2'],[26,83.9,30.7,'C','VIP 2'],[27,90.2,33.2,'C','VIP 2'],[28,90.2,39.1,'C','VIP 2'],[29,83.9,36.6,'C','VIP 2'],[30,83.9,45.7,'C','VIP 2'],[31,90.2,46.9,'C','VIP 2']]
   .map(([n,x,y,c,z])=>({n,x,y,c,z}));
-const ST={new:['Nouvelle','p-new'],talk:['En discussion','p-talk'],ok:['Confirmée','p-paid'],no:['Annulée','p-no']};
+const ST={new:['Nouvelle','p-new'],talk:['En discussion','p-talk'],wait:['Validée · acompte attendu','p-ok'],ok:['Confirmée','p-paid'],no:['Annulée','p-no']};
 /* carte de la soirée — reprise du Drive « Bouteilles PACK ». Prix et stock = EXEMPLES à remplacer dans l'admin */
 const BOT=[
  ['moet','Moët & Chandon','Champagne','75 cl',120,30],['moetice','Moët Ice Impérial','Champagne','75 cl',140,8],['mercier','Mercier','Champagne','75 cl',90,12],
@@ -407,7 +412,7 @@ const BOT=[
  ['redbull','Red Bull','Softs','25 cl',0,120],['energ','Énergisant','Softs','25 cl',0,40],['pomme','Jus de pomme','Softs','1 L',0,30],['cranberry','Jus de cranberry','Softs','1 L',0,20],['ananas','Jus d\'ananas','Softs','1 L',0,20],['coca','Coca-Cola','Softs','1 L',0,20],['eau','Eau','Softs','1 L',0,40],
 ].map(([id,name,cat,vol,price,stock])=>({id,name,cat,vol,price,stock}));
 const SRC=['Site','WhatsApp','Téléphone','Instagram','Sur place'];
-const PAY=['—','Lydia','Espèces','CB','Virement','Offert'];
+const PAY=['—','Lien de paiement','Lydia','Espèces','CB','Virement','Offert'];
 const WHERE={entree:'À l\'entrée',table:'À table',done:'Déjà réglé'};
 const TARIF=['Standard','Prix assos / partenaire','Offerte'];
 /* réservations d'exemple (noms fictifs) — les colonnes reprennent celles du Drive : pack, pers., articles, prix total, acompte + mode, solde, zone d'encaissement, statut caisse, infos */
@@ -420,9 +425,9 @@ let REQ=[
  {id:6,t:22,name:'Yohan D.',pack:'',pax:2,amount:140,paid:0,payMode:'—',where:'entree',pos:true,tariff:'Standard',bottles:{moet:1},src:'Site',status:'ok',at:'17 sept. · 19:30',occ:'Entre potes',note:'',crm:{tier:'Moun',n:1,last:'oct. 2025'}},
  {id:7,t:4,name:'Maëva R.',pack:'',pax:4,amount:400,paid:200,payMode:'Lydia',where:'entree',pos:true,tariff:'Standard',bottles:{hennessy:2,pomme:3},src:'Site',status:'ok',at:'18 sept. · 09:48',occ:'Anniversaire',note:'',crm:{tier:'Konpè',n:4,last:'juin 2026'}},
  {id:8,t:26,name:'Kévin T.',pack:'',pax:6,amount:300,paid:0,payMode:'—',where:'table',pos:false,tariff:'Standard',bottles:{},src:'Sur place',status:'ok',at:'18 sept. · 16:21',occ:'Entre potes',note:'',crm:null,late:true},
- {id:9,t:12,name:'Laura & co',pack:'',pax:10,amount:570,paid:0,payMode:'—',where:'entree',pos:true,tariff:'Standard',bottles:{moet:3,absolut:1},src:'Site',status:'ok',at:'19 sept. · 11:05',occ:'Anniversaire',note:'Prix modifié : 570 € au lieu de 510 €',crm:{tier:'Moun',n:2,last:'avr. 2026'}},
+ {id:9,t:12,name:'Laura & co',pack:'',pax:10,amount:570,ask:170,paid:0,payMode:'—',where:'entree',pos:true,tariff:'Standard',bottles:{moet:3,absolut:1},src:'Site',status:'wait',sent:'hier 18:12',at:'19 sept. · 11:05',occ:'Anniversaire',note:'Prix modifié : 570 € au lieu de 510 €',crm:{tier:'Moun',n:2,last:'avr. 2026'}},
  {id:10,t:23,name:'Christopher A.',pack:'',pax:5,amount:500,paid:0,payMode:'—',where:'entree',pos:true,tariff:'Standard',bottles:{absolut:2,veuve:1,redbull:6},src:'Site',status:'ok',at:'19 sept. · 14:37',occ:'Entre potes',note:'',crm:null},
- {id:11,t:27,name:'Océane F.',pack:'',pax:3,amount:340,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',bottles:{moet:1,remy:1},src:'Instagram',status:'ok',at:'19 sept. · 20:02',occ:'EVJF / EVG',note:'Va vouloir modifier le pack',crm:{tier:'Moun',n:1,last:'déc. 2025'},late:true},
+ {id:11,t:27,name:'Océane F.',pack:'',pax:3,amount:340,ask:100,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',bottles:{moet:1,remy:1},src:'Instagram',status:'wait',sent:'il y a 52 h',overdue:true,at:'19 sept. · 20:02',occ:'EVJF / EVG',note:'Va vouloir modifier le pack',crm:{tier:'Moun',n:1,last:'déc. 2025'},late:true},
  {id:12,t:7,name:'Alexis M.',pack:'',pax:10,amount:1000,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',bottles:{moetmag:1,greygoose:2,redbull:6},src:'Site',status:'talk',at:'19 sept. · 22:48',occ:'Entre potes',note:'',crm:{tier:'Majò',n:11,last:'août 2026'}},
  {id:13,t:30,name:'Sarah-Lyne G.',pack:'',pax:3,amount:400,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',bottles:{},src:'Site',status:'talk',at:'20 sept. · 00:12',occ:'Anniversaire',note:'',crm:null},
  {id:14,t:16,name:'Inès M.',pack:'',pax:8,amount:1000,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',bottles:{veuve:3,moet:2,pomme:2},src:'Site',status:'new',at:'20 sept. · 08:31',occ:'Anniversaire',msg:"On fête les 30 ans d'Inès, possible d'avoir des sparklers ?",note:'',crm:{tier:'Konpè',n:4,last:'juil. 2026'}},
@@ -430,11 +435,12 @@ let REQ=[
  {id:16,t:9,name:'Anaïs C.',pack:'',pax:4,amount:400,paid:0,payMode:'—',where:'entree',pos:false,tariff:'Standard',bottles:{},src:'Site',status:'new',at:'20 sept. · 09:40',occ:'EVJF / EVG',note:'',crm:{tier:'Moun',n:1,last:'sept. 2025'}},
 ];
 const reqOf=n=>REQ.find(r=>r.t===n&&r.status!=='no');
+const askOf=r=>r.ask==null?Math.round((r.amount||0)*.3/10)*10:r.ask;
 const due=r=>Math.max(0,(r.amount||0)-(r.paid||0));
 const payState=r=>r.tariff==='Offerte'||r.amount===0?['Offerte','p-talk']:due(r)===0?['Payée','p-paid']:r.paid>0?[`Acompte ${eur(r.paid)}`,'p-ok']:['À encaisser','p-new'];
 const who=r=>r.pack?`${r.pack} · ${r.name}`:r.name;
 function botCount(id,statuses){return REQ.filter(r=>statuses.includes(r.status)).reduce((a,r)=>a+((r.bottles||{})[id]||0),0)}
-const botLeft=(id,exceptReq)=>{const b=BOT.find(x=>x.id===id);let used=REQ.filter(r=>['new','talk','ok'].includes(r.status)&&r!==exceptReq).reduce((a,r)=>a+((r.bottles||{})[id]||0),0);return b.stock-used};
+const botLeft=(id,exceptReq)=>{const b=BOT.find(x=>x.id===id);let used=REQ.filter(r=>['new','talk','wait','ok'].includes(r.status)&&r!==exceptReq).reduce((a,r)=>a+((r.bottles||{})[id]||0),0);return b.stock-used};
 const botTotal=o=>Object.entries(o||{}).reduce((a,[id,q])=>a+q*BOT.find(b=>b.id===id).price,0);
 const botName=b=>`${b.name}${b.vol.includes('L')&&b.cat!=='Softs'?' '+b.vol.split(' ')[0]:''}`;
 const botText=o=>Object.entries(o||{}).filter(([,q])=>q>0).map(([id,q])=>`${q} × ${botName(BOT.find(x=>x.id===id))}`).join(' · ')||'Rien de choisi (sur place)';
@@ -450,6 +456,7 @@ function renderBottles(box,sel,{cat='all',exceptReq=null,onChange=()=>{},compact
   const ad=box.querySelector('.addb');if(ad)ad.onchange=()=>{if(ad.value){sel[ad.value]=1;again()}};
 }
 const pubState=n=>{const r=reqOf(n);if(!r)return'free';return r.status==='ok'?'taken':'pend'};
+const HELD=['wait','ok'];
 const eur=v=>(v||0).toLocaleString('fr-FR')+' €';
 
 /* ===== CÔTÉ CLIENT ===== */
@@ -501,16 +508,17 @@ $('#panel .grab').onclick=()=>$('#panel').classList.toggle('open');
 
 /* ===== BACK-OFFICE ===== */
 let filt='all',openId=null;
-const F=[['all','Toutes'],['new','Nouvelles'],['talk','En discussion'],['ok','Confirmées'],['due','Reste à encaisser'],['no','Annulées']];
+const F=[['all','Toutes'],['new','Nouvelles'],['talk','En discussion'],['wait','Acompte attendu'],['ok','Confirmées'],['due','Reste à encaisser'],['no','Annulées']];
 function drawAdmin(){
   const c=s=>REQ.filter(r=>r.status===s).length,conf=REQ.filter(r=>r.status==='ok');
   const ca=conf.reduce((a,r)=>a+r.amount,0),enc=conf.reduce((a,r)=>a+(r.paid||0),0),pax=conf.reduce((a,r)=>a+r.pax,0);
-  $('#kpis').innerHTML=`<div class="kpi"><b>${c('new')+c('talk')}</b><span>Demandes à traiter</span></div><div class="kpi hl"><b>${conf.length}/${TABLES.length}</b><span>Tables confirmées</span></div><div class="kpi"><b>${pax}</b><span>Personnes en table</span></div><div class="kpi"><b>${eur(ca)}</b><span>Total tables</span></div><div class="kpi"><b>${eur(enc)}</b><span>Déjà encaissé (acomptes)</span></div><div class="kpi"><b>${eur(ca-enc)}</b><span>Reste à encaisser</span></div>`;
+  const late=REQ.filter(r=>r.status==='wait'&&r.overdue).length;
+  $('#kpis').innerHTML=`<div class="kpi"><b>${c('new')+c('talk')}</b><span>Demandes à traiter</span></div><div class="kpi"><b>${c('wait')}</b><span>Acompte attendu${late?` · <span class="low">${late} en retard</span>`:''}</span></div><div class="kpi hl"><b>${conf.length}/${TABLES.length}</b><span>Tables confirmées</span></div><div class="kpi"><b>${eur(ca)}</b><span>Total tables</span></div><div class="kpi"><b>${eur(enc)}</b><span>Déjà encaissé (acomptes)</span></div><div class="kpi"><b>${eur(ca-enc)}</b><span>Reste à encaisser</span></div>`;
   $('#fil2').innerHTML=F.map(([k,l])=>`<button data-f="${k}" class="${filt===k?'on':''}">${l}</button>`).join('');
   $$('#fil2 button').forEach(b=>b.onclick=()=>{filt=b.dataset.f;drawAdmin()});
-  const order={new:0,talk:1,ok:2,no:3};
+  const order={new:0,talk:1,wait:2,ok:3,no:4};
   $('#rows').innerHTML=REQ.filter(r=>filt==='all'||(filt==='due'?r.status==='ok'&&due(r)>0:r.status===filt)).sort((a,b)=>order[a.status]-order[b.status]||a.t-b.t).map(r=>{const t=TABLES.find(x=>x.n===r.t);const ps=payState(r);
-    return `<tr data-id="${r.id}"><td><span class="tb" style="background:${CAT[t.c].color}">${r.t}</span></td><td><b>${who(r)}</b>${r.src!=='Site'?`<span class="srcpill">${r.src}</span>`:''}${r.fresh?' <span class="pill p-new">nouveau</span>':''}${r.late?' <span class="pill p-no">modif jour J</span>':''}<small>${r.pax} pers. · ${nBot(r.bottles)?nBot(r.bottles)+' bouteille'+(nBot(r.bottles)>1?'s':''):'bouteilles sur place'}${r.note?' · '+r.note:''}</small></td><td class="hide-m">${eur(r.amount)}<small>${r.status==='ok'?`<span class="pill ${ps[1]}" style="margin-top:4px">${ps[0]}</span>`:''}</small></td><td><span class="pill ${ST[r.status][1]}">${ST[r.status][0]}</span></td></tr>`}).join('');
+    return `<tr data-id="${r.id}"><td><span class="tb" style="background:${CAT[t.c].color}">${r.t}</span></td><td><b>${who(r)}</b>${r.src!=='Site'?`<span class="srcpill">${r.src}</span>`:''}${r.fresh?' <span class="pill p-new">nouveau</span>':''}${r.late?' <span class="pill p-no">modif jour J</span>':''}${r.status==='wait'&&r.overdue?' <span class="pill p-no">acompte en retard</span>':''}<small>${r.pax} pers. · ${nBot(r.bottles)?nBot(r.bottles)+' bouteille'+(nBot(r.bottles)>1?'s':''):'bouteilles sur place'}${r.note?' · '+r.note:''}</small></td><td class="hide-m">${eur(r.amount)}<small>${r.status==='ok'?`<span class="pill ${ps[1]}" style="margin-top:4px">${ps[0]}</span>`:''}</small></td><td><span class="pill ${ST[r.status][1]}">${ST[r.status][0]}</span></td></tr>`}).join('');
   $$('#rows tr').forEach(tr=>tr.onclick=()=>openReq(+tr.dataset.id));
   const ap=$('#aplan');$$('.ahs').forEach(e=>e.remove());
   TABLES.forEach(t=>{const r=reqOf(t.n);const b=document.createElement('button');b.className='ahs'+(r?' s-'+(r.status==='ok'?(due(r)>0?'ok':'paid'):r.status):'')+(r&&r.id===openId?' pick':'');
@@ -519,7 +527,7 @@ function drawAdmin(){
   drawStock();drawLists();
 }
 function drawStock(){
-  $('#stkRows').innerHTML=BOT.map(b=>{const res=botCount(b.id,['ok']),dem=botCount(b.id,['new','talk']),left=b.stock-res-dem;
+  $('#stkRows').innerHTML=BOT.map(b=>{const res=botCount(b.id,HELD),dem=botCount(b.id,['new','talk']),left=b.stock-res-dem;
     return `<tr><td><b>${b.name}</b><small>${b.cat==='Softs'?'Soft':b.cat} · ${b.vol}</small></td><td><input value="${b.price}" data-p="${b.id}" class="cellin" style="width:64px"></td><td><input value="${b.stock}" data-s="${b.id}" class="cellin"></td><td><b>${res}</b></td><td class="hide-m">${dem}</td><td><b class="${left<=3?'low':''}">${left}</b></td><td class="hide-m"><div class="sbar"><i style="width:${Math.min(100,res/b.stock*100)}%;background:var(--mint)"></i><i style="width:${Math.min(100,dem/b.stock*100)}%;background:var(--amber)"></i></div></td></tr>`}).join('');
   $$('#stkRows input[data-s]').forEach(i=>i.onchange=()=>{BOT.find(b=>b.id===i.dataset.s).stock=Math.max(0,+i.value||0);drawStock();toast('Stock mis à jour')});
   $$('#stkRows input[data-p]').forEach(i=>i.onchange=()=>{BOT.find(b=>b.id===i.dataset.p).price=Math.max(0,+i.value||0);toast('Prix mis à jour')});
@@ -537,6 +545,7 @@ function payBlock(r,pfx){const c=CAT[TABLES.find(x=>x.n===r.t).c];
   return `<div class="blk"><h4>Prix & paiement</h4><div class="grid2">
    ${field('Tarif',`<select id="${pfx}Tar">${TARIF.map(x=>`<option ${x===r.tariff?'selected':''}>${x}</option>`).join('')}</select>`)}
    ${field('Prix total de la table (€)',`<input type="number" step="10" value="${r.amount}" id="${pfx}Amt">`)}
+   ${field('Acompte demandé (€)',`<input type="number" step="10" value="${askOf(r)}" id="${pfx}Ask">`)}
    ${field('Acompte versé (€)',`<input type="number" step="10" value="${r.paid||0}" id="${pfx}Paid">`)}
    ${field('Réglé par',`<select id="${pfx}Mode">${PAY.map(x=>`<option ${x===r.payMode?'selected':''}>${x}</option>`).join('')}</select>`)}
    ${field('Le reste s\'encaisse',`<select id="${pfx}Where">${Object.entries(WHERE).map(([k,l])=>`<option value="${k}" ${k===r.where?'selected':''}>${l}</option>`).join('')}</select>`)}
@@ -547,14 +556,14 @@ function payBlock(r,pfx){const c=CAT[TABLES.find(x=>x.n===r.t).c];
 function bindPay(pfx,r){const upd=()=>{if($('#'+pfx+'Tar').value==='Offerte'){$('#'+pfx+'Amt').value=0;$('#'+pfx+'Mode').value='Offert'}
   $('#'+pfx+'Due').textContent=eur(Math.max(0,(+$('#'+pfx+'Amt').value||0)-(+$('#'+pfx+'Paid').value||0)))};
   ['Tar','Amt','Paid'].forEach(k=>$('#'+pfx+k).oninput=$('#'+pfx+k).onchange=upd);upd()}
-function readPay(pfx,r){r.tariff=$('#'+pfx+'Tar').value;r.amount=+$('#'+pfx+'Amt').value||0;r.paid=+$('#'+pfx+'Paid').value||0;r.payMode=$('#'+pfx+'Mode').value;r.where=$('#'+pfx+'Where').value;r.pos=$('#'+pfx+'Pos').checked;if(due(r)===0&&r.amount>0)r.where='done'}
+function readPay(pfx,r){r.ask=+$('#'+pfx+'Ask').value||0;r.tariff=$('#'+pfx+'Tar').value;r.amount=+$('#'+pfx+'Amt').value||0;r.paid=+$('#'+pfx+'Paid').value||0;r.payMode=$('#'+pfx+'Mode').value;r.where=$('#'+pfx+'Where').value;r.pos=$('#'+pfx+'Pos').checked;if(due(r)===0&&r.amount>0)r.where='done'}
 function openReq(id){openId=id;const r=REQ.find(x=>x.id===id),t=TABLES.find(x=>x.n===r.t),c=CAT[t.c];
-  const i=['new','talk','ok'].indexOf(r.status);
+  const i=['new','talk','wait','ok'].indexOf(r.status),ask=askOf(r);
   const wa=`https://wa.me/33600000000?text=${encodeURIComponent(`Hello ${r.name.split(' ')[0]} ! C'est Souskay pour ta table ${r.t} à L'Intégration (09.10).`)}`;
   const edit={...r.bottles};
   $('#drawer').innerHTML=`
    <div class="dh"><div><h2>Table ${r.t} · ${who(r)}</h2><p>${t.z} · ${c.name} · via ${r.src} · ${r.at}</p></div><button class="x" id="dx">✕</button></div>
-   <div class="flow">${['Nouvelle','En discussion','Confirmée'].map((l,k)=>`<div class="${k<=i?'on':''}">${l}</div>`).join('')}</div>
+   <div class="flow">${['Nouvelle','En discussion','Acompte attendu','Confirmée'].map((l,k)=>`<div class="${k<=i?'on':''}">${l}</div>`).join('')}</div>
    ${r.status==='no'?'<p class="pill p-no" style="margin-bottom:12px">Annulée · table et bouteilles libérées</p>':''}
    <div class="blk"><h4>Réservation</h4><div class="grid2">
      ${field('Nom du pack / groupe',`<input id="ePack" value="${r.pack||''}" placeholder="Ex. WORLDBASS (facultatif)">`)}
@@ -569,15 +578,18 @@ function openReq(id){openId=id;const r=REQ.find(x=>x.id===id),t=TABLES.find(x=>x
    <button class="btn" id="eSave" style="width:100%;margin-bottom:6px">Enregistrer <span>✓</span></button>
    <div class="blk ${r.crm?'crm':''}"><h4>${r.crm?'Déjà dans le CRM':'Nouveau client'}</h4>${r.crm?`<div class="kv"><span>Statut</span><b>${r.crm.tier}</b><span>Soirées</span><b>${r.crm.n} venues</b><span>Dernière venue</span><b>${r.crm.last}</b></div>`:`<p style="font-size:13px;color:var(--muted);line-height:1.5">Aucun contact avec ce téléphone ou cet e-mail. Il sera créé dans le CRM à la confirmation.</p>`}</div>
    <div class="acts">
-     ${r.status!=='ok'&&r.status!=='no'?`<button class="btn pri" data-a="ok">Confirmer la table <span>✓</span></button>`:''}
+     ${r.status==='new'||r.status==='talk'?`${ask>0?`<button class="btn pri" data-a="wait">Valider et envoyer le lien d'acompte (${eur(ask)}) <span>→</span></button>`:''}<button class="btn ${ask>0?'':'pri'}" data-a="ok">Confirmer sans acompte <span>✓</span></button>`:''}
+     ${r.status==='wait'?`<div class="blk" style="border-color:var(--mint)"><h4>Lien d'acompte</h4><div class="kv"><span>Montant</span><b>${eur(ask)}</b><span>Envoyé</span><b>${r.sent||"à l'instant"} · WhatsApp + e-mail</b><span>État</span><b class="${r.overdue?'low':''}">${r.overdue?'Pas payé depuis plus de 48 h':'En attente du paiement'}</b></div><p style="font-size:12px;color:var(--muted);margin-top:8px">Dès que le client paie, la table passe toute seule en Confirmée et l'acompte s'inscrit comme payé.</p></div>
+       <button class="btn pri" data-a="paylink">Simuler : le client a payé <span>✓</span></button><div class="two2"><button class="btn" data-a="relance">Renvoyer le lien</button><button class="btn" data-a="ok">Confirmer sans attendre</button></div><button class="btn" data-a="copy">Copier le lien de paiement <span>⧉</span></button>`:''}
      <a class="btn wa" href="${wa}" target="_blank" rel="noopener">Écrire sur WhatsApp <span>↗</span></a>
      ${r.status!=='no'?`<div class="two2">${r.status==='new'?`<button class="btn" data-a="talk">En discussion</button>`:`<button class="btn" data-a="print">Ticket bar</button>`}<button class="btn no" data-a="no">${r.status==='ok'?'Annuler':'Refuser'}</button></div>`:''}
    </div>
    <div class="blk"><h4>Historique</h4><ul class="log">
      <li><time>${r.at}</time>${r.src==='Site'?'Demande reçue depuis le site · alerte e-mail envoyée':`Réservation saisie par l'équipe (${r.src})`}</li>
      ${i>=1?'<li><time>+ 2 h</time>En discussion (WhatsApp)</li>':''}
-     ${r.paid?`<li><time>+ 3 h</time>Acompte ${eur(r.paid)} reçu (${r.payMode})</li>`:''}
-     ${i>=2?`<li><time>+ 1 j</time>Table confirmée · articles bloqués dans le stock</li><li><time>+ 1 j</time><span style="color:var(--mint)">Envoyée au CRM ✓ contact ${r.crm?'mis à jour':'créé'}</span></li>`:''}
+     ${i>=2&&r.status!=='ok'||r.payMode==='Lien de paiement'?`<li><time>+ 3 h</time>Validée · lien d'acompte ${eur(ask)} envoyé (WhatsApp + e-mail) · articles bloqués</li>`:''}
+     ${r.paid?`<li><time>+ 5 h</time>Acompte ${eur(r.paid)} reçu (${r.payMode})</li>`:''}
+     ${i>=3?`<li><time>+ 1 j</time>Table confirmée · articles bloqués dans le stock</li><li><time>+ 1 j</time><span style="color:var(--mint)">Envoyée au CRM ✓ contact ${r.crm?'mis à jour':'créé'}</span></li>`:''}
    </ul></div>`;
   const drawE=()=>{const b=botTotal(edit);$('#eBTot').textContent=b?`${eur(b)} en bouteilles`:''};
   renderBottles($('#eBtl'),edit,{exceptReq:r,onChange:drawE,compact:true});drawE();bindPay('e',r);
@@ -601,7 +613,7 @@ function openNew(tn){openId=null;const free=TABLES.filter(t=>!reqOf(t.n));if(!fr
    <div class="blk"><h4>Articles · bouteilles et softs · <span id="nBTot"></span></h4><div class="btls" id="nBtl"></div></div>
    <div id="nPay">${payBlock(draft,'n')}</div>
    <div class="blk"><h4>Infos pour l'équipe</h4><textarea class="notes" id="nNote" placeholder="Ex. anniversaire, prix assos, ami de l'équipe"></textarea></div>
-   ${field('Statut',`<select id="nSt"><option value="ok">Confirmée</option><option value="talk">En discussion (option posée)</option></select>`)}
+   ${field('Statut',`<select id="nSt"><option value="ok">Confirmée</option><option value="wait">Validée · envoyer le lien d'acompte</option><option value="talk">En discussion (option posée)</option></select>`)}
    <button class="btn pri" style="width:100%;margin-top:10px">Enregistrer la réservation <span>✓</span></button>
    </form>`;
   bindPay('n',draft);
@@ -609,14 +621,18 @@ function openNew(tn){openId=null;const free=TABLES.filter(t=>!reqOf(t.n));if(!fr
   renderBottles($('#nBtl'),nb,{onChange:()=>{const b=botTotal(nb);$('#nBTot').textContent=b?eur(b)+' en bouteilles':''},compact:true});
   $('#nf').onsubmit=e=>{e.preventDefault();
     const r={id:REQ.length+1,t:+$('#nT').value,pack:$('#nPack').value.trim().toUpperCase(),name:`${$('#nFirst').value} ${($('#nLast').value||'').charAt(0)}${$('#nLast').value?'.':''}`.trim(),pax:+$('#nPax').value,status:$('#nSt').value,at:"à l'instant",occ:'—',crm:null,bottles:{...nb},src:$('#nSrc').value,note:$('#nNote').value};
-    readPay('n',r);if(r.status==='ok')r.crm={tier:'Moun',n:0,last:'—'};
-    REQ.push(r);drawClient();openReq(r.id);toast(`Table ${r.t} enregistrée${r.status==='ok'?' · articles bloqués · envoyée au CRM ✓':''}`)};
+    readPay('n',r);if(r.status==='ok')r.crm={tier:'Moun',n:0,last:'—'};if(r.status==='wait')r.sent="à l'instant";
+    REQ.push(r);drawClient();openReq(r.id);toast(`Table ${r.t} enregistrée${r.status==='ok'?' · articles bloqués · envoyée au CRM ✓':r.status==='wait'?` · lien d'acompte ${eur(askOf(r))} envoyé`:''}`)};
   $('#dx').onclick=closeReq;$('#drawer').classList.add('on');$('#scrim').classList.add('on');drawAdmin();
 }
 $('#newRes').onclick=()=>openNew();
 function closeReq(){openId=null;$('#drawer').classList.remove('on');$('#scrim').classList.remove('on');drawAdmin()}
 $('#scrim').onclick=closeReq;
 function act(r,a){
+  if(a==='wait'){readPay('e',r);r.status='wait';r.sent="à l'instant";r.overdue=false;toast(`Validée · lien d'acompte ${eur(askOf(r))} envoyé à ${r.name} (WhatsApp + e-mail)`)}
+  if(a==='paylink'){r.paid=askOf(r);r.payMode='Lien de paiement';r.status='ok';r.overdue=false;if(!r.crm)r.crm={tier:'Moun',n:0,last:'—'};toast(`Acompte ${eur(r.paid)} payé en ligne · table ${r.t} confirmée · CRM ✓`)}
+  if(a==='relance'){r.sent="à l'instant";r.overdue=false;toast('Lien d\'acompte renvoyé');}
+  if(a==='copy'){navigator.clipboard?.writeText('https://pay.souskay.fr/acompte/'+r.id);toast('Lien de paiement copié');return}
   if(a==='ok'){r.status='ok';if(!r.crm)r.crm={tier:'Moun',n:0,last:'—'};toast(`Table ${r.t} confirmée · articles bloqués · envoyée au CRM ✓`)}
   if(a==='talk'){r.status='talk';toast('Passée en discussion')}
   if(a==='print'){toast('Ticket bar imprimé (table, pack, articles)');return}
