@@ -3,581 +3,366 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Souskay Kès — maquette gestion budget & stock</title>
+<title>Souskay Kès — maquette v2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Libertinus+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="picto-souskay-noir.svg">
 <style>
-:root{
-  --bg:#0D0B0A;--side:#121010;--card:#171413;--card2:#1F1B19;--line:rgba(243,235,221,.08);--line2:rgba(243,235,221,.14);
-  --tx:#F3EBDD;--mut:#9C9184;--acc:#E8A33D;--acc2:#F2C27A;--pos:#3DD39A;--neg:#F0706A;--warn:#F2B35B;--blue:#7FB2F0;
-  --serif:'Libertinus Serif',Georgia,serif;--sans:'Space Grotesk',system-ui,sans-serif;
-}
+:root{--bg:#F7F5F1;--w:#fff;--line:#E6E1D8;--line2:#D5CEC2;--tx:#1B1714;--mut:#7A7066;--acc:#0B8F63;--acc-l:#E4F4EC;--neg:#C9483F;--neg-l:#FBE9E7;--warn:#B7791F;--warn-l:#FDF3E1;--sel:#EAF2FF;
+--serif:'Libertinus Serif',Georgia,serif;--sans:'Space Grotesk',system-ui,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--bg);color:var(--tx);font-family:var(--sans);font-size:14px;-webkit-font-smoothing:antialiased}
 button{font:inherit;color:inherit;cursor:pointer}
-input,select{font:inherit;color:var(--tx)}
 .hidden{display:none!important}
 .num{font-variant-numeric:tabular-nums}
-.pos{color:var(--pos)}.neg{color:var(--neg)}.mut{color:var(--mut)}.warn{color:var(--warn)}
-
-/* layout */
-.app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
-.side{background:var(--side);border-right:1px solid var(--line);padding:18px 12px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh}
-.brand{display:flex;align-items:baseline;gap:8px;padding:4px 10px 18px}
-.brand b{font-family:var(--serif);font-size:22px;font-weight:400}
-.brand span{font-size:11px;color:var(--mut);letter-spacing:.14em;text-transform:uppercase}
-.nav{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:10px;border:0;background:none;color:var(--mut);text-align:left;font-weight:500;width:100%}
-.nav:hover{background:var(--card)}
-.nav.on{background:var(--card2);color:var(--tx);box-shadow:inset 2px 0 0 var(--acc)}
-.nav svg{width:17px;height:17px;flex:none}
-.nav .bd{margin-left:auto;font-size:11px;background:var(--acc);color:#1a1208;border-radius:99px;padding:1px 7px;font-weight:700}
-.side .sep{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);padding:16px 10px 6px}
-.side .foot{margin-top:auto;padding:10px;font-size:12px;color:var(--mut);border-top:1px solid var(--line)}
-main{padding:24px 28px 90px;min-width:0}
-.head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
-.head h1{font-family:var(--serif);font-weight:400;font-size:34px;line-height:1.05}
-.head p{color:var(--mut);margin-top:4px}
-.btn{border:0;border-radius:10px;padding:9px 14px;font-weight:600;background:var(--acc);color:#1a1208;display:inline-flex;gap:8px;align-items:center;white-space:nowrap}
-.btn.gh{background:var(--card2);color:var(--tx);border:1px solid var(--line)}
-.btn.sm{padding:6px 10px;font-size:12px;border-radius:8px}
-.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.seg{display:inline-flex;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:3px}
-.seg button{border:0;background:none;padding:6px 12px;border-radius:8px;color:var(--mut);font-weight:600;font-size:13px}
-.seg button.on{background:var(--card2);color:var(--tx)}
-
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:14px}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
-.kpi .l{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut)}
-.kpi .v{font-size:26px;font-weight:600;margin-top:6px;letter-spacing:-.01em}
-.kpi .s{font-size:12px;color:var(--mut);margin-top:4px}
-.kpi.hl{border-color:rgba(232,163,61,.4);background:linear-gradient(160deg,rgba(232,163,61,.10),var(--card) 60%)}
-.grid{display:grid;gap:14px}
-.g2{grid-template-columns:1.4fr 1fr}.g2e{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
-@media(max-width:1100px){.g2,.g2e,.g3{grid-template-columns:1fr}}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
-.card h3{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mut);font-weight:600;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.card h3 .a{letter-spacing:0;text-transform:none;font-size:12px;color:var(--acc);font-weight:600;background:none;border:0}
-
-table{width:100%;border-collapse:collapse}
-th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);font-weight:600;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line2);white-space:nowrap}
-td{white-space:nowrap;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
-td.r,th.r{text-align:right}
-tr.cat td{background:var(--card2);font-weight:700;font-size:13px}
-tr.cat td .sub{font-weight:500;color:var(--mut);font-size:12px}
-tr.tot td{font-weight:700;border-top:1px solid var(--line2);border-bottom:0}
-tr.click{cursor:pointer}tr.click:hover td{background:rgba(243,235,221,.03)}
-.tw{overflow-x:auto}
-.pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 8px;border-radius:99px;white-space:nowrap}
-.p-ok{background:rgba(61,211,154,.13);color:var(--pos)}
-.p-due{background:rgba(242,179,91,.14);color:var(--warn)}
-.p-late{background:rgba(240,112,106,.14);color:var(--neg)}
-.p-n{background:var(--card2);color:var(--mut)}
-.p-b{background:rgba(127,178,240,.14);color:var(--blue)}
-.ic-doc{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:6px;background:var(--card2);font-size:11px}
-.ic-doc.miss{background:rgba(240,112,106,.14);color:var(--neg)}
-.bar{height:8px;border-radius:9px;background:var(--card2);overflow:hidden;position:relative}
-.bar i{display:block;height:100%;border-radius:9px;background:var(--acc)}
-.bar i.over{background:var(--neg)}
-.bar b{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--tx);opacity:.6}
-
-/* event header */
-.evh{display:flex;gap:16px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
-.evh img{width:64px;height:64px;border-radius:12px;object-fit:cover}
-.evh .t{font-family:var(--serif);font-size:30px;line-height:1}
-.evh .m{color:var(--mut);margin-top:6px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line2);margin-bottom:16px;overflow-x:auto}
-.tabs button{border:0;background:none;padding:10px 14px;color:var(--mut);font-weight:600;border-bottom:2px solid transparent;white-space:nowrap}
-.tabs button.on{color:var(--tx);border-color:var(--acc)}
-.ev-sel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
-
-/* waterfall-ish result */
-.res{display:grid;gap:8px}
-.res .ln{display:grid;grid-template-columns:150px 1fr 90px;gap:10px;align-items:center;font-size:13px}
-.res .ln .bar{height:12px}
-.big{font-size:40px;font-weight:600;letter-spacing:-.02em}
-
-.chk{list-style:none;display:grid;gap:8px}
-.chk li{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:10px;background:var(--card2)}
-.chk .ok{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:11px;flex:none}
-.chk .ok.y{background:var(--pos);color:#08130e}.chk .ok.n{border:1.5px solid var(--warn);color:var(--warn)}
-
-.split{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-@media(max-width:900px){.split{grid-template-columns:1fr}}
-.party{background:var(--card2);border-radius:12px;padding:14px}
-.party .n{font-weight:700;margin-bottom:10px;display:flex;justify-content:space-between}
-.party dl{display:grid;grid-template-columns:1fr auto;gap:6px 10px;font-size:13px}
-.party dt{color:var(--mut)}.party dd{text-align:right}
-.transfer{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;border:1px dashed var(--line2);margin-top:8px}
-.transfer .arr{color:var(--acc);font-size:18px}
-
-.chart{display:flex;align-items:flex-end;gap:10px;height:180px;padding-top:10px;border-bottom:1px solid var(--line2)}
-.chart .c{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;min-width:0}
-.chart .c .b{width:100%;max-width:46px;border-radius:6px 6px 0 0;background:var(--pos)}
-.chart .c .b.n{background:var(--neg);border-radius:0 0 6px 6px}
-.chart .c span{font-size:11px;color:var(--mut)}
-.chart-l{display:flex;gap:10px}.chart-l div{flex:1;text-align:center;font-size:11px;color:var(--mut);padding-top:6px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-/* drawer */
-.ov{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:60;opacity:0;pointer-events:none;transition:opacity .25s}
-.ov.on{opacity:1;pointer-events:auto}
-.dr{position:fixed;top:0;right:0;bottom:0;width:min(480px,100%);background:var(--side);border-left:1px solid var(--line2);z-index:61;transform:translateX(100%);transition:transform .35s cubic-bezier(.7,0,.2,1);display:flex;flex-direction:column}
-.dr.on{transform:none}
-.dr .dh{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
-.dr .dh h2{font-family:var(--serif);font-weight:400;font-size:24px}
-.dr .db{padding:18px 20px;overflow:auto;flex:1;display:grid;gap:12px;align-content:start}
-.dr .df{padding:14px 20px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end}
-.fld label{display:block;font-size:12px;color:var(--mut);margin-bottom:5px}
-.fld input,.fld select{width:100%;background:var(--card);border:1px solid var(--line2);border-radius:10px;padding:10px 12px;outline:0}
-.fld input:focus,.fld select:focus{border-color:var(--acc)}
-.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.drop{border:1.5px dashed var(--line2);border-radius:12px;padding:18px;text-align:center;color:var(--mut)}
-.drop b{color:var(--tx)}
-.ai{background:rgba(127,178,240,.08);border:1px solid rgba(127,178,240,.25);border-radius:12px;padding:12px;font-size:13px;color:var(--blue)}
-.chips{display:flex;flex-wrap:wrap;gap:6px}
-.chips button{border:1px solid var(--line2);background:var(--card);border-radius:99px;padding:6px 11px;font-size:12px;font-weight:600;color:var(--mut)}
-.chips button.on{border-color:var(--acc);color:var(--acc);background:rgba(232,163,61,.08)}
-.opt{display:grid;gap:8px}
-.opt label{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--line2);border-radius:12px;cursor:pointer}
-.opt label.on{border-color:var(--acc);background:rgba(232,163,61,.06)}
-.opt label small{display:block;color:var(--mut);margin-top:3px;line-height:1.4}
-.opt input{margin-top:3px;accent-color:var(--acc)}
-
-.fab{position:fixed;right:20px;bottom:20px;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.4);padding:14px 18px;border-radius:14px}
-.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:var(--tx);color:var(--bg);padding:11px 16px;border-radius:12px;font-weight:600;z-index:90;transition:all .3s;pointer-events:none}
+.pos{color:var(--acc)}.neg{color:var(--neg)}.mut{color:var(--mut)}
+.top{height:56px;background:var(--w);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:0 18px;position:sticky;top:0;z-index:30}
+.logo{display:flex;align-items:baseline;gap:6px;cursor:pointer}
+.logo b{font-family:var(--serif);font-size:22px;font-weight:400}
+.logo span{font-size:10px;letter-spacing:.16em;color:var(--mut);text-transform:uppercase}
+.crumb{display:flex;align-items:center;gap:8px;color:var(--mut);font-size:15px;min-width:0}
+.crumb a{color:var(--mut);cursor:pointer}.crumb a:hover{color:var(--tx)}
+.crumb b{color:var(--tx);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .sp{flex:1}
+.bt{border:1px solid var(--line2);background:var(--w);border-radius:99px;padding:7px 14px;font-weight:600;font-size:13px;display:inline-flex;gap:6px;align-items:center;white-space:nowrap}
+.bt:hover{background:#F2EFEA}
+.bt.pr{background:var(--tx);color:#fff;border-color:var(--tx)}
+.av{width:30px;height:30px;border-radius:50%;background:#2E2A26;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;flex:none}
+.wrap{max-width:1240px;margin:0 auto;padding:22px 20px 80px}
+h1{font-family:var(--serif);font-weight:400;font-size:30px}
+.bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:18px 0 14px}
+.chip{border:1px solid var(--line2);background:var(--w);border-radius:8px;padding:6px 12px;font-weight:600;font-size:13px;color:var(--mut)}
+.chip.on{background:var(--sel);border-color:#BFD4F6;color:#1D4E9E}
+.sec{font-size:13px;font-weight:600;color:var(--mut);margin:22px 0 10px}
+.files{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.file{background:var(--w);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s;text-align:left;padding:0}
+.file:hover{box-shadow:0 6px 20px rgba(40,30,20,.10);transform:translateY(-1px)}
+.file .th{height:110px;background:#EDE8E0 center/cover;position:relative}
+.file .th .st{position:absolute;left:10px;top:10px}
+.file .in{padding:12px 14px}
+.file .n{font-weight:700;font-size:15px}
+.file .d{color:var(--mut);font-size:12px;margin-top:3px}
+.file .r{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:13px}
+.file.new{border:1.5px dashed var(--line2);background:transparent;display:grid;place-items:center;min-height:196px;color:var(--mut);font-weight:600}
+.file.new span{font-size:34px;display:block;text-align:center;color:var(--tx)}
+.tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px;background:#fff;border:1px solid var(--line)}
+.tag.ok{background:var(--acc-l);color:var(--acc);border-color:transparent}
+.tag.wip{background:var(--warn-l);color:var(--warn);border-color:transparent}
+.shead{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.shead img{width:54px;height:54px;border-radius:12px;object-fit:cover}
+.shead .m{color:var(--mut);margin-top:4px;font-size:13px}
+.steps{display:flex;margin:4px 0 16px;background:var(--w);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.steps div{flex:1;padding:10px 14px;font-size:13px;color:var(--mut);border-right:1px solid var(--line);display:flex;gap:10px;align-items:center}
+.steps div:last-child{border-right:0}
+.steps i{font-style:normal;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line2);display:grid;place-items:center;font-size:11px;font-weight:700;flex:none}
+.steps .done{color:var(--tx)}.steps .done i{background:var(--acc);border-color:var(--acc);color:#fff}
+.steps .cur{color:var(--tx);font-weight:600;background:#FBFAF7}.steps .cur i{border-color:var(--tx)}
+.sum{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.sum div{background:var(--w);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.sum small{display:block;color:var(--mut);font-size:12px;font-weight:600}
+.sum b{display:block;font-size:24px;margin-top:4px;letter-spacing:-.01em}
+.sum em{font-style:normal;font-size:12px;color:var(--mut)}
+.sum .hl{border-color:#9FD9C0;background:linear-gradient(180deg,var(--acc-l),#fff)}
+@media(max-width:760px){.sum{grid-template-columns:1fr 1fr}.steps div span{display:none}.steps div{justify-content:center}}
+.sheet{background:var(--w);border:1px solid var(--line);border-radius:12px 12px 0 0;overflow:auto;max-height:calc(100vh - 330px);min-height:320px}
+table{border-collapse:separate;border-spacing:0;width:100%;font-size:13px}
+th{position:sticky;top:0;background:#F3F0EB;z-index:2;font-weight:600;color:var(--mut);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line2);border-right:1px solid var(--line);white-space:nowrap;font-size:12px}
+td{padding:0;border-bottom:1px solid var(--line);border-right:1px solid var(--line);white-space:nowrap;height:34px}
+td>.c{padding:7px 10px;outline:0;min-height:33px;min-width:40px}
+td>.c[contenteditable]:hover{background:#FBFAF7}
+td>.c[contenteditable]:focus{box-shadow:inset 0 0 0 2px #3B82F6;background:#fff}
+td.r>.c,th.r{text-align:right}
+td.calc{background:#FAF8F4;font-weight:600}
+tr.grp td{background:#EFEBE4;font-weight:700;height:30px}
+tr.grp td>.c{padding:6px 10px}
+tr.add td{color:var(--mut);cursor:pointer;height:32px}
+tr.add td:hover{background:#F7F5F1;color:var(--tx)}
+tr.tot td{background:#F3F0EB;font-weight:700;position:sticky;bottom:0;z-index:1;border-top:1px solid var(--line2)}
+.rn{width:38px;text-align:center;color:#A79D90;background:#F7F5F1;font-size:11px}
+.sel{appearance:none;-webkit-appearance:none;border:0;background:transparent;font:inherit;padding:7px 10px;width:100%;cursor:pointer;color:inherit}
+.sel{min-width:120px}.sel.w2{min-width:96px}.sel:focus{outline:2px solid #3B82F6;outline-offset:-2px}
+.pchip{display:inline-block;padding:2px 8px;border-radius:6px;font-size:12px;font-weight:600}
+.cb{width:34px;text-align:center}
+.cb input{width:16px;height:16px;accent-color:var(--acc);cursor:pointer;margin-top:9px}
+.clip{width:44px;text-align:center;cursor:pointer;font-size:15px}
+.clip.miss{color:var(--neg);font-weight:700}
+.tabs{display:flex;gap:2px;background:#EDE9E2;border:1px solid var(--line);border-top:0;border-radius:0 0 12px 12px;padding:4px 6px;overflow-x:auto}
+.tabs button{border:0;background:transparent;padding:8px 14px;border-radius:8px;font-weight:600;font-size:13px;color:var(--mut);white-space:nowrap}
+.tabs button.on{background:var(--w);color:var(--acc);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.hint{font-size:12px;color:var(--mut);margin:10px 2px;line-height:1.5}
+.hint b{color:var(--tx)}
+.side2{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:14px}.side2>div{min-width:0}
+@media(max-width:980px){.side2{grid-template-columns:1fr}}
+.box{background:var(--w);border:1px solid var(--line);border-radius:12px;padding:14px}
+.box h3{font-size:13px;font-weight:700;margin-bottom:10px}
+.todo{list-style:none;display:grid;gap:6px}
+.todo li{display:flex;gap:8px;align-items:flex-start;font-size:13px;padding:8px 10px;border-radius:8px;background:#FAF8F4}
+.todo li .d{width:18px;height:18px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:10px;font-weight:700;margin-top:1px}
+.todo li .d.y{background:var(--acc);color:#fff}.todo li .d.n{border:1.5px solid var(--warn);color:var(--warn)}
+.split{display:grid;gap:6px}
+.split .p{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-radius:10px;background:#FAF8F4;font-size:13px}
+.xfer{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px dashed var(--line2);border-radius:10px;font-size:13px}
+.xfer b.m{margin-left:auto}
+.recap td>.c{padding:9px 12px}
+.recap tr.click{cursor:pointer}.recap tr.click:hover td{background:#FAF8F4}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;background:var(--tx);color:#fff;padding:11px 16px;border-radius:10px;font-weight:600;z-index:90;transition:all .3s;pointer-events:none;max-width:90vw;text-align:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
-.mockbar{position:fixed;left:12px;bottom:12px;z-index:95;background:#000d;color:#fff;font-size:11px;padding:5px 10px;border-radius:99px;pointer-events:none;white-space:nowrap}
-
-/* mobile */
-.mtop{display:none}
-@media(max-width:820px){
-  .app{grid-template-columns:1fr}
-  .side{position:fixed;inset:0 auto 0 0;width:250px;z-index:70;transform:translateX(-100%);transition:transform .3s}
-  .side.on{transform:none}
-  .mtop{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:40}
-  .mtop b{font-family:var(--serif);font-size:20px;font-weight:400}
-  main{padding:16px 14px 100px}
-  .head h1{font-size:28px}
-  .res .ln{grid-template-columns:110px 1fr 80px}
-  .hide-m{display:none}
-}
+.mk{position:fixed;right:12px;bottom:12px;background:#1B1714;color:#fff;font-size:11px;padding:5px 10px;border-radius:99px;z-index:95;pointer-events:none}
+@media(max-width:700px){.crumb .h{display:none}.top .hm{display:none}.wrap{padding:16px 12px 80px}h1{font-size:24px}.mk{display:none}}
+.ov{position:fixed;inset:0;background:rgba(20,15,10,.4);z-index:60;display:grid;place-items:center;padding:16px}
+.modal{background:var(--w);border-radius:16px;width:min(460px,100%);padding:20px;display:grid;gap:12px}
+.modal h2{font-family:var(--serif);font-weight:400;font-size:24px}
+.modal label{font-size:12px;color:var(--mut);font-weight:600;display:block;margin-bottom:5px}
+.modal input,.modal select{width:100%;border:1px solid var(--line2);border-radius:10px;padding:10px 12px;font:inherit}
+.opt{display:grid;gap:6px}
+.opt label{display:flex;gap:10px;padding:10px 12px;border:1px solid var(--line2);border-radius:10px;color:var(--tx);font-size:13px;font-weight:500;margin:0;cursor:pointer}
+.opt label small{display:block;color:var(--mut)}
+.opt input{width:auto;accent-color:var(--acc)}
 </style>
 </head>
 <body>
-<div class="mockbar">Maquette · chiffres fictifs</div>
-<div class="mtop"><button class="btn gh sm" onclick="$('.side').classList.toggle('on')">☰</button><b>Kès</b><button class="btn sm" onclick="openExp()">+ Dépense</button></div>
-<div class="app">
-<aside class="side">
-  <div class="brand"><b>Kès</b><span>Souskay</span></div>
-  <button class="nav on" data-v="dash"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/></svg>Vue globale</button>
-  <button class="nav" data-v="events"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Soirées</button>
-  <button class="nav" data-v="event"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 6.5 7 .9-5.2 4.8 1.4 7L12 17.8 5.8 21.2l1.4-7L2 9.4l7-.9z"/></svg>La Plage · Ép. 04</button>
-  <div class="sep">Argent</div>
-  <button class="nav" data-v="pay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20"/></svg>À payer<span class="bd">7</span></button>
-  <button class="nav" data-v="adv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 7l-10 10M7 7h10v10"/></svg>Avances & dettes<span class="bd">4</span></button>
-  <div class="sep">Bar</div>
-  <button class="nav" data-v="stock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2h6v4l2 3v12a1 1 0 01-1 1H8a1 1 0 01-1-1V9l2-3z"/></svg>Stock & réserve</button>
-  <button class="nav" data-v="suppliers"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-7h6v7"/></svg>Fournisseurs & tarifs</button>
-  <div class="foot">Saison 2026-27 · Paris & Martinique<br>Connecté · Trésorerie</div>
-</aside>
-
-<main>
-<!-- ================= VUE GLOBALE ================= -->
-<section id="v-dash">
-  <div class="head">
-    <div><h1>Vue globale</h1><p>Toutes les soirées de la saison, en un coup d'œil.</p></div>
-    <div class="row">
-      <div class="seg" id="city"><button class="on">Tout</button><button>Paris</button><button>Martinique</button></div>
-      <div class="seg"><button>2025-26</button><button class="on">2026-27</button></div>
-    </div>
-  </div>
-  <div class="kpis">
-    <div class="kpi"><div class="l">Chiffre d'affaires</div><div class="v num">244 400 €</div><div class="s">6 soirées clôturées</div></div>
-    <div class="kpi"><div class="l">Dépenses</div><div class="v num">184 584 €</div><div class="s">76 % du CA</div></div>
-    <div class="kpi hl"><div class="l">Résultat Souskay</div><div class="v num pos">+32 472 €</div><div class="s">après partage avec les partenaires</div></div>
-    <div class="kpi"><div class="l">À payer</div><div class="v num warn">6 180 €</div><div class="s">7 factures · 2 en retard</div></div>
-    <div class="kpi"><div class="l">À rembourser à l'équipe</div><div class="v num">2 340 €</div><div class="s">4 avances</div></div>
-    <div class="kpi"><div class="l">Justificatifs manquants</div><div class="v num neg">11</div><div class="s">sur 214 dépenses</div></div>
-  </div>
-  <div class="grid g2">
-    <div class="card">
-      <h3>Résultat par soirée <span class="mut" style="letter-spacing:0;text-transform:none">part Souskay</span></h3>
-      <div class="chart" id="chart"></div><div class="chart-l" id="chartl"></div>
-    </div>
-    <div class="card">
-      <h3>Où part l'argent <span class="mut" style="letter-spacing:0;text-transform:none">toutes soirées</span></h3>
-      <div class="res" id="where"></div>
-    </div>
-  </div>
-  <div style="margin-top:14px">
-    <div class="card">
-      <h3>À traiter</h3>
-      <ul class="chk" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
-        <li><span class="ok n">!</span><div><b>L'Intégration</b> · budget engagé à 82 %, J-18<br><small class="mut">Poste Artistes au-dessus du prévu (+1 200 €)</small></div></li>
-        <li><span class="ok n">!</span><div>2 factures en retard · <b>1 850 €</b><br><small class="mut">Sécurité La Plage, location son Keloké</small></div></li>
-        <li><span class="ok n">!</span><div>Espèces : <b>−520 €</b> d'écart non expliqué<br><small class="mut">La Plage · Ép. 04 · caisse Bar 2</small></div></li>
-        <li><span class="ok n">!</span><div>Virement à recevoir de <b>Partenaire A</b> · 7 056 €<br><small class="mut">Règlement La Plage · Ép. 04</small></div></li>
-        <li><span class="ok n">!</span><div>Stock Moët bas en réserve Martinique<br><small class="mut">18 bouteilles · 3 soirées prévues</small></div></li>
-      </ul>
-    </div>
-    </div>
-  <div style="margin-top:14px">
-    <div class="card tw">
-      <h3>Soirées <button class="a" onclick="go('events')">Tout voir</button></h3>
-      <table><thead><tr><th>Soirée</th><th class="hide-m">Montage</th><th class="r">CA</th><th class="r">Dépenses</th><th class="r">Résultat Souskay</th><th class="r hide-m">€ / entrée</th><th>État</th></tr></thead><tbody id="evrows"></tbody></table>
-    </div>
-  </div>
-</section>
-
-<!-- ================= SOIRÉES ================= -->
-<section id="v-events" class="hidden">
-  <div class="head">
-    <div><h1>Soirées</h1><p>Chaque soirée a son dossier : budget, recettes, caisse, stock, règlement.</p></div>
-    <button class="btn" onclick="openNew()">+ Nouvelle soirée</button>
-  </div>
-  <div class="card tw">
-    <table><thead><tr><th>Soirée</th><th>Date</th><th>Ville</th><th class="hide-m">Montage</th><th class="r">Budget prévu</th><th class="r">Réel</th><th class="r">Résultat Souskay</th><th>État</th></tr></thead><tbody id="evrows2"></tbody></table>
-  </div>
-  <div class="card" style="margin-top:14px">
-    <h3>Comparer les soirées</h3>
-    <div class="tw"><table><thead><tr><th>Indicateur</th><th class="r">Star · Bridge</th><th class="r">Carnaval</th><th class="r">La Plage 04</th><th class="r">Keloké (moy.)</th></tr></thead><tbody>
-      <tr><td>Entrées</td><td class="r num">1 480</td><td class="r num">610</td><td class="r num">980</td><td class="r num">310</td></tr>
-      <tr><td>Coût par entrée</td><td class="r num">55 €</td><td class="r num">41 €</td><td class="r num">39 €</td><td class="r num">9 €</td></tr>
-      <tr><td>Panier moyen (tout compris)</td><td class="r num">63 €</td><td class="r num">44 €</td><td class="r num">68 €</td><td class="r num">14 €</td></tr>
-      <tr><td>Part du lieu dans les dépenses</td><td class="r num">31 %</td><td class="r num">40 %</td><td class="r num">11 %</td><td class="r num">—</td></tr>
-      <tr><td>Marge du bar</td><td class="r num">64 %</td><td class="r num">58 %</td><td class="r num">69 %</td><td class="r num">commission 20 %</td></tr>
-      <tr><td>Entrées nécessaires pour être à l'équilibre</td><td class="r num">1 190</td><td class="r num">590</td><td class="r num">560</td><td class="r num">—</td></tr>
-    </tbody></table></div>
-  </div>
-</section>
-
-<!-- ================= UNE SOIRÉE ================= -->
-<section id="v-event" class="hidden">
-  <div class="evh">
-    <img src="plage.jpg" alt="">
-    <div style="flex:1;min-width:220px">
-      <div class="t">La Plage · Épisode 04</div>
-      <div class="m"><span>Sam. 22 août 2026 · Martinique</span><span class="pill p-b">Co-organisation · 3 parts égales</span><span class="pill p-ok">Clôturée le 2 sept.</span></div>
-    </div>
-    <div class="row"><button class="btn gh" onclick="toast('Export PDF du bilan')">Bilan PDF</button><button class="btn gh" onclick="toast('Budget dupliqué pour une nouvelle soirée')">Dupliquer</button><button class="btn" onclick="openExp()">+ Dépense</button></div>
-  </div>
-  <div class="tabs" id="etabs">
-    <button class="on" data-t="syn">Synthèse</button><button data-t="bud">Budget & dépenses</button><button data-t="rec">Recettes</button><button data-t="cash">Caisse & espèces</button><button data-t="stk">Stock bar</button><button data-t="reg">Règlement</button>
-  </div>
-
-  <!-- synthèse -->
-  <div class="et" id="t-syn">
-    <div class="kpis">
-      <div class="kpi"><div class="l">CA total</div><div class="v num">66 900 €</div><div class="s">prévu 62 000 € · <span class="pos">+8 %</span></div></div>
-      <div class="kpi"><div class="l">Dépenses</div><div class="v num">38 184 €</div><div class="s">prévu 36 000 € · <span class="neg">+6,1 %</span></div></div>
-      <div class="kpi"><div class="l">Résultat soirée</div><div class="v num pos">+28 716 €</div><div class="s">prévu +26 000 €</div></div>
-      <div class="kpi hl"><div class="l">Part Souskay (1/3)</div><div class="v num pos">+9 572 €</div><div class="s">après règlement</div></div>
-      <div class="kpi"><div class="l">Entrées</div><div class="v num">980</div><div class="s">jauge 1 200 · équilibre à 560</div></div>
-    </div>
-    <div class="grid g2">
-      <div class="card">
-        <h3>Prévu / réel par poste</h3>
-        <div class="res" id="pvr"></div>
-        <p class="mut" style="font-size:12px;margin-top:12px">Le trait blanc = le budget prévu. Rouge = dépassement.</p>
-      </div>
-      <div class="card">
-        <h3>Clôture de la soirée</h3>
-        <ul class="chk">
-          <li><span class="ok y">✓</span>Toutes les recettes saisies (7 canaux)</li>
-          <li><span class="ok y">✓</span>Espèces comptées et déposées</li>
-          <li><span class="ok n">!</span><div>Écart de caisse −520 € <small class="mut">· expliqué : non</small></div></li>
-          <li><span class="ok y">✓</span>Stock de fin compté</li>
-          <li><span class="ok n">!</span>3 justificatifs manquants</li>
-          <li><span class="ok n">!</span>1 virement de règlement à recevoir</li>
-        </ul>
-        <p class="mut" style="font-size:12px;margin-top:12px">Une fois tout coché, la soirée est verrouillée : plus personne ne modifie les chiffres sans laisser une trace.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- budget -->
-  <div class="et hidden" id="t-bud">
-    <div class="row" style="justify-content:space-between;margin-bottom:12px">
-      <div class="chips" id="bfilt"><button class="on">Tout</button><button>À payer</button><button>Sans justificatif</button><button>Avancé par un membre</button><button>Dépassements</button></div>
-      <button class="btn sm" onclick="openExp()">+ Ligne</button>
-    </div>
-    <div class="card tw" style="padding:6px">
-      <table><thead><tr><th>Poste</th><th class="hide-m">Fournisseur</th><th class="r">Prévu</th><th class="r">Réel</th><th class="r">Écart</th><th>Payé par</th><th class="hide-m">Moyen</th><th>Statut</th><th></th></tr></thead><tbody id="budrows"></tbody></table>
-    </div>
-  </div>
-
-  <!-- recettes -->
-  <div class="et hidden" id="t-rec">
-    <div class="grid g2e">
-      <div class="card tw">
-        <h3>Recettes par activité et par canal</h3>
-        <table><thead><tr><th>Canal</th><th>Encaissé par</th><th class="r">Prévu</th><th class="r">Réel</th><th>Source</th></tr></thead><tbody>
-          <tr class="cat"><td colspan="2">Entrées <span class="sub">· 980 personnes</span></td><td class="r num">11 000 €</td><td class="r num">12 100 €</td><td></td></tr>
-          <tr><td>Prévente Bizouk</td><td>Souskay</td><td class="r num">9 000 €</td><td class="r num">9 800 €</td><td><span class="pill p-b">auto · CRM</span></td></tr>
-          <tr><td>Sur place · carte</td><td>Partenaire B</td><td class="r num">1 200 €</td><td class="r num">1 400 €</td><td><span class="pill p-n">saisi</span></td></tr>
-          <tr><td>Sur place · espèces</td><td>Caisse entrée</td><td class="r num">800 €</td><td class="r num">900 €</td><td><span class="pill p-n">comptage</span></td></tr>
-          <tr class="cat"><td colspan="2">Bar</td><td class="r num">49 000 €</td><td class="r num">52 400 €</td><td></td></tr>
-          <tr><td>Carte (TPE)</td><td>Partenaire A</td><td class="r num">36 000 €</td><td class="r num">38 500 €</td><td><span class="pill p-n">relevé TPE</span></td></tr>
-          <tr><td>Espèces</td><td>Caisses bar</td><td class="r num">13 000 €</td><td class="r num">13 900 €</td><td><span class="pill p-n">comptage</span></td></tr>
-          <tr class="cat"><td colspan="2">Tables</td><td class="r num">2 000 €</td><td class="r num">2 400 €</td><td></td></tr>
-          <tr><td>Réservations de tables (6)</td><td>Souskay</td><td class="r num">2 000 €</td><td class="r num">2 400 €</td><td><span class="pill p-b">auto · site</span></td></tr>
-          <tr class="cat"><td colspan="2">Partenaires & sponsors</td><td class="r num">0 €</td><td class="r num">0 €</td><td></td></tr>
-          <tr class="tot"><td colspan="2">Total</td><td class="r num">62 000 €</td><td class="r num">66 900 €</td><td></td></tr>
-        </tbody></table>
-      </div>
-      <div class="stack" style="display:grid;gap:14px;align-content:start">
-        <div class="card">
-          <h3>Billetterie</h3>
-          <div class="res">
-            <div class="ln"><span>Early · 10 €</span><div class="bar"><i style="width:100%"></i></div><span class="r num">150 / 150</span></div>
-            <div class="ln"><span>Regular · 15 €</span><div class="bar"><i style="width:100%"></i></div><span class="r num">400 / 400</span></div>
-            <div class="ln"><span>Last · 20 €</span><div class="bar"><i style="width:47%"></i></div><span class="r num">95 / 200</span></div>
-            <div class="ln"><span>Sur place · 25 €</span><div class="bar"><i style="width:77%"></i></div><span class="r num">92 / 120</span></div>
-            <div class="ln"><span>Invitations</span><div class="bar"><i style="width:60%;background:var(--blue)"></i></div><span class="r num">243 · venus 146</span></div>
-          </div>
-          <p class="mut" style="font-size:12px;margin-top:10px">Les ventes Bizouk et Shotgun arrivent seules depuis le CRM. Les invitations venues comptent dans les entrées, pas dans le CA.</p>
-        </div>
-        <div class="card">
-          <h3>Seuil de rentabilité</h3>
-          <div class="big num">560 <span class="mut" style="font-size:16px;font-weight:500">entrées</span></div>
-          <p class="mut" style="margin-top:6px">Avec un panier moyen de 68 € (entrée + bar), la soirée couvre ses dépenses à partir de 560 personnes. On en a eu 980.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- caisse -->
-  <div class="et hidden" id="t-cash">
-    <div class="kpis">
-      <div class="kpi"><div class="l">Espèces attendues</div><div class="v num">8 750 €</div><div class="s">fonds + ventes − sorties du soir</div></div>
-      <div class="kpi"><div class="l">Espèces comptées</div><div class="v num">8 230 €</div><div class="s">3 caisses</div></div>
-      <div class="kpi"><div class="l">Écart</div><div class="v num neg">−520 €</div><div class="s">à expliquer</div></div>
-      <div class="kpi"><div class="l">Payé en espèces le soir</div><div class="v num">6 850 €</div><div class="s">DJ, staff, agents, groupe</div></div>
-    </div>
-    <div class="card tw">
-      <h3>Caisses <button class="a" onclick="toast('Nouvelle caisse')">+ Caisse</button></h3>
-      <table><thead><tr><th>Caisse</th><th>Responsable</th><th class="r">Fond de caisse</th><th class="r">Attendu</th><th class="r">Compté</th><th class="r">Écart</th><th>Où sont les espèces</th><th>Statut</th></tr></thead><tbody>
-        <tr><td>Entrée</td><td>Membre équipe 1</td><td class="r num">200 €</td><td class="r num">1 100 €</td><td class="r num">1 100 €</td><td class="r num pos">0 €</td><td>Déposé · compte Souskay</td><td><span class="pill p-ok">Déposé 24/08</span></td></tr>
-        <tr><td>Bar 1</td><td>Resp. bar</td><td class="r num">300 €</td><td class="r num">3 900 €</td><td class="r num">3 920 €</td><td class="r num pos">+20 €</td><td>Chez Partenaire B</td><td><span class="pill p-due">À déposer</span></td></tr>
-        <tr><td>Bar 2</td><td>Resp. bar</td><td class="r num">300 €</td><td class="r num">3 750 €</td><td class="r num">3 210 €</td><td class="r num neg">−540 €</td><td>Chez Partenaire B</td><td><span class="pill p-late">Écart à expliquer</span></td></tr>
-      </tbody></table>
-    </div>
-    <div class="card" style="margin-top:14px">
-      <h3>Mouvements d'espèces</h3>
-      <table><tbody>
-        <tr><td class="mut num">23/08 04:30</td><td>DJ (5)</td><td>Caisse Bar 1</td><td class="r num neg">−3 600 €</td></tr>
-        <tr><td class="mut num">23/08 05:10</td><td>Staff bar, entrée, cocktails (14)</td><td>Caisse Bar 2</td><td class="r num neg">−2 350 €</td></tr>
-        <tr><td class="mut num">23/08 05:30</td><td>Agents de sécurité (3)</td><td>Caisse Bar 2</td><td class="r num neg">−450 €</td></tr>
-        <tr><td class="mut num">23/08 06:00</td><td>Groupe électrogène</td><td>Caisse Bar 2</td><td class="r num neg">−450 €</td></tr>
-        <tr><td class="mut num">24/08</td><td>Dépôt en banque</td><td>Caisse Entrée → compte Souskay</td><td class="r num">1 100 €</td></tr>
-      </tbody></table>
-      <p class="mut" style="font-size:12px;margin-top:10px">Chaque espèce qui sort d'une caisse le soir est notée ici. Le comptage de fin compare automatiquement ce qu'il devrait rester avec ce qu'on a compté.</p>
-    </div>
-  </div>
-
-  <!-- stock -->
-  <div class="et hidden" id="t-stk">
-    <div class="kpis">
-      <div class="kpi"><div class="l">Valeur consommée</div><div class="v num" id="k-cons">—</div><div class="s">au prix d'achat</div></div>
-      <div class="kpi"><div class="l">CA bar théorique</div><div class="v num" id="k-th">—</div><div class="s">consommé × prix de vente</div></div>
-      <div class="kpi"><div class="l">CA bar réel</div><div class="v num">52 400 €</div><div class="s">carte + espèces</div></div>
-      <div class="kpi"><div class="l">Écart bar</div><div class="v num warn" id="k-ec">—</div><div class="s" id="k-ecs">—</div></div>
-    </div>
-    <div class="card tw">
-      <h3>Stock de la soirée <span class="row"><button class="a" onclick="toast('Comptage de fin sur téléphone')">Compter le stock</button></span></h3>
-      <table><thead><tr><th>Article</th><th class="r">Début</th><th class="r">+ Achats</th><th class="r">Packs tables</th><th class="r">Offerts</th><th class="r">Casse</th><th class="r">Fin</th><th class="r">Vendu</th><th class="r hide-m">Achat</th><th class="r hide-m">Vente / unité</th><th class="r">Marge</th></tr></thead><tbody id="stkrows"></tbody></table>
-    </div>
-  </div>
-
-  <!-- règlement -->
-  <div class="et hidden" id="t-reg">
-    <div class="card" style="margin-bottom:14px">
-      <h3>Montage de la soirée <button class="a" onclick="openNew()">Modifier</button></h3>
-      <p>Co-organisation à <b>3 parts égales</b> : Souskay, Partenaire A (bar), Partenaire B. Résultat à partager : <b class="pos num">28 716 €</b>, soit <b class="num">9 572 €</b> chacun.</p>
-    </div>
-    <div class="split">
-      <div class="party"><div class="n">Souskay <span class="pill p-b">nous</span></div><dl>
-        <dt>A encaissé</dt><dd class="num">12 200 €</dd><dt>A payé (avances équipe incluses)</dt><dd class="num">9 684 €</dd><dt>Devrait avoir</dt><dd class="num">9 572 €</dd><dt>Solde</dt><dd class="num pos">reçoit 7 056 €</dd></dl></div>
-      <div class="party"><div class="n">Partenaire A</div><dl>
-        <dt>A encaissé</dt><dd class="num">38 500 €</dd><dt>A payé</dt><dd class="num">21 000 €</dd><dt>Devrait avoir</dt><dd class="num">9 572 €</dd><dt>Solde</dt><dd class="num neg">doit 7 928 €</dd></dl></div>
-      <div class="party"><div class="n">Partenaire B</div><dl>
-        <dt>A encaissé</dt><dd class="num">16 200 €</dd><dt>A payé (dont caisse du soir)</dt><dd class="num">7 500 €</dd><dt>Devrait avoir</dt><dd class="num">9 572 €</dd><dt>Solde</dt><dd class="num pos">reçoit 872 €</dd></dl></div>
-    </div>
-    <div class="card" style="margin-top:14px">
-      <h3>Virements à faire <span class="mut" style="letter-spacing:0;text-transform:none">calculés automatiquement, le moins de virements possible</span></h3>
-      <div class="transfer"><b>Partenaire A</b><span class="arr">→</span><b>Souskay</b><span class="num" style="margin-left:auto;font-weight:700">7 056 €</span><span class="pill p-due">À recevoir</span><button class="btn sm gh" onclick="toast('Virement marqué reçu')">Reçu</button></div>
-      <div class="transfer"><b>Partenaire A</b><span class="arr">→</span><b>Partenaire B</b><span class="num" style="margin-left:auto;font-weight:700">872 €</span><span class="pill p-ok">Fait 28/08</span></div>
-      <p class="mut" style="font-size:12px;margin-top:12px">Pour une soirée chez un lieu partenaire (type Keloké), le règlement calcule à la place la facture à faire au lieu : part des entrées, commission sur la marge du bar, DJ refacturés.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ================= À PAYER ================= -->
-<section id="v-pay" class="hidden">
-  <div class="head"><div><h1>À payer</h1><p>Toutes les factures et dépenses pas encore réglées, toutes soirées confondues.</p></div></div>
-  <div class="card tw"><table><thead><tr><th>Échéance</th><th>Fournisseur</th><th>Poste</th><th>Soirée</th><th class="r">Montant</th><th>Justificatif</th><th>Statut</th><th></th></tr></thead><tbody>
-    <tr><td class="num neg">05/09</td><td>Société de sécurité</td><td>Sécurité</td><td>La Plage 04</td><td class="r num">1 400 €</td><td><span class="ic-doc">PDF</span></td><td><span class="pill p-late">En retard</span></td><td><button class="btn sm gh" onclick="toast('Marqué payé')">Payé</button></td></tr>
-    <tr><td class="num neg">10/09</td><td>Loueur son</td><td>Technique</td><td>Keloké 08</td><td class="r num">450 €</td><td><span class="ic-doc">PDF</span></td><td><span class="pill p-late">En retard</span></td><td><button class="btn sm gh" onclick="toast('Marqué payé')">Payé</button></td></tr>
-    <tr><td class="num">30/09</td><td>Lieu · L'Intégration</td><td>Lieu · solde</td><td>L'Intégration</td><td class="r num">2 400 €</td><td><span class="ic-doc">PDF</span></td><td><span class="pill p-due">À payer</span></td><td><button class="btn sm gh" onclick="toast('Marqué payé')">Payé</button></td></tr>
-    <tr><td class="num">02/10</td><td>Photographe</td><td>Communication</td><td>L'Intégration</td><td class="r num">550 €</td><td><span class="ic-doc miss">?</span></td><td><span class="pill p-due">À payer</span></td><td><button class="btn sm gh" onclick="toast('Marqué payé')">Payé</button></td></tr>
-    <tr><td class="num">09/10</td><td>Agence de sécurité Paris</td><td>Sécurité</td><td>L'Intégration</td><td class="r num">1 380 €</td><td><span class="ic-doc miss">?</span></td><td><span class="pill p-n">Engagé</span></td><td></td></tr>
-  </tbody></table></div>
-</section>
-
-<!-- ================= AVANCES ================= -->
-<section id="v-adv" class="hidden">
-  <div class="head"><div><h1>Avances & dettes</h1><p>Qui a avancé de l'argent, qui doit quoi, entre membres et avec les partenaires.</p></div><button class="btn" onclick="toast('Nouvelle avance')">+ Avance</button></div>
-  <div class="kpis">
-    <div class="kpi"><div class="l">Souskay doit à l'équipe</div><div class="v num warn">2 340 €</div><div class="s">4 avances en cours</div></div>
-    <div class="kpi"><div class="l">Prêts de membres</div><div class="v num">4 500 €</div><div class="s">remboursement progressif</div></div>
-    <div class="kpi"><div class="l">On nous doit</div><div class="v num pos">1 260 €</div><div class="s">partenaires</div></div>
-  </div>
-  <div class="card tw"><table><thead><tr><th>Date</th><th>Qui</th><th>Pour</th><th>Soirée</th><th class="r">Montant</th><th class="r">Remboursé</th><th>Statut</th><th></th></tr></thead><tbody>
-    <tr><td class="num">22/08</td><td>Membre équipe 1</td><td>Glaçons, citrons, gobelets</td><td>La Plage 04</td><td class="r num">880 €</td><td class="r num">0 €</td><td><span class="pill p-due">À rembourser</span></td><td><button class="btn sm gh" onclick="toast('Remboursement enregistré')">Rembourser</button></td></tr>
-    <tr><td class="num">14/08</td><td>Membre équipe 2</td><td>Billets d'avion artiste</td><td>L'Intégration</td><td class="r num">960 €</td><td class="r num">0 €</td><td><span class="pill p-due">À rembourser</span></td><td><button class="btn sm gh" onclick="toast('Remboursement enregistré')">Rembourser</button></td></tr>
-    <tr><td class="num">02/08</td><td>Membre équipe 1</td><td>Flyers + sponsorisation</td><td>Keloké 07</td><td class="r num">500 €</td><td class="r num">0 €</td><td><span class="pill p-due">À rembourser</span></td><td><button class="btn sm gh" onclick="toast('Remboursement enregistré')">Rembourser</button></td></tr>
-    <tr><td class="num">12/2025</td><td>Membre fondateur</td><td>Prêt à l'asso</td><td>—</td><td class="r num">4 500 €</td><td class="r num">2 500 €</td><td><span class="pill p-b">En cours · 56 %</span></td><td><button class="btn sm gh" onclick="toast('Remboursement enregistré')">Rembourser</button></td></tr>
-    <tr><td class="num">15/07</td><td>Membre équipe 3</td><td>Déco</td><td>Keloké 05</td><td class="r num">320 €</td><td class="r num">320 €</td><td><span class="pill p-ok">Remboursé</span></td><td></td></tr>
-  </tbody></table></div>
-</section>
-
-<!-- ================= STOCK ================= -->
-<section id="v-stock" class="hidden">
-  <div class="head"><div><h1>Stock & réserve</h1><p>Ce qu'on a en réserve entre deux soirées, à Paris et en Martinique.</p></div>
-    <div class="row"><div class="seg"><button class="on">Martinique</button><button>Paris</button></div><button class="btn" onclick="toast('Nouvel achat fournisseur')">+ Achat</button></div></div>
-  <div class="kpis">
-    <div class="kpi"><div class="l">Valeur en réserve</div><div class="v num">6 820 €</div><div class="s">au prix d'achat</div></div>
-    <div class="kpi"><div class="l">Réservé pour des tables</div><div class="v num">14</div><div class="s">bouteilles · L'Intégration</div></div>
-    <div class="kpi"><div class="l">Articles en alerte</div><div class="v num warn">3</div><div class="s">sous le seuil minimum</div></div>
-  </div>
-  <div class="card tw"><table><thead><tr><th>Article</th><th>Catégorie</th><th class="r">En réserve</th><th class="r">Réservé tables</th><th class="r">Disponible</th><th class="r">Seuil</th><th class="r">Prix achat</th><th class="r">Vente / unité</th><th></th></tr></thead><tbody id="resrows"></tbody></table></div>
-</section>
-
-<!-- ================= FOURNISSEURS ================= -->
-<section id="v-suppliers" class="hidden">
-  <div class="head"><div><h1>Fournisseurs & tarifs</h1><p>Un seul endroit pour les prix : plus de prix tapés dans les formules.</p></div><button class="btn" onclick="toast('Nouveau fournisseur')">+ Fournisseur</button></div>
-  <div class="grid g2e">
-    <div class="card tw"><h3>Fournisseurs</h3><table><thead><tr><th>Nom</th><th>Type</th><th class="r">Dépensé cette saison</th><th class="r">Soirées</th></tr></thead><tbody>
-      <tr><td>Caviste Paris</td><td>Alcool</td><td class="r num">31 200 €</td><td class="r num">3</td></tr>
-      <tr><td>Société de sécurité</td><td>Sécurité</td><td class="r num">9 400 €</td><td class="r num">4</td></tr>
-      <tr><td>Loueur son & scène</td><td>Technique</td><td class="r num">7 100 €</td><td class="r num">5</td></tr>
-      <tr><td>Photographe</td><td>Communication</td><td class="r num">3 900 €</td><td class="r num">9</td></tr>
-      <tr><td>Grossiste boissons</td><td>Softs & consommables</td><td class="r num">2 450 €</td><td class="r num">8</td></tr>
-    </tbody></table></div>
-    <div class="card tw"><h3>Tarifs de référence</h3><table><thead><tr><th>Élément</th><th class="r">Tarif</th><th>Unité</th></tr></thead><tbody>
-      <tr><td>Agent de sécurité</td><td class="r num">150 €</td><td>par soirée</td></tr>
-      <tr><td>Staff bar / entrée</td><td class="r num">15 €</td><td>par heure</td></tr>
-      <tr><td>DJ résident de série</td><td class="r num">300 €</td><td>par soirée</td></tr>
-      <tr><td>Commission promoteur</td><td class="r num">5 / 10 / 15 %</td><td>selon CA apporté</td></tr>
-      <tr><td>TVA location de salle</td><td class="r num">20 %</td><td>sur le HT</td></tr>
-    </tbody></table></div>
-  </div>
-</section>
-</main>
+<div class="mk">Maquette v2 · chiffres fictifs · les cases sont modifiables</div>
+<div class="top">
+  <div class="logo" onclick="home()"><b>Kès</b><span>Souskay</span></div>
+  <div class="crumb" id="crumb"></div>
+  <div class="sp"></div>
+  <button class="bt hm" onclick="recap()">Récap saison</button>
+  <button class="bt hm hidden" id="bShare" onclick="toast('Inviter : équipe (saisie) ou partenaire (lecture de cette soirée)')">Partager</button>
+  <div class="av">LL</div>
 </div>
 
-<button class="btn fab hide-m" onclick="openExp()">+ Dépense</button>
-
-<!-- drawer dépense -->
-<div class="ov" id="ov" onclick="closeDr()"></div>
-<div class="dr" id="dr-exp">
-  <div class="dh"><h2>Nouvelle dépense</h2><button class="btn gh sm" onclick="closeDr()">✕</button></div>
-  <div class="db">
-    <div class="drop" onclick="this.innerHTML='<b>ticket-glacons.jpg</b><br>photo ajoutée';document.getElementById('aibox').classList.remove('hidden')"><b>Prendre en photo le ticket</b><br>ou déposer une facture PDF</div>
-    <div class="ai hidden" id="aibox">Lu sur le ticket : <b>Grossiste boissons · 23/08 · 472,00 € TTC</b>. Vérifie et enregistre.</div>
-    <div class="fld"><label>Soirée</label><select><option>La Plage · Épisode 04</option><option>L'Intégration 2026</option><option>Hors soirée (frais généraux)</option></select></div>
-    <div class="fld"><label>Poste</label><div class="chips" data-one><button>Lieu</button><button>Technique</button><button>Artistes & DJ</button><button>Sécurité</button><button>Personnel</button><button>Communication</button><button class="on">Bar & consommables</button><button>Logistique</button><button>Taxes & assurances</button></div></div>
-    <div class="f2"><div class="fld"><label>Libellé</label><input value="Glaçons"></div><div class="fld"><label>Fournisseur</label><input value="Grossiste boissons"></div></div>
-    <div class="f2"><div class="fld"><label>Quantité × prix</label><input value="1 × 472,00 €"></div><div class="fld"><label>TVA</label><select><option>TTC, pas de TVA à part</option><option>HT + 20 %</option><option>HT + 8,5 % (DOM)</option></select></div></div>
-    <div class="fld"><label>Payé par</label><div class="chips" data-one><button>Compte Souskay</button><button>Caisse de la soirée</button><button class="on">Un membre (à rembourser)</button><button>Un partenaire</button></div></div>
-    <div class="f2"><div class="fld"><label>Qui ?</label><select><option>Membre équipe 1</option><option>Membre équipe 2</option></select></div><div class="fld"><label>Moyen</label><select><option>CB</option><option>Espèces</option><option>Virement</option><option>Lydia</option></select></div></div>
-    <div class="fld"><label>Statut</label><div class="chips" data-one><button>Prévu</button><button>Engagé</button><button>À payer</button><button class="on">Payé</button></div></div>
+<div class="wrap" id="v-home">
+  <h1>Soirées</h1>
+  <div class="bar">
+    <button class="chip on">Toutes</button><button class="chip">Paris</button><button class="chip">Martinique</button>
+    <span style="flex:1"></span>
+    <button class="bt" onclick="recap()">📊 Récap de la saison</button>
   </div>
-  <div class="df"><button class="btn gh" onclick="closeDr()">Annuler</button><button class="btn" onclick="closeDr();toast('Dépense ajoutée · avance créée pour Membre équipe 1')">Enregistrer</button></div>
+  <div class="sec">En cours</div>
+  <div class="files" id="f-now"></div>
+  <div class="sec">Terminées · saison 2025-26</div>
+  <div class="files" id="f-done"></div>
 </div>
 
-<!-- drawer nouvelle soirée -->
-<div class="dr" id="dr-new">
-  <div class="dh"><h2>Nouvelle soirée</h2><button class="btn gh sm" onclick="closeDr()">✕</button></div>
-  <div class="db">
-    <div class="fld"><label>Soirée</label><select><option>L'Intégration 2026 · 9 oct. · Paris (depuis le CRM)</option><option>Souskay de Star 2026 · 26 déc. · Paris</option></select></div>
-    <div class="fld"><label>Partir de</label><select><option>Budget de L'Intégration 2025 (dupliquer)</option><option>Modèle « Grande soirée Paris »</option><option>Modèle « Keloké au Baba »</option><option>Budget vide</option></select></div>
-    <div class="fld"><label>Montage</label>
-      <div class="opt" id="mont">
-        <label class="on"><input type="radio" name="m" checked><div><b>Souskay seul</b><small>Toutes les recettes et dépenses sont à nous.</small></div></label>
-        <label><input type="radio" name="m"><div><b>Co-organisation</b><small>On partage le résultat avec un ou plusieurs partenaires (parts égales ou %). L'outil calcule qui doit quoi à qui.</small></div></label>
-        <label><input type="radio" name="m"><div><b>Chez un lieu partenaire</b><small>Le lieu garde le bar. On partage les entrées (ex. 50 %) et on touche une commission sur la marge du bar (ex. 20 %). L'outil calcule la facture à faire au lieu.</small></div></label>
-      </div></div>
-    <div class="f2"><div class="fld"><label>Jauge</label><input value="1 300"></div><div class="fld"><label>Panier moyen visé</label><input value="55 €"></div></div>
+<div class="wrap hidden" id="v-ev">
+  <div class="shead">
+    <img id="e-img" src="" alt="">
+    <div style="flex:1;min-width:200px"><h1 id="e-name"></h1><div class="m" id="e-meta"></div></div>
+    <button class="bt" onclick="toast('Bilan PDF téléchargé')">Bilan PDF</button>
   </div>
-  <div class="df"><button class="btn gh" onclick="closeDr()">Annuler</button><button class="btn" onclick="closeDr();toast('Soirée créée avec le budget 2025 comme base')">Créer</button></div>
+  <div class="steps" id="e-steps"></div>
+  <div class="sum" id="e-sum"></div>
+  <div class="side2">
+    <div>
+      <div class="sheet" id="sheet"></div>
+      <div class="tabs" id="tabs">
+        <button data-t="dep" class="on">Dépenses</button><button data-t="rec">Recettes</button><button data-t="stk">Stock bar</button><button data-t="cash">Caisse</button><button data-t="part">Partage</button>
+      </div>
+      <p class="hint" id="hint"></p>
+    </div>
+    <div style="display:grid;gap:14px;align-content:start">
+      <div class="box"><h3 id="todoh">À faire pour clôturer</h3><ul class="todo" id="todo"></ul></div>
+      <div class="box" id="partbox"><h3>Partage du résultat</h3><div id="partmini"></div></div>
+    </div>
+  </div>
 </div>
 
+<div class="wrap hidden" id="v-recap">
+  <h1>Récap de la saison</h1>
+  <div class="bar"><button class="chip on">2025-26</button><button class="chip">2026-27</button><span style="width:10px"></span><button class="chip on">Tout</button><button class="chip">Paris</button><button class="chip">Martinique</button></div>
+  <div class="sum" id="r-sum"></div>
+  <div class="sheet recap" style="border-radius:12px;max-height:none;min-height:0"><table id="r-tab"></table></div>
+  <p class="hint">Chaque ligne se remplit toute seule depuis le dossier de la soirée. Clique une ligne pour l'ouvrir.</p>
+</div>
+
+<div class="ov hidden" id="ov" onclick="if(event.target===this)this.classList.add('hidden')">
+  <div class="modal">
+    <h2>Nouvelle soirée</h2>
+    <div><label>Nom</label><input value="Souskay de Star 2026"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><div><label>Date</label><input value="26/12/2026"></div><div><label>Ville</label><select><option>Paris</option><option>Martinique</option></select></div></div>
+    <div><label>Partir de</label><select><option>Copie de « Souskay de Star 2025 »</option><option>Copie de « L'Intégration 2026 »</option><option>Vide</option></select></div>
+    <div><label>Montage</label><div class="opt">
+      <label><input type="radio" name="m" checked><span>Souskay seul<small>Tout le résultat est à nous</small></span></label>
+      <label><input type="radio" name="m"><span>Avec des partenaires<small>On partage le résultat (parts ou %)</small></span></label>
+      <label><input type="radio" name="m"><span>Chez un lieu<small>Le lieu garde le bar : % des entrées + commission</small></span></label>
+    </div></div>
+    <button class="bt pr" style="justify-content:center;padding:11px" onclick="document.getElementById('ov').classList.add('hidden');toast('Soirée créée à partir de la copie')">Créer</button>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const eur=n=>(n<0?'−':'')+Math.abs(Math.round(n)).toLocaleString('fr-FR')+' €';
-function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2400)}
-function go(v){$$('main>section').forEach(s=>s.classList.toggle('hidden',s.id!=='v-'+v));$$('.nav').forEach(n=>n.classList.toggle('on',n.dataset.v===v));$('.side').classList.remove('on');scrollTo(0,0)}
-$$('.nav').forEach(n=>n.onclick=()=>go(n.dataset.v));
-$$('#etabs button').forEach(b=>b.onclick=()=>{$$('#etabs button').forEach(x=>x.classList.toggle('on',x===b));$$('.et').forEach(e=>e.classList.toggle('hidden',e.id!=='t-'+b.dataset.t))});
-$$('.seg').forEach(s=>s.querySelectorAll('button').forEach(b=>b.onclick=()=>s.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b))));
-$$('.chips').forEach(c=>c.querySelectorAll('button').forEach(b=>b.onclick=()=>c.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b))));
-$$('#mont label').forEach(l=>l.onclick=()=>$$('#mont label').forEach(x=>x.classList.toggle('on',x===l)));
-function openDr(id){$('#ov').classList.add('on');$(id).classList.add('on')}
-function closeDr(){$('#ov').classList.remove('on');$$('.dr').forEach(d=>d.classList.remove('on'))}
-function openExp(){openDr('#dr-exp')}function openNew(){openDr('#dr-new')}
+const sgn=n=>(n>0?'+':'')+eur(n);
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),2600)}
+const POSTES=['Lieu','Technique','Artistes & DJ','Sécurité','Personnel','Communication','Bar & conso','Logistique','Taxes & assurances'];
+const PC={'Lieu':'#E8E1F5','Technique':'#E1ECF7','Artistes & DJ':'#F7E4EC','Sécurité':'#EDEDED','Personnel':'#FFF1D6','Communication':'#E2F4EE','Bar & conso':'#FCE5D8','Logistique':'#EAF0DC','Taxes & assurances':'#F1ECE4'};
+const PAYERS=['Souskay','Caisse du soir','Membre · à rembourser','Partenaire A','Partenaire B'];
+const MOYENS=['Virement','CB','Espèces','Lydia','Prélèvement'];
 
-/* soirées */
-const EV=[
- {n:"Souskay de Star · Bridge",d:"27/12/2025",c:"Paris",m:"Souskay seul",p:78000,ca:96800,dep:80900,res:15900,st:"ok"},
- {n:"Carnaval",d:"06/02/2026",c:"Paris",m:"Souskay seul",p:26000,ca:26900,dep:25100,res:1800,st:"ok"},
- {n:"Sex Appeal",d:"03/04/2026",c:"Paris",m:"Souskay seul",p:30000,ca:29200,dep:31000,res:-1800,st:"ok"},
- {n:"Baya",d:"16/05/2026",c:"Martinique",m:"Souskay seul",p:6000,ca:7400,dep:5900,res:1500,st:"ok"},
- {n:"Keloké · 8 soirées",d:"été 2026",c:"Martinique",m:"Chez un lieu · 50 % / 20 %",p:0,ca:17200,dep:3500,res:5500,st:"ok"},
- {n:"La Plage · Ép. 04",d:"22/08/2026",c:"Martinique",m:"Co-orga · 3 parts",p:36000,ca:66900,dep:38184,res:9572,st:"ok"},
- {n:"L'Intégration 2026",d:"09/10/2026",c:"Paris",m:"Souskay seul",p:46000,ca:0,dep:37700,res:0,st:"prep"}];
-const stp=e=>e.st==='ok'?'<span class="pill p-ok">Clôturée</span>':'<span class="pill p-due">En préparation · 82 % engagé</span>';
-$('#evrows').innerHTML=EV.map(e=>`<tr class="click" onclick="${e.n.startsWith('La Plage')?"go('event')":"toast('Ouvre le dossier de la soirée')"}"><td><b>${e.n}</b><br><small class="mut">${e.d} · ${e.c}</small></td><td class="hide-m mut">${e.m}</td><td class="r num">${e.ca?eur(e.ca):'—'}</td><td class="r num">${eur(e.dep)}</td><td class="r num ${e.res>0?'pos':e.res<0?'neg':''}">${e.st==='ok'?(e.res>0?'+':'')+eur(e.res):'—'}</td><td class="r num hide-m">${e.st==='ok'&&e.ca&&!e.n.startsWith('Kelok')?Math.round(e.dep/({"Souskay de Star · Bridge":1480,"Carnaval":610,"Sex Appeal":720,"Baya":230,"Keloké · 8 soirées":2480,"La Plage · Ép. 04":980}[e.n]))+' €':'—'}</td><td>${stp(e)}</td></tr>`).join('');
-$('#evrows2').innerHTML=EV.slice().reverse().map(e=>`<tr class="click" onclick="${e.n.startsWith('La Plage')?"go('event')":"toast('Ouvre le dossier de la soirée')"}"><td><b>${e.n}</b></td><td class="num">${e.d}</td><td>${e.c}</td><td class="hide-m mut">${e.m}</td><td class="r num">${e.p?eur(e.p):'—'}</td><td class="r num">${eur(e.dep)}</td><td class="r num ${e.res>0?'pos':e.res<0?'neg':''}">${e.st==='ok'?(e.res>0?'+':'')+eur(e.res):'—'}</td><td>${stp(e)}</td></tr>`).join('');
-const done=EV.filter(e=>e.st==='ok'),mx=Math.max(...done.map(e=>Math.abs(e.res)));
-$('#chart').innerHTML=done.map(e=>`<div class="c" style="${e.res<0?'justify-content:flex-start;padding-top:'+(100-0)+'%':''}"><span class="num ${e.res<0?'neg':''}">${(e.res/1000).toFixed(1).replace('.',',')} k</span><div class="b ${e.res<0?'n':''}" style="height:${Math.abs(e.res)/mx*80}%"></div></div>`).join('');
-$('#chart').innerHTML=done.map(e=>`<div class="c"><span class="num ${e.res<0?'neg':''}">${e.res<0?'−':''}${(Math.abs(e.res)/1000).toFixed(1).replace('.',',')} k</span><div class="b ${e.res<0?'n':''}" style="height:${Math.max(4,Math.abs(e.res)/mx*80)}%;${e.res<0?'border-radius:6px 6px 0 0':''}"></div></div>`).join('');
-$('#chartl').innerHTML=done.map(e=>`<div title="${e.n}">${e.n.split(' ·')[0].replace('Souskay de ','')}</div>`).join('');
-const W=[["Bar & alcool",73684],["Lieu",33900],["Artistes & DJ",27400],["Personnel",13800],["Sécurité",12900],["Logistique",8600],["Communication",6900],["Technique",5100],["Taxes & assurances",2300]];
-const wm=W[0][1];$('#where').innerHTML=W.map(([k,v])=>`<div class="ln"><span>${k}</span><div class="bar"><i style="width:${v/wm*100}%"></i></div><span class="r num">${eur(v)}</span></div>`).join('');
+/* données fictives : [poste, libellé, prestataire, qté, prix unitaire, prévu, payé par, moyen, payé, justificatif] */
+const E={
+plage:{name:'La Plage · Épisode 04',img:'plage.jpg',date:'Sam. 22 août 2026',city:'Martinique',mont:'Avec 2 partenaires · 3 parts égales',step:2,
+ parts:[['Souskay',1],['Partenaire A',1],['Partenaire B',1]],cashBy:'Partenaire B',
+ dep:[
+ ['Lieu','Location du site','Propriétaire du site',1,4800,4500,'Partenaire A','Virement',1,1],
+ ['Lieu','Nettoyage','Clean Services',1,750,700,'Souskay','Virement',1,1],
+ ['Technique','Son & scène','Loueur son & scène',1,2400,2400,'Souskay','Virement',1,1],
+ ['Technique','Groupe électrogène','Loueur matériel',1,450,400,'Caisse du soir','Espèces',1,0],
+ ['Artistes & DJ','DJ','',5,720,3500,'Caisse du soir','Espèces',1,1],
+ ['Sécurité','Société de sécurité','Sécurité Caraïbes',1,2800,2800,'Souskay','Virement',0,1],
+ ['Sécurité','Agents en plus','',3,150,450,'Caisse du soir','Espèces',1,1],
+ ['Personnel','Bar, entrée, cocktails','',14,168,2200,'Caisse du soir','Espèces',1,1],
+ ['Communication','Photographe','',1,550,500,'Souskay','Lydia',1,1],
+ ['Communication','Sponso Instagram','Meta',1,280,300,'Souskay','CB',1,1],
+ ['Communication','Flyer','Graphiste',1,300,250,'Membre · à rembourser','Lydia',0,0],
+ ['Bar & conso','Alcool','Partenaire A',1,16200,15000,'Partenaire A','Virement',1,1],
+ ['Bar & conso','Glaçons','Grossiste boissons',1,520,450,'Membre · à rembourser','CB',0,1],
+ ['Bar & conso','Gobelets, pailles, citrons','Grossiste boissons',1,354,320,'Membre · à rembourser','CB',0,0],
+ ['Logistique','Transats','Loueur plage',1,360,350,'Partenaire B','Espèces',1,1],
+ ['Logistique','Fourgon','',1,290,280,'Partenaire B','CB',1,1],
+ ['Logistique','Déco','',1,650,600,'Souskay','CB',1,1],
+ ['Logistique','Location TPE','Banque',1,500,450,'Souskay','Prélèvement',1,1],
+ ['Taxes & assurances','SACEM','SACEM',1,580,550,'Souskay','Virement',0,1]],
+ rec:[['Entrées','Prévente Bizouk',9000,9800,'Souskay'],['Entrées','Sur place · carte',1200,1400,'Partenaire B'],['Entrées','Sur place · espèces',800,900,'Caisse du soir'],['Bar','Carte (TPE)',36000,38500,'Partenaire A'],['Bar','Espèces',13000,13900,'Caisse du soir'],['Tables','Réservations de tables',2000,2400,'Souskay']],
+ /* [article, acheté chez, prix achat, qté achetée, offerts/casse, reste fin, prix vente] */
+ stk:[['Champagne brut 75 cl','Partenaire A',32,168,4,0,90],['Cognac VS 70 cl','Partenaire A',30,120,2,33,140],['Vodka premium 70 cl','Partenaire A',24,128,4,67,140],['Rhum vieux 70 cl','Caviste Fort-de-France',22,48,0,8,112],['Rhum blanc 1 L','Caviste Fort-de-France',12,96,2,10,122],['Bière canette 33 cl','Grossiste boissons',1.1,960,30,240,5],['Softs 1,5 L','Grossiste boissons',1.4,220,3,45,0]],
+ /* [caisse, qui la tient, fond, ventes espèces, payé en espèces, compté] */
+ cash:[['Entrée','Membre équipe 1',200,900,0,1100],['Bar 1','Resp. bar',300,7200,3600,3920],['Bar 2','Resp. bar',300,6700,3250,3210]]},
+integ:{name:"L'Intégration 2026",img:'gold.jpg',date:'Ven. 9 oct. 2026',city:'Paris',mont:'Souskay seul',step:0,
+ parts:[['Souskay',1]],cashBy:'Souskay',
+ dep:[
+ ['Lieu','Location salle (HT + TVA)','Salle parisienne',1,14400,14400,'Souskay','Virement',0,1],
+ ['Lieu','SACEM','SACEM',1,0,900,'Souskay','Virement',0,0],
+ ['Artistes & DJ','DJ','',4,600,2400,'Souskay','Lydia',0,0],
+ ['Artistes & DJ','Artiste principal','Agence artiste',1,7000,6500,'Souskay','Virement',0,1],
+ ['Artistes & DJ',"Billets d'avion artiste",'Air Caraïbes',2,480,960,'Membre · à rembourser','CB',0,1],
+ ['Sécurité','Agents + chef + SSIAP','Agence sécurité Paris',1,0,3200,'Souskay','Virement',0,0],
+ ['Personnel','Bar, entrée, vestiaire','',16,0,2600,'Caisse du soir','Espèces',0,0],
+ ['Communication','Photographe + vidéaste','',1,0,1100,'Souskay','Lydia',0,0],
+ ['Communication','Sponso Instagram','Meta',1,650,800,'Souskay','CB',1,1],
+ ['Bar & conso','Alcool','Caviste Paris',1,0,11000,'Souskay','Virement',0,0],
+ ['Logistique','Bracelets, déco, caisse','',1,0,1400,'Souskay','CB',0,0]],
+ rec:[['Entrées','Prévente Bizouk',22000,14350,'Souskay'],['Entrées','Prévente Shotgun',3000,1200,'Souskay'],['Entrées','Sur place',6000,0,'Caisse du soir'],['Bar','Carte',26000,0,'Souskay'],['Bar','Espèces',9000,0,'Caisse du soir'],['Tables','Réservations de tables',6000,3100,'Souskay']],
+ stk:[['Champagne brut 75 cl','Caviste Paris',30,120,0,'',95],['Cognac VS 70 cl','Caviste Paris',28,90,0,'',150],['Vodka 70 cl','Caviste Paris',14,80,0,'',120],['Rhum vieux 70 cl','Caviste Paris',21,60,0,'',120],['Bière 33 cl','Metro',1.2,1200,0,'',6]],
+ cash:[['Entrée','',300,0,0,''],['Bar 1','',300,0,0,''],['Bar 2','',300,0,0,'']]}};
+const PAST=[['Souskay de Star · Bridge','27/12/2025','Paris','sing.jpg',96800,80900,15900],['Carnaval','06/02/2026','Paris','girls.jpg',26900,25100,1800],['Sex Appeal','03/04/2026','Paris','hug.jpg',29200,31000,-1800],['Baya','16/05/2026','Martinique','friends.jpg',7400,5900,1500],['Keloké · été (8 dates)','juil.–août 2026','Martinique','mic.jpg',17200,3500,5500]];
+let cur='plage',tab='dep';
 
-/* soirée : budget */
-const B=[
- ["Lieu","",[["Location du site","Propriétaire du site",4500,4800,"Partenaire A","Virement","ok",1],["Nettoyage","Société de nettoyage",700,750,"Souskay","Virement","ok",1]]],
- ["Technique","",[["Son & scène","Loueur son & scène",2400,2400,"Souskay","Virement","ok",1],["Groupe électrogène","Loueur matériel",400,450,"Caisse soirée","Espèces","ok",0]]],
- ["Artistes & DJ","5 DJ",[["DJ (5)","",3500,3600,"Caisse soirée","Espèces","ok",1]]],
- ["Sécurité","",[["Société de sécurité","Société de sécurité",2800,2800,"Souskay","Virement","late",1],["Agents supplémentaires (3)","",450,450,"Caisse soirée","Espèces","ok",1]]],
- ["Personnel","14 personnes",[["Bar, entrée, cocktails","",2200,2350,"Caisse soirée","Espèces","ok",1]]],
- ["Communication","",[["Photographe","Photographe",500,550,"Souskay","Lydia","ok",1],["Sponsorisation Instagram","Meta",300,280,"Souskay","CB","ok",1],["Flyer","Graphiste",250,300,"Membre équipe 1","Lydia","adv",0]]],
- ["Bar & consommables","",[["Alcool","Partenaire A",15000,16200,"Partenaire A","Virement","ok",1],["Glaçons","Grossiste boissons",450,520,"Membre équipe 1","CB","adv",1],["Gobelets, pailles, citrons","Grossiste boissons",320,354,"Membre équipe 1","CB","adv",0]]],
- ["Logistique","",[["Transats","Loueur",350,360,"Partenaire B","Espèces","ok",1],["Fourgon","Loueur",280,290,"Partenaire B","CB","ok",1],["Déco","",600,650,"Souskay","CB","ok",1],["Location TPE","Banque",450,500,"Souskay","Prélèvement","ok",1]]],
- ["Taxes & assurances","",[["SACEM","SACEM",550,580,"Souskay","Virement","due",1]]]];
-const ST={ok:'<span class="pill p-ok">Payé</span>',due:'<span class="pill p-due">À payer</span>',late:'<span class="pill p-late">En retard</span>',adv:'<span class="pill p-b">À rembourser</span>'};
-let h='',tp=0,tr=0;const pv=[];
-B.forEach(([cat,sub,ls])=>{const p=ls.reduce((a,l)=>a+l[2],0),r=ls.reduce((a,l)=>a+l[3],0);tp+=p;tr+=r;pv.push([cat,p,r]);
- h+=`<tr class="cat"><td colspan="2">${cat} <span class="sub">${sub}</span></td><td class="r num">${eur(p)}</td><td class="r num">${eur(r)}</td><td class="r num ${r>p?'neg':'pos'}">${r===p?'—':(r>p?'+':'')+eur(r-p)}</td><td colspan="4"></td></tr>`;
- ls.forEach(l=>{h+=`<tr class="click" onclick="openExp()"><td>${l[0]}</td><td class="hide-m mut">${l[1]||'—'}</td><td class="r num mut">${eur(l[2])}</td><td class="r num">${eur(l[3])}</td><td class="r num ${l[3]>l[2]?'neg':''}">${l[3]===l[2]?'':(l[3]>l[2]?'+':'')+eur(l[3]-l[2])}</td><td>${l[4]}</td><td class="hide-m mut">${l[5]}</td><td>${ST[l[6]]}</td><td><span class="ic-doc ${l[7]?'':'miss'}" title="${l[7]?'Justificatif':'Justificatif manquant'}">${l[7]?'✓':'?'}</span></td></tr>`})});
-h+=`<tr class="tot"><td colspan="2">Total dépenses</td><td class="r num">${eur(tp)}</td><td class="r num">${eur(tr)}</td><td class="r num neg">+${eur(tr-tp)}</td><td colspan="4"></td></tr>`;
-$('#budrows').innerHTML=h;
-const pm=Math.max(...pv.map(x=>Math.max(x[1],x[2])));
-$('#pvr').innerHTML=pv.map(([k,p,r])=>`<div class="ln"><span>${k}</span><div class="bar"><i class="${r>p?'over':''}" style="width:${r/pm*100}%"></i><b style="left:${p/pm*100}%"></b></div><span class="r num">${eur(r)}</span></div>`).join('');
+const dReal=d=>(+d[3]||0)*(+d[4]||0);
+function calc(e){
+ const dep=e.dep.reduce((a,d)=>a+dReal(d),0),depP=e.dep.reduce((a,d)=>a+(+d[5]||0),0);
+ const rec=e.rec.reduce((a,r)=>a+(+r[3]||0),0),recP=e.rec.reduce((a,r)=>a+(+r[2]||0),0);
+ const res=rec-dep,resP=recP-depP,tot=e.parts.reduce((a,p)=>a+(+p[1]||0),0)||1;
+ const who=n=>n==='Caisse du soir'?e.cashBy:(n.startsWith('Membre')?'Souskay':n);
+ const P=e.parts.map(([n,s])=>{const enc=e.rec.filter(r=>who(r[4])===n).reduce((a,r)=>a+(+r[3]||0),0);const pay=e.dep.filter(d=>who(d[6])===n).reduce((a,d)=>a+dReal(d),0);const due=res*(+s||0)/tot;return {n,enc,pay,due,bal:due-(enc-pay)}});
+ return {dep,depP,rec,recP,res,resP,P,share:P[0].due,shareP:resP*(+e.parts[0][1]||0)/tot};
+}
 
-/* stock soirée */
-const S=[["Champagne brut 75 cl",168,0,6,4,2,0,32,90],["Cognac VS 70 cl",120,0,3,2,0,33,30,140],["Vodka premium 70 cl",128,0,2,3,1,67,24,140],["Vodka 70 cl",60,0,1,1,0,33,14,112],["Rhum vieux 70 cl",48,0,1,0,0,8,22,112],["Rhum blanc 1 L (punch, ti-punch)",96,0,0,2,0,10,12,122],["Bière canette 33 cl",840,120,0,24,6,240,1.1,5],["Softs 1,5 L",180,40,12,0,3,45,1.4,0]];
-$('#stkrows').innerHTML=S.map(s=>{const v=s[1]+s[2]-s[3]-s[4]-s[5]-s[6];const m=s[8]?Math.round((1-s[7]/s[8])*100)+' %':'—';return `<tr><td>${s[0]}</td><td class="r num">${s[1]}</td><td class="r num">${s[2]||'—'}</td><td class="r num">${s[3]||'—'}</td><td class="r num">${s[4]||'—'}</td><td class="r num ${s[5]?'warn':''}">${s[5]||'—'}</td><td class="r num">${s[6]}</td><td class="r num"><b>${v}</b></td><td class="r num hide-m">${String(s[7]).replace('.',',')} €</td><td class="r num hide-m">${s[8]?s[8]+' €':'inclus'}</td><td class="r num">${m}</td></tr>`}).join('');
-
-{let c=0,t=0;S.forEach(x=>{const v=x[1]+x[2]-x[3]-x[4]-x[5]-x[6];c+=v*x[7];t+=v*x[8]});const e=52400-t;
-$('#k-cons').textContent=eur(c);$('#k-th').textContent=eur(t);$('#k-ec').textContent=(e>0?'+':'')+eur(e);$('#k-ecs').textContent=(e/t*100).toFixed(1).replace('.',',')+' % · offerts non notés ?'}
-/* réserve */
-const R=[["Champagne brut 75 cl","Champagne",18,8,24,32,90],["Cognac VS 70 cl","Spiritueux",33,3,12,30,140],["Vodka premium 70 cl","Spiritueux",67,2,12,24,140],["Rhum vieux 70 cl","Rhum",8,1,10,22,112],["Bière canette 33 cl","Bière",240,0,200,1.1,5],["Gobelets 25 cl","Consommable",1800,0,1000,0.08,0]];
-$('#resrows').innerHTML=R.map(r=>{const d=r[2]-r[3],low=d<r[4];return `<tr><td>${r[0]}</td><td class="mut">${r[1]}</td><td class="r num">${r[2]}</td><td class="r num">${r[3]||'—'}</td><td class="r num ${low?'warn':''}"><b>${d}</b></td><td class="r num mut">${r[4]}</td><td class="r num">${String(r[5]).replace('.',',')} €</td><td class="r num">${r[6]?r[6]+' €':'—'}</td><td>${low?'<span class="pill p-due">À racheter</span>':''}</td></tr>`}).join('');
+function show(v){['home','ev','recap'].forEach(k=>$('#v-'+k).classList.toggle('hidden',k!==v));$('#bShare').classList.toggle('hidden',v!=='ev');scrollTo(0,0)}
+function home(){show('home');$('#crumb').innerHTML='';drawHome()}
+function recap(){show('recap');$('#crumb').innerHTML='<a class="h" onclick="home()">Soirées</a> › <b>Récap saison</b>';drawRecap()}
+function open_(id){cur=id;tab='dep';show('ev');drawEv()}
+function card(o){return `<button class="file" onclick="${o.click}"><div class="th" style="background-image:url(${o.img})"><span class="st">${o.tag}</span></div><div class="in"><div class="n">${o.n}</div><div class="d">${o.d}</div><div class="r"><span class="mut">${o.lab||'Pour Souskay'}</span><b class="num ${o.res>0?'pos':o.res<0?'neg':''}">${o.resTxt}</b></div></div></button>`}
+function drawHome(){
+ const a=calc(E.integ),b=calc(E.plage);
+ $('#f-now').innerHTML=card({n:E.integ.name,d:E.integ.date+' · '+E.integ.city,img:E.integ.img,tag:'<span class="tag wip">① Budget en préparation</span>',lab:'Prévu pour Souskay',res:a.shareP,resTxt:sgn(a.shareP),click:"open_('integ')"})
+  +card({n:E.plage.name,d:E.plage.date+' · '+E.plage.city,img:E.plage.img,tag:'<span class="tag wip">③ À clôturer</span>',res:b.share,resTxt:sgn(b.share),click:"open_('plage')"})
+  +`<button class="file new" onclick="$('#ov').classList.remove('hidden')"><div><span>+</span>Nouvelle soirée</div></button>`;
+ $('#f-done').innerHTML=PAST.map(p=>card({n:p[0],d:p[1]+' · '+p[2],img:p[3],tag:'<span class="tag ok">Clôturée</span>',res:p[6],resTxt:sgn(p[6]),click:"toast('Même dossier que les autres soirées')"})).join('');
+}
+function drawEv(){
+ const e=E[cur];$('#crumb').innerHTML=`<a class="h" onclick="home()">Soirées</a> › <b>${e.name}</b>`;
+ $('#e-img').src=e.img;$('#e-name').textContent=e.name;$('#e-meta').textContent=`${e.date} · ${e.city} · ${e.mont}`;
+ $('#e-steps').innerHTML=['Préparer le budget','Le soir J','Clôturer'].map((s,i)=>`<div class="${i<e.step?'done':i===e.step?'cur':''}"><i>${i<e.step?'✓':i+1}</i><span>${s}</span></div>`).join('');
+ $$('#tabs button').forEach(b=>{b.classList.toggle('on',b.dataset.t===tab);if(b.dataset.t==='part')b.classList.toggle('hidden',e.parts.length<2)});
+ $('#partbox').classList.toggle('hidden',e.parts.length<2||tab==='part');
+ drawSheet();
+}
+function refresh(){
+ const e=E[cur],c=calc(e),prep=e.step===0;
+ $('#e-sum').innerHTML=`<div><small>Recettes</small><b class="num">${eur(prep?c.recP:c.rec)}</b><em>${prep?'prévu · déjà encaissé '+eur(c.rec):'prévu '+eur(c.recP)}</em></div>
+ <div><small>Dépenses</small><b class="num">${eur(prep?c.depP:c.dep)}</b><em>${prep?'prévu · déjà chiffré '+eur(c.dep):'prévu '+eur(c.depP)}</em></div>
+ <div><small>Résultat de la soirée</small><b class="num ${(prep?c.resP:c.res)>=0?'pos':'neg'}">${sgn(prep?c.resP:c.res)}</b><em>${prep?'si le prévu se réalise':'prévu '+sgn(c.resP)}</em></div>
+ <div class="hl"><small>Pour Souskay</small><b class="num pos">${sgn(prep?c.shareP:c.share)}</b><em>${e.parts.length>1?'1 part sur '+e.parts.length:'100 %'}</em></div>`;
+ const noDoc=e.dep.filter(d=>!d[9]).length,unpaid=e.dep.filter(d=>!d[8]&&!d[6].startsWith('Membre')).length,adv=e.dep.filter(d=>d[6].startsWith('Membre')&&!d[8]).reduce((a,d)=>a+dReal(d),0),noPrice=e.dep.filter(d=>!dReal(d)).length;
+ const gap=e.cash.reduce((a,k)=>a+(k[5]===''?0:(+k[5])-(k[2]+k[3]-k[4])),0);
+ $('#todoh').textContent=prep?'Pour être prêt le jour J':'À faire pour clôturer';
+ const T=prep?[[!noPrice,`${noPrice} dépenses pas encore chiffrées`],[0,`Préventes : ${eur(c.rec)} sur ${eur(c.recP)} prévus`],[0,'Préparer les caisses et le stock'],[!noDoc,`${noDoc} devis ou factures à ajouter`]]:
+  [[1,'Recettes saisies'],[gap===0,`Caisse : écart ${sgn(gap)} à expliquer`],[1,'Stock de fin compté'],[!noDoc,`${noDoc} justificatifs manquants`],[!unpaid,`${unpaid} dépenses pas encore payées`],[!adv,`Rembourser l'équipe : ${eur(adv)}`]];
+ $('#todo').innerHTML=T.map(([ok,t])=>`<li><span class="d ${ok?'y':'n'}">${ok?'✓':'!'}</span>${t}</li>`).join('');
+ if(e.parts.length>1)$('#partmini').innerHTML='<div class="split">'+c.P.map(p=>`<div class="p"><span>${p.n}</span><b class="num">${eur(p.due)}</b></div>`).join('')+'</div>'+xfers(c.P);
+ $$('[data-calc]').forEach(td=>{const f=td.dataset.calc.split(':');td.firstChild.textContent=CALC[f[0]](+f[1])});
+ $$('[data-tot]').forEach(td=>td.firstChild.textContent=TOT[td.dataset.tot]());
+}
+function xfers(P){const d=P.map(p=>({n:p.n,b:Math.round(p.bal)}));const pay=d.filter(x=>x.b<0).map(x=>({...x,b:-x.b})),get=d.filter(x=>x.b>0);let h='<div style="display:grid;gap:6px;margin-top:10px"><div class="mut" style="font-size:12px;font-weight:600">Virements à faire</div>';
+ pay.forEach(p=>get.forEach(g=>{const m=Math.min(p.b,g.b);if(m>0){h+=`<div class="xfer">${p.n} <span class="pos">→</span> ${g.n}<b class="m num">${eur(m)}</b></div>`;p.b-=m;g.b-=m}}));return h+'</div>'}
+const CALC={real:i=>{const v=dReal(E[cur].dep[i]);return v?eur(v):'à chiffrer'},ecart:i=>{const d=E[cur].dep[i];if(!dReal(d))return'';const x=dReal(d)-d[5];return x?sgn(x):'—'},
+ sold:i=>{const s=E[cur].stk[i];return s[5]===''?'':s[3]-s[4]-s[5]},ca:i=>{const s=E[cur].stk[i];return s[5]===''||!s[6]?'':eur((s[3]-s[4]-s[5])*s[6])},
+ marge:i=>{const s=E[cur].stk[i];return s[5]===''||!s[6]?'':eur((s[3]-s[4]-s[5])*s[6]-s[3]*s[2])},
+ att:i=>{const k=E[cur].cash[i];return eur(k[2]+k[3]-k[4])},gap:i=>{const k=E[cur].cash[i];return k[5]===''?'':sgn(k[5]-(k[2]+k[3]-k[4]))},
+ grp:i=>eur(E[cur].dep.filter(d=>d[0]===POSTES[i]).reduce((a,d)=>a+dReal(d),0)),grpP:i=>eur(E[cur].dep.filter(d=>d[0]===POSTES[i]).reduce((a,d)=>a+(+d[5]||0),0))};
+const TOT={dp:()=>eur(calc(E[cur]).depP),dr:()=>eur(calc(E[cur]).dep),rp:()=>eur(calc(E[cur]).recP),rr:()=>eur(calc(E[cur]).rec),
+ sca:()=>eur(E[cur].stk.reduce((a,s)=>a+(s[5]===''?0:(s[3]-s[4]-s[5])*s[6]),0)),sach:()=>eur(E[cur].stk.reduce((a,s)=>a+s[2]*s[3],0)),
+ cg:()=>sgn(E[cur].cash.reduce((a,k)=>a+(k[5]===''?0:k[5]-(k[2]+k[3]-k[4])),0))};
+const fmt=(v,num)=>v===''||v==null?'':(num&&typeof v==='number'?v.toLocaleString('fr-FR'):v);
+const ed=(v,k,i,j,num,ph='')=>`<td class="${num?'r':''}"><div class="c num" contenteditable spellcheck="false" data-k="${k}" data-i="${i}" data-j="${j}" data-n="${num?1:0}" data-ph="${ph}">${fmt(v,num)}</div></td>`;
+const cl=(k,i)=>`<td class="r calc" data-calc="${k}:${i}"><div class="c num"></div></td>`;
+const sel=(opts,v,k,i,j,cls='')=>`<td><select class="sel ${cls}" data-k="${k}" data-i="${i}" data-j="${j}">${opts.map(o=>`<option${o===v?' selected':''}>${o}</option>`).join('')}</select></td>`;
+function drawSheet(){
+ const e=E[cur];let h='';
+ if(tab==='dep'){
+  h='<table><thead><tr><th class="rn"></th><th>Libellé</th><th>Prestataire</th><th class="r">Qté</th><th class="r">Prix unitaire</th><th class="r">Réel</th><th class="r">Prévu</th><th class="r">Écart</th><th>Payé par</th><th>Moyen</th><th>Payé</th><th>Justif.</th></tr></thead><tbody>';let n=1;
+  POSTES.forEach((p,pi)=>{const rows=e.dep.map((d,i)=>[d,i]).filter(([d])=>d[0]===p);if(!rows.length&&e.step>0)return;
+   h+=`<tr class="grp"><td class="rn"></td><td colspan="4"><div class="c"><span class="pchip" style="background:${PC[p]}">${p}</span></div></td><td class="r" data-calc="grp:${pi}"><div class="c num"></div></td><td class="r" data-calc="grpP:${pi}"><div class="c num mut"></div></td><td colspan="5"></td></tr>`;
+   rows.forEach(([d,i])=>{h+=`<tr><td class="rn">${n++}</td>${ed(d[1],'dep',i,1)}${ed(d[2],'dep',i,2)}${ed(d[3],'dep',i,3,1)}${ed(d[4]||'','dep',i,4,1)}${cl('real',i)}${ed(d[5],'dep',i,5,1)}${cl('ecart',i)}${sel(PAYERS,d[6],'dep',i,6)}${sel(MOYENS,d[7],'dep',i,7,'w2')}<td class="cb"><input type="checkbox" ${d[8]?'checked':''} data-k="dep" data-i="${i}" data-j="8"></td><td class="clip ${d[9]?'':'miss'}" onclick="E[cur].dep[${i}][9]=1;this.className='clip';this.textContent='📎';refresh();toast('Photo du ticket ajoutée')">${d[9]?'📎':'＋'}</td></tr>`});
+   h+=`<tr class="add" onclick="addDep('${p}')"><td class="rn"></td><td colspan="11"><div class="c">+ Ajouter une ligne ${p}</div></td></tr>`});
+  h+=`<tr class="tot"><td class="rn"></td><td colspan="4"><div class="c">Total dépenses</div></td><td class="r" data-tot="dr"><div class="c num"></div></td><td class="r" data-tot="dp"><div class="c num"></div></td><td colspan="5"></td></tr></tbody></table>`;
+  $('#hint').innerHTML='Tape directement dans les cases, comme dans un tableur. <b>Réel = quantité × prix</b>. Le prestataire s\'écrit librement, il change à chaque soirée. <b>＋</b> dans Justif. = prendre le ticket en photo. Un membre qui avance l\'argent : choisis « Membre · à rembourser ».';
+ }
+ if(tab==='rec'){
+  h='<table><thead><tr><th class="rn"></th><th>Activité</th><th>D\'où vient l\'argent</th><th class="r">Prévu</th><th class="r">Réel</th><th>Encaissé par</th></tr></thead><tbody>';
+  e.rec.forEach((r,i)=>{h+=`<tr><td class="rn">${i+1}</td>${sel(['Entrées','Bar','Tables','Partenaires'],r[0],'rec',i,0)}${ed(r[1],'rec',i,1)}${ed(r[2],'rec',i,2,1)}${ed(r[3],'rec',i,3,1)}${sel(PAYERS.filter(x=>!x.startsWith('Membre')),r[4],'rec',i,4)}</tr>`});
+  h+=`<tr class="add" onclick="E[cur].rec.push(['Entrées','Nouvelle recette',0,0,'Souskay']);drawSheet()"><td class="rn"></td><td colspan="5"><div class="c">+ Ajouter une recette</div></td></tr><tr class="tot"><td class="rn"></td><td colspan="2"><div class="c">Total recettes</div></td><td class="r" data-tot="rp"><div class="c num"></div></td><td class="r" data-tot="rr"><div class="c num"></div></td><td></td></tr></tbody></table>`;
+  $('#hint').innerHTML='Les préventes Bizouk / Shotgun et les tables se rempliront toutes seules (depuis le CRM et le site). Le reste se tape ici. <b>Encaissé par</b> sert au partage.';
+ }
+ if(tab==='stk'){
+  h='<table><thead><tr><th class="rn"></th><th>Article</th><th>Acheté chez</th><th class="r">Prix d\'achat</th><th class="r">Qté achetée</th><th class="r">Offerts / casse</th><th class="r">Reste à la fin</th><th class="r">Vendu</th><th class="r">Prix de vente</th><th class="r">Rapporte</th><th class="r">Marge</th></tr></thead><tbody>';
+  e.stk.forEach((s,i)=>{h+=`<tr><td class="rn">${i+1}</td>${ed(s[0],'stk',i,0)}${ed(s[1],'stk',i,1)}${ed(s[2],'stk',i,2,1)}${ed(s[3],'stk',i,3,1)}${ed(s[4],'stk',i,4,1)}${ed(s[5],'stk',i,5,1)}${cl('sold',i)}${ed(s[6],'stk',i,6,1)}${cl('ca',i)}${cl('marge',i)}</tr>`});
+  h+=`<tr class="add" onclick="E[cur].stk.push(['Nouvel article','',0,0,0,'',0]);drawSheet()"><td class="rn"></td><td colspan="10"><div class="c">+ Ajouter un article</div></td></tr><tr class="tot"><td class="rn"></td><td colspan="3"><div class="c">Total acheté</div></td><td class="r" data-tot="sach"><div class="c num"></div></td><td colspan="4"><div class="c mut" style="text-align:right">le bar devrait rapporter</div></td><td class="r" data-tot="sca"><div class="c num"></div></td><td></td></tr></tbody></table>`;
+  $('#hint').innerHTML='Le stock vit dans la soirée : ce qu\'on achète, chez qui (ça change à chaque fois), ce qui reste à la fin. <b>Vendu</b>, <b>Rapporte</b> et <b>Marge</b> se calculent seuls. À comparer avec les recettes du bar.';
+ }
+ if(tab==='cash'){
+  h='<table><thead><tr><th class="rn"></th><th>Caisse</th><th>Qui la tient</th><th class="r">Fond de caisse</th><th class="r">Ventes en espèces</th><th class="r">Payé en espèces</th><th class="r">Devrait y avoir</th><th class="r">Compté</th><th class="r">Écart</th></tr></thead><tbody>';
+  e.cash.forEach((k,i)=>{h+=`<tr><td class="rn">${i+1}</td>${ed(k[0],'cash',i,0)}${ed(k[1],'cash',i,1)}${ed(k[2],'cash',i,2,1)}${ed(k[3],'cash',i,3,1)}${ed(k[4],'cash',i,4,1)}${cl('att',i)}${ed(k[5],'cash',i,5,1)}${cl('gap',i)}</tr>`});
+  h+=`<tr class="add" onclick="E[cur].cash.push(['Nouvelle caisse','',0,0,0,'']);drawSheet()"><td class="rn"></td><td colspan="8"><div class="c">+ Ajouter une caisse</div></td></tr><tr class="tot"><td class="rn"></td><td colspan="7"><div class="c">Écart total</div></td><td class="r" data-tot="cg"><div class="c num"></div></td></tr></tbody></table>`;
+  $('#hint').innerHTML='En fin de soirée, on compte chaque caisse et on tape le montant dans <b>Compté</b>. L\'écart apparaît tout de suite.';
+ }
+ if(tab==='part'){
+  const c=calc(e);h='<table><thead><tr><th class="rn"></th><th>Qui</th><th class="r">Parts</th><th class="r">A encaissé</th><th class="r">A payé</th><th class="r">Lui revient</th><th class="r">Solde</th></tr></thead><tbody>';
+  c.P.forEach((p,i)=>{h+=`<tr><td class="rn">${i+1}</td><td><div class="c"><b>${p.n}</b></div></td>${ed(e.parts[i][1],'parts',i,1,1)}<td class="r calc"><div class="c num">${eur(p.enc)}</div></td><td class="r calc"><div class="c num">${eur(p.pay)}</div></td><td class="r calc"><div class="c num">${eur(p.due)}</div></td><td class="r calc"><div class="c num ${p.bal>0?'pos':'neg'}">${Math.round(p.bal)===0?'—':p.bal>0?'reçoit '+eur(p.bal):'donne '+eur(-p.bal)}</div></td></tr>`});
+  h+='</tbody></table><div style="padding:12px">'+xfers(c.P)+'</div>';
+  $('#hint').innerHTML='Tout se calcule à partir des onglets Dépenses (payé par) et Recettes (encaissé par). La caisse du soir est tenue par <b>'+e.cashBy+'</b>. Ce qu\'avance l\'équipe compte pour Souskay.';
+ }
+ $('#sheet').innerHTML=h;
+ $$('#sheet [contenteditable]').forEach(c=>{c.addEventListener('input',()=>upd(c,c.textContent));c.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();c.blur()}});c.addEventListener('blur',()=>{if(c.dataset.n==='1'&&c.textContent.trim()!==''){const v=+c.textContent.replace(/\s|€/g,'').replace(',','.');c.textContent=(v||0).toLocaleString('fr-FR')}})});
+ $$('#sheet select,#sheet input[type=checkbox]').forEach(c=>c.addEventListener('change',()=>upd(c,c.type==='checkbox'?(c.checked?1:0):c.value)));
+ refresh();
+}
+function upd(c,v){const {k,i,j,n}=c.dataset;if(n==='1'){v=String(v).replace(/\s|€/g,'').replace(',','.');v=v===''?((k==='stk'||k==='cash')&&j==='5'?'':0):(+v||0)}E[cur][k][i][j]=v;refresh();if(tab==='part')drawSheet()}
+function addDep(p){E[cur].dep.push([p,'Nouvelle dépense','',1,0,0,'Souskay','CB',0,0]);drawSheet();const last=$$('#sheet [data-k=dep][data-j="1"]').find(x=>+x.dataset.i===E[cur].dep.length-1);if(last){last.focus();const r=document.createRange();r.selectNodeContents(last);const s=getSelection();s.removeAllRanges();s.addRange(r)}}
+$$('#tabs button').forEach(b=>b.onclick=()=>{tab=b.dataset.t;$$('#tabs button').forEach(x=>x.classList.toggle('on',x===b));$('#partbox').classList.toggle('hidden',E[cur].parts.length<2||tab==='part');drawSheet()});
+$$('.chip').forEach(ch=>ch.onclick=()=>[...ch.parentElement.querySelectorAll('.chip')].forEach(x=>x.classList.toggle('on',x===ch)));
+function drawRecap(){
+ const b=calc(E.plage),a=calc(E.integ);
+ const rows=PAST.map(p=>[p[0],p[1],p[2],p[4],p[5],p[4]-p[5],p[6],'Clôturée',null]).concat([[E.plage.name,'22/08/2026','Martinique',b.rec,b.dep,b.res,b.share,'À clôturer',"open_('plage')"]]);
+ const T=rows.reduce((t,r)=>[t[0]+r[3],t[1]+r[4],t[2]+r[6]],[0,0,0]);
+ $('#r-sum').innerHTML=`<div><small>Recettes</small><b class="num">${eur(T[0])}</b><em>${rows.length} soirées</em></div><div><small>Dépenses</small><b class="num">${eur(T[1])}</b><em>${Math.round(T[1]/T[0]*100)} % des recettes</em></div><div><small>Résultat des soirées</small><b class="num pos">${sgn(T[0]-T[1])}</b><em>avant partage</em></div><div class="hl"><small>Pour Souskay</small><b class="num pos">${sgn(T[2])}</b><em>après partage</em></div>`;
+ $('#r-tab').innerHTML='<thead><tr><th>Soirée</th><th>Date</th><th>Ville</th><th class="r">Recettes</th><th class="r">Dépenses</th><th class="r">Résultat</th><th class="r">Pour Souskay</th><th>État</th></tr></thead><tbody>'+rows.map(r=>`<tr class="click" onclick="${r[8]||"toast('Ouvre le dossier de la soirée')"}"><td><div class="c"><b>${r[0]}</b></div></td><td><div class="c mut">${r[1]}</div></td><td><div class="c">${r[2]}</div></td><td class="r"><div class="c num">${eur(r[3])}</div></td><td class="r"><div class="c num">${eur(r[4])}</div></td><td class="r"><div class="c num ${r[5]>=0?'pos':'neg'}">${sgn(r[5])}</div></td><td class="r"><div class="c num ${r[6]>=0?'pos':'neg'}"><b>${sgn(r[6])}</b></div></td><td><div class="c"><span class="tag ${r[7]==='Clôturée'?'ok':'wip'}">${r[7]}</span></div></td></tr>`).join('')+`<tr class="tot"><td colspan="3"><div class="c">Total saison</div></td><td class="r"><div class="c num">${eur(T[0])}</div></td><td class="r"><div class="c num">${eur(T[1])}</div></td><td class="r"><div class="c num">${sgn(T[0]-T[1])}</div></td><td class="r"><div class="c num">${sgn(T[2])}</div></td><td></td></tr>`+
+ `<tr><td colspan="8"><div class="c mut">Prochaine : <b style="color:var(--tx)">${E.integ.name}</b> · dépenses prévues ${eur(a.depP)} · résultat prévu ${sgn(a.resP)} · <a style="color:var(--acc);cursor:pointer;font-weight:600" onclick="open_('integ')">ouvrir</a></div></td></tr></tbody>`;
+}
+drawHome();
 </script>
 </body>
 </html>
