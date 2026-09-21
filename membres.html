@@ -11,7 +11,7 @@
 :root{
   --serif:'Libertinus Serif',Georgia,serif; --sans:'Space Grotesk',system-ui,sans-serif; --wide:'Archivo','Arial Black',sans-serif;
   --ease:cubic-bezier(.7,0,.2,1);
-  --konpe:#1F7A5A; --majo:#E8B54A; --moun:#8E857A;
+  --bronze:#B27A4E; --argent:#AEB6BF; --or:#E8B54A; --platine:#DCE6EC; --konpe:#AEB6BF; --majo:#E8B54A;
 }
 [data-theme=dark]{
   --bg:#0E0B0A; --bg-2:#171210; --card:#1B1512; --card-2:#241C18; --line:rgba(243,235,221,.09);
@@ -92,7 +92,7 @@ button{font:inherit;color:inherit}
 .stack{display:grid;gap:14px}
 
 /* carte statut */
-.status{position:relative;overflow:hidden;border-radius:26px;padding:24px;color:#F3EBDD;background:radial-gradient(120% 120% at 100% 0%,#2FA27A 0%,var(--konpe) 45%,#0F3F2F 100%);box-shadow:var(--shadow)}
+.status{position:relative;overflow:hidden;border-radius:26px;padding:24px;color:#F3EBDD;background:radial-gradient(120% 120% at 100% 0%,#9AA4AE 0%,#5D6671 42%,#23282E 100%);box-shadow:var(--shadow)}
 .status::after{content:"";position:absolute;right:-40px;bottom:-60px;width:240px;height:240px;background:url(picto-souskay-creme.svg) center/contain no-repeat;opacity:.1}
 .status .lvl{font-family:var(--wide);font-size:clamp(48px,9vw,72px);line-height:.9;letter-spacing:.01em;margin:10px 0 6px}
 .status .since{font-size:13px;opacity:.8}
@@ -114,7 +114,8 @@ button{font:inherit;color:inherit}
 .lv.done li .ic{background:var(--acc);color:var(--acc-tx)}
 .lv.lock{opacity:.75}
 .lv.lock li .ic{border:1px solid var(--mut);color:var(--mut)}
-.lv.cur{border-color:var(--konpe);box-shadow:0 0 0 1px var(--konpe) inset}
+.lv.cur{border-color:var(--argent);box-shadow:0 0 0 1px var(--argent) inset}
+.score{display:grid;gap:12px}.sc .r{display:flex;justify-content:space-between;font-size:14px;margin-bottom:6px}.sc .r b{font-weight:600}.mb{height:6px;border-radius:9px;background:var(--card-2);overflow:hidden}.mb i{display:block;height:100%;background:var(--acc);border-radius:9px}
 
 .next{display:flex;gap:14px;align-items:center}
 .next img{width:84px;height:84px;border-radius:16px;object-fit:cover;flex:none}
@@ -288,40 +289,52 @@ button{font:inherit;color:inherit}
       <div class="stack">
         <div class="status">
           <p class="eyebrow">Mon statut</p>
-          <div class="lvl">KONPÈ</div>
-          <p class="since">Membre depuis sept. 2022 · 4 soirées</p>
+          <div class="lvl">ARGENT</div>
+          <p class="since">Membre depuis sept. 2022 · 4 soirées · score 52/100</p>
           <div class="prog">
-            <div class="row"><span>Konpè</span><span>Majò</span></div>
-            <div class="bar"><i style="width:66%"></i></div>
-            <p class="hint">Encore <b>2 soirées</b> pour passer <b>Majò</b>.</p>
+            <div class="row"><span>Argent · 30</span><span>Or · 60</span></div>
+            <div class="bar"><i style="width:73%"></i></div>
+            <p class="hint">Encore <b>8 points de score</b> pour passer <b>Or</b>.</p>
           </div>
+        </div>
+        <div class="card">
+          <h3>Comment monter</h3>
+          <div class="score">
+            <div class="sc"><div class="r"><span>Tu es venue récemment</span><b>24/40</b></div><div class="mb"><i style="width:60%"></i></div></div>
+            <div class="sc"><div class="r"><span>Tu viens souvent</span><b>21/35</b></div><div class="mb"><i style="width:60%"></i></div></div>
+            <div class="sc"><div class="r"><span>Tes billets et tes tables</span><b>7/25</b></div><div class="mb"><i style="width:28%"></i></div></div>
+          </div>
+          <div class="perk">Le plus rapide : viens à L'Intégration le 9 oct. Une venue récente compte plus que tout le reste.</div>
         </div>
         <div class="card">
           <h3>Mes avantages</h3>
           <div class="levels">
-            <div class="lv done"><div class="h"><span class="d" style="background:var(--moun)"></span>Moun<small>débloqué</small></div>
-              <ul><li><span class="ic">✓</span>Accès aux préventes</li></ul></div>
-            <div class="lv done cur"><div class="h"><span class="d" style="background:var(--konpe)"></span>Konpè<small>ton statut</small></div>
+            <div class="lv done"><div class="h"><span class="d" style="background:var(--bronze)"></span>Bronze<small>débloqué</small></div>
+              <ul><li><span class="ic">✓</span>Accès aux préventes</li><li><span class="ic">✓</span>Les albums photo avant tout le monde</li></ul></div>
+            <div class="lv done cur"><div class="h"><span class="d" style="background:var(--argent)"></span>Argent<small>ton statut</small></div>
               <ul><li><span class="ic">✓</span>Prévente 24 h avant tout le monde</li><li><span class="ic">✓</span>File dédiée à l'entrée</li><li><span class="ic">✓</span>Une coupe offerte pour ton anniversaire</li></ul></div>
-            <div class="lv lock"><div class="h"><span class="d" style="background:var(--majo)"></span>Majò<small>à 6 soirées</small></div>
-              <ul><li><span class="ic">🔒</span>Prévente 48 h avant tout le monde</li><li><span class="ic">🔒</span>Entrée coupe-file</li><li><span class="ic">🔒</span>Table offerte pour ton anniversaire</li><li><span class="ic">🔒</span>Accès aux dates confidentielles</li></ul></div>
+            <div class="lv lock"><div class="h"><span class="d" style="background:var(--or)"></span>Or<small>score 60</small></div>
+              <ul><li><span class="ic">🔒</span>Prévente 48 h avant tout le monde</li><li><span class="ic">🔒</span>Entrée coupe-file</li><li><span class="ic">🔒</span>Une bouteille offerte pour ta table d'anniversaire</li></ul></div>
+            <div class="lv lock"><div class="h"><span class="d" style="background:var(--platine)"></span>Platine<small>score 85</small></div>
+              <ul><li><span class="ic">🔒</span>Tous les avantages Or</li><li><span class="ic">🔒</span>Accès aux dates confidentielles</li><li><span class="ic">🔒</span>Une entrée offerte par saison pour toi + 1</li></ul></div>
           </div>
+          <p class="fine">Ton statut ne baisse jamais le mois où tu l'obtiens. Tu le gardes tant que tu viens au moins une fois tous les 12 mois.</p>
         </div>
       </div>
       <div class="stack">
         <div class="card">
           <h3>Prochaine soirée</h3>
           <div class="next"><img src="gold.jpg" alt=""><div><div class="t">L'Intégration 2026</div><div class="m">Ven. 9 oct. · Paris</div><div class="a" style="margin-top:8px"><span class="tag ok">✓ Billet pris</span><span class="tag wait">Table · acompte attendu</span></div></div></div>
-          <div class="perk">Konpè : ta file dédiée t'attend à l'entrée. Montre simplement ton billet.</div>
+          <div class="perk">Argent : ta file dédiée t'attend à l'entrée. Montre simplement ton billet.</div>
         </div>
         <div class="card">
           <h3>Mes points <button class="linkbtn" style="margin:0;font-size:12px;letter-spacing:0;text-transform:none" onclick="toast('Historique complet des points')">Tout voir</button></h3>
-          <div class="pts"><b>1 240</b><span>points</span></div>
+          <div class="pts"><b>640</b><span>points</span></div>
           <ul class="moves">
             <li><span>Keloké · Ep06 · présence</span><b class="plus">+50</b></li>
             <li><span>Billet L'Intégration 2026</span><b class="plus">+35</b></li>
             <li><span>Kenza a pris sa place grâce à toi</span><b class="plus">+100</b></li>
-            <li><span>Conso offerte</span><b>−300</b></li>
+            <li><span>Anniversaire</span><b class="plus">+50</b></li>
           </ul>
         </div>
         <div class="card">
@@ -338,7 +351,7 @@ button{font:inherit;color:inherit}
     <div class="seg" id="evseg"><button class="on" data-v="up">À venir</button><button data-v="past">Passées · 4</button></div>
     <div class="stack" id="ev-up">
       <div class="ev"><img src="gold.jpg" alt=""><div class="i"><div class="s">L'Intégration</div><div class="t">L'Intégration 2026</div><div class="m">Ven. 9 oct. · 23h · Paris</div><div class="a"><span class="tag ok">✓ Billet pris · Bizouk</span><span class="tag wait">Table 12 · acompte attendu</span></div></div></div>
-      <div class="ev"><img src="sing.jpg" alt=""><div class="i"><div class="s">Souskay de Star</div><div class="t">Souskay de Star 2026</div><div class="m">Sam. 26 déc. · Paris</div><div class="a"><span class="tag gold">Ta prévente ouvre le 12 nov. · 24 h avant</span><button class="btn sm" onclick="toast('Ouvre la billetterie')">Prendre ma place</button></div></div></div>
+      <div class="ev"><img src="sing.jpg" alt=""><div class="i"><div class="s">Souskay de Star</div><div class="t">Souskay de Star 2026</div><div class="m">Sam. 26 déc. · Paris</div><div class="a"><span class="tag gold">Ta prévente Argent ouvre le 12 nov. · 24 h avant</span><button class="btn sm" onclick="toast('Ouvre la billetterie')">Prendre ma place</button></div></div></div>
       <div class="ev"><img src="plage.jpg" alt=""><div class="i"><div class="s">La Plage</div><div class="t">La Plage · Épisode 04</div><div class="m">Date à venir · Martinique</div><div class="a"><button class="btn sm ghost" onclick="toast('Tu seras prévenue à l\'ouverture')">Me prévenir</button></div></div></div>
     </div>
     <div class="stack hidden" id="ev-past">
@@ -414,7 +427,7 @@ button{font:inherit;color:inherit}
         <div class="tiers">
           <div class="tier"><div class="nb">3</div><div class="d">Entrée offerte à la prochaine soirée<small>Plus qu'1</small></div></div>
           <div class="tier"><div class="nb">5</div><div class="d">Entrée offerte + une conso<small>Plus que 3</small></div></div>
-          <div class="tier"><div class="nb">10</div><div class="d">Statut Majò pour la saison<small>Plus que 8</small></div></div>
+          <div class="tier"><div class="nb">10</div><div class="d">Statut Platine pour toute la saison<small>Plus que 8</small></div></div>
         </div>
       </div>
     </div>
@@ -508,7 +521,7 @@ $$('#evseg button').forEach(b=>b.onclick=()=>{$$('#evseg button').forEach(x=>x.c
 /* récompenses */
 const RW=[{n:'Vestiaire offert',c:200},{n:'Une conso offerte',c:300},{n:'Entrée offerte',c:900},{n:'Une bouteille −20 %',c:1500,o:1},{n:'Un Portrait d\'arrivée',c:600}];
 const pend=new Set();
-function drawRW(){$('#rewards').innerHTML=RW.map((r,i)=>{const off=r.c>1240;return `<div class="rw ${off?'off':''}"><div class="n">${r.n}</div><div class="c">${r.c.toLocaleString('fr-FR')} pts</div>${pend.has(i)?'<div class="pend">Demandée · l\'équipe valide</div>':off?`<button class="btn sm ghost" disabled>Plus que ${(r.c-1240).toLocaleString('fr-FR')} pts</button>`:`<button class="btn sm" onclick="ask(${i})">Demander</button>`}</div>`}).join('')}
+function drawRW(){$('#rewards').innerHTML=RW.map((r,i)=>{const off=r.c>640;return `<div class="rw ${off?'off':''}"><div class="n">${r.n}</div><div class="c">${r.c.toLocaleString('fr-FR')} pts</div>${pend.has(i)?'<div class="pend">Demandée · l\'équipe valide</div>':off?`<button class="btn sm ghost" disabled>Plus que ${(r.c-640).toLocaleString('fr-FR')} pts</button>`:`<button class="btn sm" onclick="ask(${i})">Demander</button>`}</div>`}).join('')}
 function ask(i){pend.add(i);drawRW();toast('Demande envoyée. Tu la récupères à ta prochaine soirée.')}
 drawRW();
 </script>
