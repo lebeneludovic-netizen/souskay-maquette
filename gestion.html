@@ -204,7 +204,7 @@ const MOYENS=['Virement','CB','Espèces','Lydia','Prélèvement'];
 /* données fictives : [poste, libellé, prestataire, qté, prix unitaire, prévu, payé par, moyen, payé, justificatif] */
 const E={
 plage:{name:'La Plage · Épisode 04',img:'plage.jpg',date:'Sam. 22 août 2026',city:'Martinique',mont:'Avec 2 partenaires · 3 parts égales',step:2,
- prev:{pers:900,pe:12,pb:55,tab:2000,persR:980,jauge:1200},
+ prev:{pers:900,pan:69,ratio:3,persR:980,jauge:1200},
  parts:[['Souskay',1],['Partenaire A',1],['Partenaire B',1]],cashBy:'Partenaire B',
  dep:[
  ['Lieu','Location du site','Propriétaire du site',1,4800,4500,'Partenaire A','Virement',1,1],
@@ -218,7 +218,7 @@ plage:{name:'La Plage · Épisode 04',img:'plage.jpg',date:'Sam. 22 août 2026',
  ['Communication','Photographe','',1,550,500,'Souskay','Lydia',1,1],
  ['Communication','Sponso Instagram','Meta',1,280,300,'Souskay','CB',1,1],
  ['Communication','Flyer','Graphiste',1,300,250,'Membre · à rembourser','Lydia',0,0],
- ['Bar & conso','Alcool','Partenaire A',1,16200,15000,'Partenaire A','Virement',1,1],
+ ['Bar & conso','Alcool','Partenaire A',1,16200,0,'Partenaire A','Virement',1,1,'auto'],
  ['Bar & conso','Glaçons','Grossiste boissons',1,520,450,'Membre · à rembourser','CB',0,1],
  ['Bar & conso','Gobelets, pailles, citrons','Grossiste boissons',1,354,320,'Membre · à rembourser','CB',0,0],
  ['Logistique','Transats','Loueur plage',1,360,350,'Partenaire B','Espèces',1,1],
@@ -232,7 +232,7 @@ plage:{name:'La Plage · Épisode 04',img:'plage.jpg',date:'Sam. 22 août 2026',
  /* [caisse, qui la tient, fond, ventes espèces, payé en espèces, compté] */
  cash:[['Entrée','Membre équipe 1',200,900,0,1100],['Bar 1','Resp. bar',300,7200,3600,3920],['Bar 2','Resp. bar',300,6700,3250,3210]]},
 integ:{name:"L'Intégration 2026",img:'gold.jpg',date:'Ven. 9 oct. 2026',city:'Paris',mont:'Souskay seul',step:0,
- prev:{pers:1300,pe:22,pb:27,tab:6000,persR:'',jauge:1400},
+ prev:{pers:1300,pan:50,ratio:3,persR:'',jauge:1400},
  parts:[['Souskay',1]],cashBy:'Souskay',
  dep:[
  ['Lieu','Location salle (HT + TVA)','Salle parisienne',1,14400,14400,'Souskay','Virement',0,1],
@@ -244,7 +244,7 @@ integ:{name:"L'Intégration 2026",img:'gold.jpg',date:'Ven. 9 oct. 2026',city:'P
  ['Personnel','Bar, entrée, vestiaire','',16,0,2600,'Caisse du soir','Espèces',0,0],
  ['Communication','Photographe + vidéaste','',1,0,1100,'Souskay','Lydia',0,0],
  ['Communication','Sponso Instagram','Meta',1,650,800,'Souskay','CB',1,1],
- ['Bar & conso','Alcool','Caviste Paris',1,0,11000,'Souskay','Virement',0,0],
+ ['Bar & conso','Alcool','Caviste Paris',1,0,0,'Souskay','Virement',0,0,'auto'],
  ['Logistique','Bracelets, déco, caisse','',1,0,1400,'Souskay','CB',0,0]],
  rec:[['Entrées','Prévente Bizouk',22000,14350,'Souskay'],['Entrées','Prévente Shotgun',3000,1200,'Souskay'],['Entrées','Sur place',6000,0,'Caisse du soir'],['Bar','Carte',26000,0,'Souskay'],['Bar','Espèces',9000,0,'Caisse du soir'],['Tables','Réservations de tables',6000,3100,'Souskay']],
  stk:[['Champagne brut 75 cl','Caviste Paris',30,120,0,'',95],['Cognac VS 70 cl','Caviste Paris',28,90,0,'',150],['Vodka 70 cl','Caviste Paris',14,80,0,'',120],['Rhum vieux 70 cl','Caviste Paris',21,60,0,'',120],['Bière 33 cl','Metro',1.2,1200,0,'',6]],
@@ -253,9 +253,10 @@ const PAST=[['Souskay de Star · Bridge','27/12/2025','Paris','sing.jpg',96800,8
 let cur='plage',tab='dep';
 
 const dReal=d=>(+d[3]||0)*(+d[4]||0);
+const caP=e=>(+e.prev.pers||0)*(+e.prev.pan||0),alcP=e=>caP(e)/((+e.prev.ratio)||3),dPrev=(e,d)=>d[10]?alcP(e):(+d[5]||0);
 function calc(e){
- const dep=e.dep.reduce((a,d)=>a+dReal(d),0),depP=e.dep.reduce((a,d)=>a+(+d[5]||0),0);
- const rec=e.rec.reduce((a,r)=>a+(+r[3]||0),0),v=e.prev,recP=(+v.pers||0)*((+v.pe||0)+(+v.pb||0))+(+v.tab||0);
+ const dep=e.dep.reduce((a,d)=>a+dReal(d),0),depP=e.dep.reduce((a,d)=>a+dPrev(e,d),0);
+ const rec=e.rec.reduce((a,r)=>a+(+r[3]||0),0),recP=caP(e);
  const res=rec-dep,resP=recP-depP,tot=e.parts.reduce((a,p)=>a+(+p[1]||0),0)||1;
  const who=n=>n==='Caisse du soir'?e.cashBy:(n.startsWith('Membre')?'Souskay':n);
  const P=e.parts.map(([n,s])=>{const enc=e.rec.filter(r=>who(r[4])===n).reduce((a,r)=>a+(+r[3]||0),0);const pay=e.dep.filter(d=>who(d[6])===n).reduce((a,d)=>a+dReal(d),0);const due=res*(+s||0)/tot;return {n,enc,pay,due,bal:due-(enc-pay)}});
@@ -291,7 +292,7 @@ function refresh(){
  const noDoc=e.dep.filter(d=>!d[9]).length,unpaid=e.dep.filter(d=>!d[8]&&!d[6].startsWith('Membre')).length,adv=e.dep.filter(d=>d[6].startsWith('Membre')&&!d[8]).reduce((a,d)=>a+dReal(d),0),noPrice=e.dep.filter(d=>!dReal(d)).length;
  const gap=e.cash.reduce((a,k)=>a+(k[5]===''?0:(+k[5])-(k[2]+k[3]-k[4])),0);
  $('#todoh').textContent=prep?'Pour être prêt le jour J':'À faire pour clôturer';
- const T=prep?[[1,`Prévision : ${(+e.prev.pers).toLocaleString('fr-FR')} pers. × ${eur((+e.prev.pe)+(+e.prev.pb))} de panier`],[!noPrice,`${noPrice} dépenses pas encore chiffrées`],[0,`Préventes : ${eur(c.rec)} sur ${eur(c.recP)} prévus`],[0,'Préparer les caisses et le stock'],[!noDoc,`${noDoc} devis ou factures à ajouter`]]:
+ const T=prep?[[1,`Prévision : ${(+e.prev.pers).toLocaleString('fr-FR')} pers. × ${eur(+e.prev.pan)} = ${eur(caP(e))}, alcool ${eur(alcP(e))}`],[!noPrice,`${noPrice} dépenses pas encore chiffrées`],[0,`Préventes : ${eur(c.rec)} sur ${eur(c.recP)} prévus`],[0,'Préparer les caisses et le stock'],[!noDoc,`${noDoc} devis ou factures à ajouter`]]:
   [[1,'Recettes saisies'],[gap===0,`Caisse : écart ${sgn(gap)} à expliquer`],[1,'Stock de fin compté'],[!noDoc,`${noDoc} justificatifs manquants`],[!unpaid,`${unpaid} dépenses pas encore payées`],[!adv,`Rembourser l'équipe : ${eur(adv)}`]];
  $('#todo').innerHTML=T.map(([ok,t])=>`<li><span class="d ${ok?'y':'n'}">${ok?'✓':'!'}</span>${t}</li>`).join('');
  if(e.parts.length>1)$('#partmini').innerHTML='<div class="split">'+c.P.map(p=>`<div class="p"><span>${p.n}</span><b class="num">${eur(p.due)}</b></div>`).join('')+'</div>'+xfers(c.P);
@@ -300,11 +301,11 @@ function refresh(){
 }
 function xfers(P){const d=P.map(p=>({n:p.n,b:Math.round(p.bal)}));const pay=d.filter(x=>x.b<0).map(x=>({...x,b:-x.b})),get=d.filter(x=>x.b>0);let h='<div style="display:grid;gap:6px;margin-top:10px"><div class="mut" style="font-size:12px;font-weight:600">Virements à faire</div>';
  pay.forEach(p=>get.forEach(g=>{const m=Math.min(p.b,g.b);if(m>0){h+=`<div class="xfer">${p.n} <span class="pos">→</span> ${g.n}<b class="m num">${eur(m)}</b></div>`;p.b-=m;g.b-=m}}));return h+'</div>'}
-const CALC={real:i=>{const v=dReal(E[cur].dep[i]);return v?eur(v):'à chiffrer'},ecart:i=>{const d=E[cur].dep[i];if(!dReal(d))return'';const x=dReal(d)-d[5];return x?sgn(x):'—'},
+const CALC={real:i=>{const v=dReal(E[cur].dep[i]);return v?eur(v):'à chiffrer'},ecart:i=>{const d=E[cur].dep[i];if(!dReal(d))return'';const x=dReal(d)-dPrev(E[cur],d);return Math.round(x)?sgn(x):'—'},palc:i=>eur(alcP(E[cur])),
  sold:i=>{const s=E[cur].stk[i];return s[5]===''?'':s[3]-s[4]-s[5]},ca:i=>{const s=E[cur].stk[i];return s[5]===''||!s[6]?'':eur((s[3]-s[4]-s[5])*s[6])},
  marge:i=>{const s=E[cur].stk[i];return s[5]===''||!s[6]?'':eur((s[3]-s[4]-s[5])*s[6]-s[3]*s[2])},
  att:i=>{const k=E[cur].cash[i];return eur(k[2]+k[3]-k[4])},gap:i=>{const k=E[cur].cash[i];return k[5]===''?'':sgn(k[5]-(k[2]+k[3]-k[4]))},
- ract:i=>eur(E[cur].rec.filter(r=>r[0]===['Entrées','Bar','Tables','Partenaires'][i]).reduce((a,r)=>a+(+r[3]||0),0)),grp:i=>eur(E[cur].dep.filter(d=>d[0]===POSTES[i]).reduce((a,d)=>a+dReal(d),0)),grpP:i=>eur(E[cur].dep.filter(d=>d[0]===POSTES[i]).reduce((a,d)=>a+(+d[5]||0),0))};
+ ract:i=>eur(E[cur].rec.filter(r=>r[0]===['Entrées','Bar','Tables','Partenaires'][i]).reduce((a,r)=>a+(+r[3]||0),0)),grp:i=>eur(E[cur].dep.filter(d=>d[0]===POSTES[i]).reduce((a,d)=>a+dReal(d),0)),grpP:i=>eur(E[cur].dep.filter(d=>d[0]===POSTES[i]).reduce((a,d)=>a+dPrev(E[cur],d),0))};
 const TOT={dp:()=>eur(calc(E[cur]).depP),dr:()=>eur(calc(E[cur]).dep),rp:()=>eur(calc(E[cur]).recP),rr:()=>eur(calc(E[cur]).rec),
  sca:()=>eur(E[cur].stk.reduce((a,s)=>a+(s[5]===''?0:(s[3]-s[4]-s[5])*s[6]),0)),sach:()=>eur(E[cur].stk.reduce((a,s)=>a+s[2]*s[3],0)),
  cg:()=>sgn(E[cur].cash.reduce((a,k)=>a+(k[5]===''?0:k[5]-(k[2]+k[3]-k[4])),0))};
@@ -318,62 +319,43 @@ function drawSheet(){
   h='<table><thead><tr><th class="rn"></th><th>Libellé</th><th>Prestataire</th><th class="r">Qté</th><th class="r">Prix unitaire</th><th class="r">Réel</th><th class="r">Prévu</th><th class="r">Écart</th><th>Payé par</th><th>Moyen</th><th>Payé</th><th>Justif.</th></tr></thead><tbody>';let n=1;
   POSTES.forEach((p,pi)=>{const rows=e.dep.map((d,i)=>[d,i]).filter(([d])=>d[0]===p);if(!rows.length&&e.step>0)return;
    h+=`<tr class="grp"><td class="rn"></td><td colspan="4"><div class="c"><span class="pchip" style="background:${PC[p]}">${p}</span></div></td><td class="r" data-calc="grp:${pi}"><div class="c num"></div></td><td class="r" data-calc="grpP:${pi}"><div class="c num mut"></div></td><td colspan="5"></td></tr>`;
-   rows.forEach(([d,i])=>{h+=`<tr><td class="rn">${n++}</td>${ed(d[1],'dep',i,1)}${ed(d[2],'dep',i,2)}${ed(d[3],'dep',i,3,1)}${ed(d[4]||'','dep',i,4,1)}${cl('real',i)}${ed(d[5],'dep',i,5,1)}${cl('ecart',i)}${sel(PAYERS,d[6],'dep',i,6)}${sel(MOYENS,d[7],'dep',i,7,'w2')}<td class="cb"><input type="checkbox" ${d[8]?'checked':''} data-k="dep" data-i="${i}" data-j="8"></td><td class="clip ${d[9]?'':'miss'}" onclick="E[cur].dep[${i}][9]=1;this.className='clip';this.textContent='📎';refresh();toast('Photo du ticket ajoutée')">${d[9]?'📎':'＋'}</td></tr>`});
+   rows.forEach(([d,i])=>{h+=`<tr><td class="rn">${n++}</td>${ed(d[1],'dep',i,1)}${ed(d[2],'dep',i,2)}${ed(d[3],'dep',i,3,1)}${ed(d[4]||'','dep',i,4,1)}${cl('real',i)}${d[10]?`<td class="r calc" data-calc="palc:${i}" title="Recettes prévues ÷ ${E[cur].prev.ratio}"><div class="c num"></div></td>`:ed(d[5],'dep',i,5,1)}${cl('ecart',i)}${sel(PAYERS,d[6],'dep',i,6)}${sel(MOYENS,d[7],'dep',i,7,'w2')}<td class="cb"><input type="checkbox" ${d[8]?'checked':''} data-k="dep" data-i="${i}" data-j="8"></td><td class="clip ${d[9]?'':'miss'}" onclick="E[cur].dep[${i}][9]=1;this.className='clip';this.textContent='📎';refresh();toast('Photo du ticket ajoutée')">${d[9]?'📎':'＋'}</td></tr>`});
    h+=`<tr class="add" onclick="addDep('${p}')"><td class="rn"></td><td colspan="11"><div class="c">+ Ajouter une ligne ${p}</div></td></tr>`});
   h+=`<tr class="tot"><td class="rn"></td><td colspan="4"><div class="c">Total dépenses</div></td><td class="r" data-tot="dr"><div class="c num"></div></td><td class="r" data-tot="dp"><div class="c num"></div></td><td colspan="5"></td></tr></tbody></table>`;
   $('#hint').innerHTML='Tape directement dans les cases, comme dans un tableur. <b>Réel = quantité × prix</b>. Le prestataire s\'écrit librement, il change à chaque soirée. <b>＋</b> dans Justif. = prendre le ticket en photo. Un membre qui avance l\'argent : choisis « Membre · à rembourser ».';
  }
  if(tab==='rec'){
-  const v=e.prev,PV={'Entrées':(+v.pers)*(+v.pe),'Bar':(+v.pers)*(+v.pb),'Tables':+v.tab,'Partenaires':0};
+  const PV={};
   h='<table><thead><tr><th class="rn"></th><th>D\'où vient l\'argent</th><th class="r">Réel</th><th>Encaissé par</th><th class="r">Prévision</th></tr></thead><tbody>';let n=1;
   ['Entrées','Bar','Tables','Partenaires'].forEach(act=>{const rows=e.rec.map((r,i)=>[r,i]).filter(([r])=>r[0]===act);
    h+=`<tr class="grp"><td class="rn"></td><td><div class="c">${act}</div></td><td class="r" data-calc="ract:${['Entrées','Bar','Tables','Partenaires'].indexOf(act)}"><div class="c num"></div></td><td></td><td class="r"><div class="c num mut">${PV[act]?eur(PV[act]):'—'}</div></td></tr>`;
    rows.forEach(([r,i])=>{h+=`<tr><td class="rn">${n++}</td>${ed(r[1],'rec',i,1)}${ed(r[3],'rec',i,3,1)}${sel(PAYERS.filter(x=>!x.startsWith('Membre')),r[4],'rec',i,4)}<td></td></tr>`});
    h+=`<tr class="add" onclick="E[cur].rec.push(['${act}','Nouvelle recette',0,0,'Souskay']);drawSheet()"><td class="rn"></td><td colspan="4"><div class="c">+ Ajouter ${act==='Entrées'?'une recette d\'entrées':act==='Bar'?'une recette bar':act==='Tables'?'des tables':'un partenaire'}</div></td></tr>`});
   h+=`<tr class="tot"><td class="rn"></td><td><div class="c">Total recettes</div></td><td class="r" data-tot="rr"><div class="c num"></div></td><td></td><td class="r" data-tot="rp"><div class="c num"></div></td></tr></tbody></table>`;
-  $('#hint').innerHTML='La colonne <b>Prévision</b> vient de l\'onglet Prévision (personnes × panier). Les préventes Bizouk / Shotgun et les tables se rempliront toutes seules. <b>Encaissé par</b> sert au partage.';
+  $('#hint').innerHTML='La prévision totale (en bas) vient de l\'onglet Prévision : personnes × panier moyen. Les préventes Bizouk / Shotgun et les tables se rempliront toutes seules. <b>Encaissé par</b> sert au partage.';
  }
  if(tab==='prev'){
-  const v=e.prev,c=calc(e),rE=e.rec.filter(r=>r[0]==='Entrées').reduce((a,r)=>a+(+r[3]||0),0),rB=e.rec.filter(r=>r[0]==='Bar').reduce((a,r)=>a+(+r[3]||0),0),rT=e.rec.filter(r=>r[0]==='Tables').reduce((a,r)=>a+(+r[3]||0),0);
-  const pr=+v.persR||0,has=pr>0;
-  const row=(lab,pv,rv,cls='')=>`<tr class="${cls}"><td class="rn"></td><td><div class="c">${lab}</div></td>${pv}${rv}</tr>`;
-  const cc=x=>`<td class="r calc"><div class="c num">${x}</div></td>`;
-  h='<table><thead><tr><th class="rn"></th><th>Prévision</th><th class="r">Prévu</th><th class="r">Réel</th></tr></thead><tbody>';
+  const v=e.prev,c=calc(e),pr=+v.persR||0,has=pr>0&&e.step>0,rat=(+v.ratio)||3;
+  const alcR=e.dep.filter(d=>d[10]).reduce((a,d)=>a+dReal(d),0),othP=c.depP-alcP(e),othR=c.dep-alcR;
+  const row=(lab,pv,rv,cls='')=>`<tr class="${cls}"><td class="rn"></td><td><div class="c" style="white-space:normal">${lab}</div></td>${pv}${rv}</tr>`;
+  const cc=(x,cls='')=>`<td class="r calc"><div class="c num ${cls}">${x}</div></td>`;
+  h='<table><thead><tr><th class="rn"></th><th>Mon prévisionnel</th><th class="r">Prévu</th><th class="r">Réel</th></tr></thead><tbody>';
+  h+=row('<b>Nombre de personnes estimé</b>',ed(v.pers,'prev','x','pers',1),ed(v.persR,'prev','x','persR',1));
+  h+=row('× <b>Panier moyen</b> (ce que dépense une personne en moyenne : entrée + bar + tables)',ed(v.pan,'prev','x','pan',1),cc(has?eur(c.rec/pr):''));
+  h+=row('= <b>Chiffre d\'affaires</b>',cc(eur(c.recP)),cc(e.step?eur(c.rec):''),'');
+  h+=`<tr><td class="rn"></td><td><div class="c">÷ <b>Facture d'alcool</b> = chiffre d'affaires divisé par <span style="display:inline-block;min-width:26px;border:1px solid var(--line2);border-radius:6px;text-align:center;padding:0 6px;background:#fff" contenteditable data-k="prev" data-i="x" data-j="ratio" data-n="1">${v.ratio}</span></div></td>${cc(eur(alcP(e)))}${cc(e.step?eur(alcR):'')}</tr>`;
+  h+=row('− <b>Autres dépenses</b> (tout l\'onglet Dépenses sauf l\'alcool)',cc(eur(othP)),cc(e.step?eur(othR):''));
+  h+=row('= <b>Rentabilité</b>',cc(sgn(c.resP),c.resP>=0?'pos':'neg'),cc(e.step?sgn(c.res):'',c.res>=0?'pos':'neg'));
+  h+=row('Marge',cc(c.recP?Math.round(c.resP/c.recP*100)+' %':''),cc(e.step&&c.rec?Math.round(c.res/c.rec*100)+' %':''));
+  const pan=+v.pan||0,seuil=pan?Math.ceil(othP/(pan*(1-1/rat))):0;
+  h+=`<tr class="grp"><td class="rn"></td><td colspan="3"><div class="c">Repères</div></td></tr>`;
   h+=row('Jauge (capacité du lieu)',ed(v.jauge,'prev','x','jauge',1),cc(''));
-  h+=row('<b>Personnes attendues</b>',ed(v.pers,'prev','x','pers',1),ed(v.persR,'prev','x','persR',1));
-  h+=row('Remplissage',cc(Math.round(v.pers/v.jauge*100)+' %'),cc(has?Math.round(pr/v.jauge*100)+' %':''));
-  h+=row('Panier moyen entrée (par personne)',ed(v.pe,'prev','x','pe',1),cc(has?eur(rE/pr):''));
-  h+=row('Panier moyen bar (par personne)',ed(v.pb,'prev','x','pb',1),cc(has?eur(rB/pr):''));
-  h+=row('<b>Panier moyen total</b>',cc(eur((+v.pe)+(+v.pb))),cc(has?eur((rE+rB)/pr):''));
-  h+=row('Tables (montant total)',ed(v.tab,'prev','x','tab',1),cc(eur(rT)));
-  h+=`<tr class="grp"><td class="rn"></td><td colspan="3"><div class="c">Ce que ça donne</div></td></tr>`;
-  h+=row('<b>Recettes</b> = personnes × panier + tables',cc(eur(c.recP)),cc(e.step?eur(c.rec):''));
-  h+=row('Dépenses (onglet Dépenses)',cc(eur(c.depP)),cc(e.step?eur(c.dep):''));
-  h+=row('<b>Résultat</b>',cc(`<span class="${c.resP>=0?'pos':'neg'}">${sgn(c.resP)}</span>`),cc(e.step?`<span class="${c.res>=0?'pos':'neg'}">${sgn(c.res)}</span>`:''));
-  const pan=(+v.pe)+(+v.pb),seuil=pan?Math.ceil((c.depP-(+v.tab))/pan):0;
-  h+=row('<b>Seuil de rentabilité</b> (personnes pour couvrir les dépenses)',cc(seuil.toLocaleString('fr-FR')+' pers.'),cc(has&&(rE+rB)?Math.ceil((c.dep-rT)/((rE+rB)/pr)).toLocaleString('fr-FR')+' pers.':''));
-  h+=`<tr class="grp"><td class="rn"></td><td colspan="3"><div class="c">Et si… (même panier, mêmes dépenses)</div></td></tr>`;
-  [[0.7,'Il vient 30 % de monde en moins'],[0.85,'15 % en moins'],[1.15,'15 % en plus']].forEach(([k,l])=>{const p=Math.round(v.pers*k),r=p*pan+(+v.tab)-c.depP;h+=row(`${l} · ${p.toLocaleString('fr-FR')} pers.`,cc(`<span class="${r>=0?'pos':'neg'}">${sgn(r)}</span>`),cc(''))});
+  h+=row('Remplissage',cc(v.jauge?Math.round(v.pers/v.jauge*100)+' %':''),cc(has&&v.jauge?Math.round(pr/v.jauge*100)+' %':''));
+  h+=row('<b>Seuil de rentabilité</b> : personnes qu\'il faut pour ne pas perdre d\'argent',cc(seuil.toLocaleString('fr-FR')+' pers.'),cc(''));
+  h+=`<tr class="grp"><td class="rn"></td><td colspan="3"><div class="c">Et si… (même panier, alcool toujours ÷ ${rat})</div></td></tr>`;
+  [[0.7,'30 % de monde en moins'],[0.85,'15 % en moins'],[1.15,'15 % en plus']].forEach(([k,l])=>{const p=Math.round(v.pers*k),ca=p*pan,r=ca-ca/rat-othP;h+=row(`${l} · ${p.toLocaleString('fr-FR')} pers.`,cc(sgn(r),r>=0?'pos':'neg'),cc(''))});
   h+='</tbody></table>';
-  $('#hint').innerHTML='Tape le <b>nombre de personnes</b> et le <b>panier moyen</b> : les recettes prévues, le résultat et le seuil de rentabilité se calculent tout seuls. Après la soirée, tape le nombre réel de personnes : le panier réel se calcule à partir des recettes.';
- }
- if(tab==='stk'){
-  h='<table><thead><tr><th class="rn"></th><th>Article</th><th>Acheté chez</th><th class="r">Prix d\'achat</th><th class="r">Qté achetée</th><th class="r">Offerts / casse</th><th class="r">Reste à la fin</th><th class="r">Vendu</th><th class="r">Prix de vente</th><th class="r">Rapporte</th><th class="r">Marge</th></tr></thead><tbody>';
-  e.stk.forEach((s,i)=>{h+=`<tr><td class="rn">${i+1}</td>${ed(s[0],'stk',i,0)}${ed(s[1],'stk',i,1)}${ed(s[2],'stk',i,2,1)}${ed(s[3],'stk',i,3,1)}${ed(s[4],'stk',i,4,1)}${ed(s[5],'stk',i,5,1)}${cl('sold',i)}${ed(s[6],'stk',i,6,1)}${cl('ca',i)}${cl('marge',i)}</tr>`});
-  h+=`<tr class="add" onclick="E[cur].stk.push(['Nouvel article','',0,0,0,'',0]);drawSheet()"><td class="rn"></td><td colspan="10"><div class="c">+ Ajouter un article</div></td></tr><tr class="tot"><td class="rn"></td><td colspan="3"><div class="c">Total acheté</div></td><td class="r" data-tot="sach"><div class="c num"></div></td><td colspan="4"><div class="c mut" style="text-align:right">le bar devrait rapporter</div></td><td class="r" data-tot="sca"><div class="c num"></div></td><td></td></tr></tbody></table>`;
-  $('#hint').innerHTML='Le stock vit dans la soirée : ce qu\'on achète, chez qui (ça change à chaque fois), ce qui reste à la fin. <b>Vendu</b>, <b>Rapporte</b> et <b>Marge</b> se calculent seuls. À comparer avec les recettes du bar.';
- }
- if(tab==='cash'){
-  h='<table><thead><tr><th class="rn"></th><th>Caisse</th><th>Qui la tient</th><th class="r">Fond de caisse</th><th class="r">Ventes en espèces</th><th class="r">Payé en espèces</th><th class="r">Devrait y avoir</th><th class="r">Compté</th><th class="r">Écart</th></tr></thead><tbody>';
-  e.cash.forEach((k,i)=>{h+=`<tr><td class="rn">${i+1}</td>${ed(k[0],'cash',i,0)}${ed(k[1],'cash',i,1)}${ed(k[2],'cash',i,2,1)}${ed(k[3],'cash',i,3,1)}${ed(k[4],'cash',i,4,1)}${cl('att',i)}${ed(k[5],'cash',i,5,1)}${cl('gap',i)}</tr>`});
-  h+=`<tr class="add" onclick="E[cur].cash.push(['Nouvelle caisse','',0,0,0,'']);drawSheet()"><td class="rn"></td><td colspan="8"><div class="c">+ Ajouter une caisse</div></td></tr><tr class="tot"><td class="rn"></td><td colspan="7"><div class="c">Écart total</div></td><td class="r" data-tot="cg"><div class="c num"></div></td></tr></tbody></table>`;
-  $('#hint').innerHTML='En fin de soirée, on compte chaque caisse et on tape le montant dans <b>Compté</b>. L\'écart apparaît tout de suite.';
- }
- if(tab==='part'){
-  const c=calc(e);h='<table><thead><tr><th class="rn"></th><th>Qui</th><th class="r">Parts</th><th class="r">A encaissé</th><th class="r">A payé</th><th class="r">Lui revient</th><th class="r">Solde</th></tr></thead><tbody>';
-  c.P.forEach((p,i)=>{h+=`<tr><td class="rn">${i+1}</td><td><div class="c"><b>${p.n}</b></div></td>${ed(e.parts[i][1],'parts',i,1,1)}<td class="r calc"><div class="c num">${eur(p.enc)}</div></td><td class="r calc"><div class="c num">${eur(p.pay)}</div></td><td class="r calc"><div class="c num">${eur(p.due)}</div></td><td class="r calc"><div class="c num ${p.bal>0?'pos':'neg'}">${Math.round(p.bal)===0?'—':p.bal>0?'reçoit '+eur(p.bal):'donne '+eur(-p.bal)}</div></td></tr>`});
-  h+='</tbody></table><div style="padding:12px">'+xfers(c.P)+'</div>';
-  $('#hint').innerHTML='Tout se calcule à partir des onglets Dépenses (payé par) et Recettes (encaissé par). La caisse du soir est tenue par <b>'+e.cashBy+'</b>. Ce qu\'avance l\'équipe compte pour Souskay.';
+  $('#hint').innerHTML='Comme dans ton tableur : <b>personnes × panier moyen = chiffre d\'affaires</b>, puis <b>÷ 3 = facture d\'alcool</b>. La ligne Alcool de l\'onglet Dépenses prend ce montant en prévu. Le diviseur (3) se change en cliquant dessus.';
  }
  $('#sheet').innerHTML=h;
  $$('#sheet [contenteditable]').forEach(c=>{c.addEventListener('input',()=>upd(c,c.textContent));c.addEventListener('keydown',ev=>{if(ev.key==='Enter'){ev.preventDefault();c.blur()}});c.addEventListener('blur',()=>{if(c.dataset.n==='1'&&c.textContent.trim()!==''){const v=+c.textContent.replace(/\s|€/g,'').replace(',','.');c.textContent=(v||0).toLocaleString('fr-FR')}})});
