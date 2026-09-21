@@ -156,7 +156,7 @@ tr.tot td{background:#F3F0EB;font-weight:700;position:sticky;bottom:0;z-index:1;
     <div>
       <div class="sheet" id="sheet"></div>
       <div class="tabs" id="tabs">
-        <button data-t="dep" class="on">Dépenses</button><button data-t="rec">Recettes</button><button data-t="stk">Stock bar</button><button data-t="cash">Caisse</button><button data-t="part">Partage</button>
+        <button data-t="prev">Prévision</button><button data-t="dep" class="on">Dépenses</button><button data-t="rec">Recettes</button><button data-t="stk">Stock bar</button><button data-t="cash">Caisse</button><button data-t="part">Partage</button>
       </div>
       <p class="hint" id="hint"></p>
     </div>
@@ -204,6 +204,7 @@ const MOYENS=['Virement','CB','Espèces','Lydia','Prélèvement'];
 /* données fictives : [poste, libellé, prestataire, qté, prix unitaire, prévu, payé par, moyen, payé, justificatif] */
 const E={
 plage:{name:'La Plage · Épisode 04',img:'plage.jpg',date:'Sam. 22 août 2026',city:'Martinique',mont:'Avec 2 partenaires · 3 parts égales',step:2,
+ prev:{pers:900,pe:12,pb:55,tab:2000,persR:980,jauge:1200},
  parts:[['Souskay',1],['Partenaire A',1],['Partenaire B',1]],cashBy:'Partenaire B',
  dep:[
  ['Lieu','Location du site','Propriétaire du site',1,4800,4500,'Partenaire A','Virement',1,1],
@@ -231,6 +232,7 @@ plage:{name:'La Plage · Épisode 04',img:'plage.jpg',date:'Sam. 22 août 2026',
  /* [caisse, qui la tient, fond, ventes espèces, payé en espèces, compté] */
  cash:[['Entrée','Membre équipe 1',200,900,0,1100],['Bar 1','Resp. bar',300,7200,3600,3920],['Bar 2','Resp. bar',300,6700,3250,3210]]},
 integ:{name:"L'Intégration 2026",img:'gold.jpg',date:'Ven. 9 oct. 2026',city:'Paris',mont:'Souskay seul',step:0,
+ prev:{pers:1300,pe:22,pb:27,tab:6000,persR:'',jauge:1400},
  parts:[['Souskay',1]],cashBy:'Souskay',
  dep:[
  ['Lieu','Location salle (HT + TVA)','Salle parisienne',1,14400,14400,'Souskay','Virement',0,1],
@@ -253,7 +255,7 @@ let cur='plage',tab='dep';
 const dReal=d=>(+d[3]||0)*(+d[4]||0);
 function calc(e){
  const dep=e.dep.reduce((a,d)=>a+dReal(d),0),depP=e.dep.reduce((a,d)=>a+(+d[5]||0),0);
- const rec=e.rec.reduce((a,r)=>a+(+r[3]||0),0),recP=e.rec.reduce((a,r)=>a+(+r[2]||0),0);
+ const rec=e.rec.reduce((a,r)=>a+(+r[3]||0),0),v=e.prev,recP=(+v.pers||0)*((+v.pe||0)+(+v.pb||0))+(+v.tab||0);
  const res=rec-dep,resP=recP-depP,tot=e.parts.reduce((a,p)=>a+(+p[1]||0),0)||1;
  const who=n=>n==='Caisse du soir'?e.cashBy:(n.startsWith('Membre')?'Souskay':n);
  const P=e.parts.map(([n,s])=>{const enc=e.rec.filter(r=>who(r[4])===n).reduce((a,r)=>a+(+r[3]||0),0);const pay=e.dep.filter(d=>who(d[6])===n).reduce((a,d)=>a+dReal(d),0);const due=res*(+s||0)/tot;return {n,enc,pay,due,bal:due-(enc-pay)}});
@@ -263,7 +265,7 @@ function calc(e){
 function show(v){['home','ev','recap'].forEach(k=>$('#v-'+k).classList.toggle('hidden',k!==v));$('#bShare').classList.toggle('hidden',v!=='ev');scrollTo(0,0)}
 function home(){show('home');$('#crumb').innerHTML='';drawHome()}
 function recap(){show('recap');$('#crumb').innerHTML='<a class="h" onclick="home()">Soirées</a> › <b>Récap saison</b>';drawRecap()}
-function open_(id){cur=id;tab='dep';show('ev');drawEv()}
+function open_(id){cur=id;tab=E[id].step===0?'prev':'dep';show('ev');drawEv()}
 function card(o){return `<button class="file" onclick="${o.click}"><div class="th" style="background-image:url(${o.img})"><span class="st">${o.tag}</span></div><div class="in"><div class="n">${o.n}</div><div class="d">${o.d}</div><div class="r"><span class="mut">${o.lab||'Pour Souskay'}</span><b class="num ${o.res>0?'pos':o.res<0?'neg':''}">${o.resTxt}</b></div></div></button>`}
 function drawHome(){
  const a=calc(E.integ),b=calc(E.plage);
@@ -289,7 +291,7 @@ function refresh(){
  const noDoc=e.dep.filter(d=>!d[9]).length,unpaid=e.dep.filter(d=>!d[8]&&!d[6].startsWith('Membre')).length,adv=e.dep.filter(d=>d[6].startsWith('Membre')&&!d[8]).reduce((a,d)=>a+dReal(d),0),noPrice=e.dep.filter(d=>!dReal(d)).length;
  const gap=e.cash.reduce((a,k)=>a+(k[5]===''?0:(+k[5])-(k[2]+k[3]-k[4])),0);
  $('#todoh').textContent=prep?'Pour être prêt le jour J':'À faire pour clôturer';
- const T=prep?[[!noPrice,`${noPrice} dépenses pas encore chiffrées`],[0,`Préventes : ${eur(c.rec)} sur ${eur(c.recP)} prévus`],[0,'Préparer les caisses et le stock'],[!noDoc,`${noDoc} devis ou factures à ajouter`]]:
+ const T=prep?[[1,`Prévision : ${(+e.prev.pers).toLocaleString('fr-FR')} pers. × ${eur((+e.prev.pe)+(+e.prev.pb))} de panier`],[!noPrice,`${noPrice} dépenses pas encore chiffrées`],[0,`Préventes : ${eur(c.rec)} sur ${eur(c.recP)} prévus`],[0,'Préparer les caisses et le stock'],[!noDoc,`${noDoc} devis ou factures à ajouter`]]:
   [[1,'Recettes saisies'],[gap===0,`Caisse : écart ${sgn(gap)} à expliquer`],[1,'Stock de fin compté'],[!noDoc,`${noDoc} justificatifs manquants`],[!unpaid,`${unpaid} dépenses pas encore payées`],[!adv,`Rembourser l'équipe : ${eur(adv)}`]];
  $('#todo').innerHTML=T.map(([ok,t])=>`<li><span class="d ${ok?'y':'n'}">${ok?'✓':'!'}</span>${t}</li>`).join('');
  if(e.parts.length>1)$('#partmini').innerHTML='<div class="split">'+c.P.map(p=>`<div class="p"><span>${p.n}</span><b class="num">${eur(p.due)}</b></div>`).join('')+'</div>'+xfers(c.P);
@@ -302,7 +304,7 @@ const CALC={real:i=>{const v=dReal(E[cur].dep[i]);return v?eur(v):'à chiffrer'}
  sold:i=>{const s=E[cur].stk[i];return s[5]===''?'':s[3]-s[4]-s[5]},ca:i=>{const s=E[cur].stk[i];return s[5]===''||!s[6]?'':eur((s[3]-s[4]-s[5])*s[6])},
  marge:i=>{const s=E[cur].stk[i];return s[5]===''||!s[6]?'':eur((s[3]-s[4]-s[5])*s[6]-s[3]*s[2])},
  att:i=>{const k=E[cur].cash[i];return eur(k[2]+k[3]-k[4])},gap:i=>{const k=E[cur].cash[i];return k[5]===''?'':sgn(k[5]-(k[2]+k[3]-k[4]))},
- grp:i=>eur(E[cur].dep.filter(d=>d[0]===POSTES[i]).reduce((a,d)=>a+dReal(d),0)),grpP:i=>eur(E[cur].dep.filter(d=>d[0]===POSTES[i]).reduce((a,d)=>a+(+d[5]||0),0))};
+ ract:i=>eur(E[cur].rec.filter(r=>r[0]===['Entrées','Bar','Tables','Partenaires'][i]).reduce((a,r)=>a+(+r[3]||0),0)),grp:i=>eur(E[cur].dep.filter(d=>d[0]===POSTES[i]).reduce((a,d)=>a+dReal(d),0)),grpP:i=>eur(E[cur].dep.filter(d=>d[0]===POSTES[i]).reduce((a,d)=>a+(+d[5]||0),0))};
 const TOT={dp:()=>eur(calc(E[cur]).depP),dr:()=>eur(calc(E[cur]).dep),rp:()=>eur(calc(E[cur]).recP),rr:()=>eur(calc(E[cur]).rec),
  sca:()=>eur(E[cur].stk.reduce((a,s)=>a+(s[5]===''?0:(s[3]-s[4]-s[5])*s[6]),0)),sach:()=>eur(E[cur].stk.reduce((a,s)=>a+s[2]*s[3],0)),
  cg:()=>sgn(E[cur].cash.reduce((a,k)=>a+(k[5]===''?0:k[5]-(k[2]+k[3]-k[4])),0))};
@@ -322,10 +324,38 @@ function drawSheet(){
   $('#hint').innerHTML='Tape directement dans les cases, comme dans un tableur. <b>Réel = quantité × prix</b>. Le prestataire s\'écrit librement, il change à chaque soirée. <b>＋</b> dans Justif. = prendre le ticket en photo. Un membre qui avance l\'argent : choisis « Membre · à rembourser ».';
  }
  if(tab==='rec'){
-  h='<table><thead><tr><th class="rn"></th><th>Activité</th><th>D\'où vient l\'argent</th><th class="r">Prévu</th><th class="r">Réel</th><th>Encaissé par</th></tr></thead><tbody>';
-  e.rec.forEach((r,i)=>{h+=`<tr><td class="rn">${i+1}</td>${sel(['Entrées','Bar','Tables','Partenaires'],r[0],'rec',i,0)}${ed(r[1],'rec',i,1)}${ed(r[2],'rec',i,2,1)}${ed(r[3],'rec',i,3,1)}${sel(PAYERS.filter(x=>!x.startsWith('Membre')),r[4],'rec',i,4)}</tr>`});
-  h+=`<tr class="add" onclick="E[cur].rec.push(['Entrées','Nouvelle recette',0,0,'Souskay']);drawSheet()"><td class="rn"></td><td colspan="5"><div class="c">+ Ajouter une recette</div></td></tr><tr class="tot"><td class="rn"></td><td colspan="2"><div class="c">Total recettes</div></td><td class="r" data-tot="rp"><div class="c num"></div></td><td class="r" data-tot="rr"><div class="c num"></div></td><td></td></tr></tbody></table>`;
-  $('#hint').innerHTML='Les préventes Bizouk / Shotgun et les tables se rempliront toutes seules (depuis le CRM et le site). Le reste se tape ici. <b>Encaissé par</b> sert au partage.';
+  const v=e.prev,PV={'Entrées':(+v.pers)*(+v.pe),'Bar':(+v.pers)*(+v.pb),'Tables':+v.tab,'Partenaires':0};
+  h='<table><thead><tr><th class="rn"></th><th>D\'où vient l\'argent</th><th class="r">Réel</th><th>Encaissé par</th><th class="r">Prévision</th></tr></thead><tbody>';let n=1;
+  ['Entrées','Bar','Tables','Partenaires'].forEach(act=>{const rows=e.rec.map((r,i)=>[r,i]).filter(([r])=>r[0]===act);
+   h+=`<tr class="grp"><td class="rn"></td><td><div class="c">${act}</div></td><td class="r" data-calc="ract:${['Entrées','Bar','Tables','Partenaires'].indexOf(act)}"><div class="c num"></div></td><td></td><td class="r"><div class="c num mut">${PV[act]?eur(PV[act]):'—'}</div></td></tr>`;
+   rows.forEach(([r,i])=>{h+=`<tr><td class="rn">${n++}</td>${ed(r[1],'rec',i,1)}${ed(r[3],'rec',i,3,1)}${sel(PAYERS.filter(x=>!x.startsWith('Membre')),r[4],'rec',i,4)}<td></td></tr>`});
+   h+=`<tr class="add" onclick="E[cur].rec.push(['${act}','Nouvelle recette',0,0,'Souskay']);drawSheet()"><td class="rn"></td><td colspan="4"><div class="c">+ Ajouter ${act==='Entrées'?'une recette d\'entrées':act==='Bar'?'une recette bar':act==='Tables'?'des tables':'un partenaire'}</div></td></tr>`});
+  h+=`<tr class="tot"><td class="rn"></td><td><div class="c">Total recettes</div></td><td class="r" data-tot="rr"><div class="c num"></div></td><td></td><td class="r" data-tot="rp"><div class="c num"></div></td></tr></tbody></table>`;
+  $('#hint').innerHTML='La colonne <b>Prévision</b> vient de l\'onglet Prévision (personnes × panier). Les préventes Bizouk / Shotgun et les tables se rempliront toutes seules. <b>Encaissé par</b> sert au partage.';
+ }
+ if(tab==='prev'){
+  const v=e.prev,c=calc(e),rE=e.rec.filter(r=>r[0]==='Entrées').reduce((a,r)=>a+(+r[3]||0),0),rB=e.rec.filter(r=>r[0]==='Bar').reduce((a,r)=>a+(+r[3]||0),0),rT=e.rec.filter(r=>r[0]==='Tables').reduce((a,r)=>a+(+r[3]||0),0);
+  const pr=+v.persR||0,has=pr>0;
+  const row=(lab,pv,rv,cls='')=>`<tr class="${cls}"><td class="rn"></td><td><div class="c">${lab}</div></td>${pv}${rv}</tr>`;
+  const cc=x=>`<td class="r calc"><div class="c num">${x}</div></td>`;
+  h='<table><thead><tr><th class="rn"></th><th>Prévision</th><th class="r">Prévu</th><th class="r">Réel</th></tr></thead><tbody>';
+  h+=row('Jauge (capacité du lieu)',ed(v.jauge,'prev','x','jauge',1),cc(''));
+  h+=row('<b>Personnes attendues</b>',ed(v.pers,'prev','x','pers',1),ed(v.persR,'prev','x','persR',1));
+  h+=row('Remplissage',cc(Math.round(v.pers/v.jauge*100)+' %'),cc(has?Math.round(pr/v.jauge*100)+' %':''));
+  h+=row('Panier moyen entrée (par personne)',ed(v.pe,'prev','x','pe',1),cc(has?eur(rE/pr):''));
+  h+=row('Panier moyen bar (par personne)',ed(v.pb,'prev','x','pb',1),cc(has?eur(rB/pr):''));
+  h+=row('<b>Panier moyen total</b>',cc(eur((+v.pe)+(+v.pb))),cc(has?eur((rE+rB)/pr):''));
+  h+=row('Tables (montant total)',ed(v.tab,'prev','x','tab',1),cc(eur(rT)));
+  h+=`<tr class="grp"><td class="rn"></td><td colspan="3"><div class="c">Ce que ça donne</div></td></tr>`;
+  h+=row('<b>Recettes</b> = personnes × panier + tables',cc(eur(c.recP)),cc(e.step?eur(c.rec):''));
+  h+=row('Dépenses (onglet Dépenses)',cc(eur(c.depP)),cc(e.step?eur(c.dep):''));
+  h+=row('<b>Résultat</b>',cc(`<span class="${c.resP>=0?'pos':'neg'}">${sgn(c.resP)}</span>`),cc(e.step?`<span class="${c.res>=0?'pos':'neg'}">${sgn(c.res)}</span>`:''));
+  const pan=(+v.pe)+(+v.pb),seuil=pan?Math.ceil((c.depP-(+v.tab))/pan):0;
+  h+=row('<b>Seuil de rentabilité</b> (personnes pour couvrir les dépenses)',cc(seuil.toLocaleString('fr-FR')+' pers.'),cc(has&&(rE+rB)?Math.ceil((c.dep-rT)/((rE+rB)/pr)).toLocaleString('fr-FR')+' pers.':''));
+  h+=`<tr class="grp"><td class="rn"></td><td colspan="3"><div class="c">Et si… (même panier, mêmes dépenses)</div></td></tr>`;
+  [[0.7,'Il vient 30 % de monde en moins'],[0.85,'15 % en moins'],[1.15,'15 % en plus']].forEach(([k,l])=>{const p=Math.round(v.pers*k),r=p*pan+(+v.tab)-c.depP;h+=row(`${l} · ${p.toLocaleString('fr-FR')} pers.`,cc(`<span class="${r>=0?'pos':'neg'}">${sgn(r)}</span>`),cc(''))});
+  h+='</tbody></table>';
+  $('#hint').innerHTML='Tape le <b>nombre de personnes</b> et le <b>panier moyen</b> : les recettes prévues, le résultat et le seuil de rentabilité se calculent tout seuls. Après la soirée, tape le nombre réel de personnes : le panier réel se calcule à partir des recettes.';
  }
  if(tab==='stk'){
   h='<table><thead><tr><th class="rn"></th><th>Article</th><th>Acheté chez</th><th class="r">Prix d\'achat</th><th class="r">Qté achetée</th><th class="r">Offerts / casse</th><th class="r">Reste à la fin</th><th class="r">Vendu</th><th class="r">Prix de vente</th><th class="r">Rapporte</th><th class="r">Marge</th></tr></thead><tbody>';
@@ -350,7 +380,8 @@ function drawSheet(){
  $$('#sheet select,#sheet input[type=checkbox]').forEach(c=>c.addEventListener('change',()=>upd(c,c.type==='checkbox'?(c.checked?1:0):c.value)));
  refresh();
 }
-function upd(c,v){const {k,i,j,n}=c.dataset;if(n==='1'){v=String(v).replace(/\s|€/g,'').replace(',','.');v=v===''?((k==='stk'||k==='cash')&&j==='5'?'':0):(+v||0)}E[cur][k][i][j]=v;refresh();if(tab==='part')drawSheet()}
+function upd(c,v){const {k,i,j,n}=c.dataset;if(n==='1'){v=String(v).replace(/\s|€/g,'').replace(',','.');v=v===''?((k==='stk'||k==='cash')&&j==='5'||j==='persR'?'':0):(+v||0)}if(k==='prev'){E[cur].prev[j]=v;refresh();clearTimeout(upd._t);upd._t=setTimeout(()=>{if(document.activeElement&&document.activeElement.dataset)return;},0);refreshPrev();return}E[cur][k][i][j]=v;refresh();if(tab==='part')drawSheet()}
+function refreshPrev(){const a=document.activeElement,j=a&&a.dataset&&a.dataset.j;drawSheet();if(j){const el=$(`#sheet [data-k=prev][data-j=${j}]`);if(el){el.focus();const r=document.createRange();r.selectNodeContents(el);r.collapse(false);const s=getSelection();s.removeAllRanges();s.addRange(r)}}}
 function addDep(p){E[cur].dep.push([p,'Nouvelle dépense','',1,0,0,'Souskay','CB',0,0]);drawSheet();const last=$$('#sheet [data-k=dep][data-j="1"]').find(x=>+x.dataset.i===E[cur].dep.length-1);if(last){last.focus();const r=document.createRange();r.selectNodeContents(last);const s=getSelection();s.removeAllRanges();s.addRange(r)}}
 $$('#tabs button').forEach(b=>b.onclick=()=>{tab=b.dataset.t;$$('#tabs button').forEach(x=>x.classList.toggle('on',x===b));$('#partbox').classList.toggle('hidden',E[cur].parts.length<2||tab==='part');drawSheet()});
 $$('.chip').forEach(ch=>ch.onclick=()=>[...ch.parentElement.querySelectorAll('.chip')].forEach(x=>x.classList.toggle('on',x===ch)));
